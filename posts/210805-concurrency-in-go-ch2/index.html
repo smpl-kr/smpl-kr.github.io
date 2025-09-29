@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | [Go 동시성 프로그래밍] 읽기 - 2장 코드 모델링 : 순차적인 프로세스 간의 통신
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            [Go 동시성 프로그래밍] 읽기 - 2장 코드 모델링 : 순차적인 프로세스 간의 통신
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2021-08-05T00:00:00+09:00">August 05, 2021</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>2 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>277 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/go/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>go</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/concurrency/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>concurrency</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/book/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>book</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p><a href="http://aladin.kr/p/YLCKv">Go 동시성 프로그래밍</a> 책의 2장 코드 모델링 챕터를 읽고, 읽은 내용을 정리해봅니다.</p>
+<h1 id="dongsiseonggwa-byeongryeolseongyi-cai">동시성과 병렬성의 차이</h1>
+<p>동시성(concurrency) : 동시에 실행되는 것처럼..</p>
+<p>병렬성(parallelism) : 실제로 물리적으로 동시에..</p>
+<p>코드를 모델링할 때 동시성과 병렬성의 차이는 객체의 추상화에 큰 영향을 미친다.</p>
+<p>동시성은 코드의 속성이고, 병렬처리는 실행중인 프로그램의 속성이다. 이에 의해...</p>
+<p>첫째, 우리는 병렬적인 코드를 작성하는 것이 아니라, "병렬"로 실행되기를 바라면서 "동시성" 코드를 작성하는 것이다.</p>
+<p>둘째, 동시성 코드가  실제로 병렬로 실행되는지 여부를 모를 수도 있다.</p>
+<p>셋째, 병렬 처리인지 아닌지는 시간, 또는 컨텍스트에 의해 결정된다. (상대적이다) 원자성에서의 컨텍스트 정의 - 원자적이라고 판단할 수 있는 범위 - 와는 다르게, 두 개 이상의 연산이 병렬적으로 실행됬다고 여길 수 있는 범위로 정의해볼 수 있다. 예를 들어, 컨텍스트가 5초 동안이라면 1초짜리 연산 두개는 병렬 실행이 아니지만, 컨텍스트가 1초라면 병렬 실행으로 볼 수 있다.</p>
+<h1 id="cspran-mueosinga">CSP란 무엇인가?</h1>
+<p>상호작용하는 순차적 프로세스들(Communicating Sequential Processes) - 1971년 Charles Antony Richard Hoare가 ACM에 발표.</p>
+<p>프로세스 미적분/대수(process calculus/process algebras)라는 형식 표현법으로 동시성 시스템을 수학적으로 모델링.</p>
+<p>프로세스(함수)간의 입력과 출력이 언어의 기본 요소로 간주되어야 한다고 주장.</p>
+<p>채널의 기반이 됨.</p>
+<h1 id="dongsiseongeul-jiweonhaneun-eoneoyi-jangjeom">동시성을 지원하는 언어의 장점</h1>
+<h1 id="goyi-dongsiseonge-daehan-ceolhag">Go의 동시성에 대한 철학</h1>
+<p>동시성을 관리하는 decision tree</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#bf616a;">IF 성능 상의 임계 영역인가</span><span>?
+</span><span>{
+</span><span>	</span><span style="color:#bf616a;">기본 요소 사용
+</span><span>	</span><span style="color:#bf616a;">END
+</span><span>}
+</span><span style="color:#bf616a;">ELSE
+</span><span>{
+</span><span>	</span><span style="color:#bf616a;">IF 데이터의 소유권을 이전하려고 하는가</span><span>?
+</span><span>	{
+</span><span>		</span><span style="color:#bf616a;">채널 사용
+</span><span>		</span><span style="color:#bf616a;">END
+</span><span>	}
+</span><span>	</span><span style="color:#bf616a;">ELSE
+</span><span>	{
+</span><span>		</span><span style="color:#bf616a;">IF 구조체의 내부 상태를 보호하려고 하는가</span><span>?
+</span><span>		{
+</span><span>			</span><span style="color:#bf616a;">기본 요소 사용
+</span><span>			</span><span style="color:#bf616a;">END
+</span><span>		}
+</span><span>		</span><span style="color:#bf616a;">ELSE
+</span><span>		{
+</span><span>			</span><span style="color:#bf616a;">IF 여러 부분의 논리를 조정해야 하는가</span><span>?
+</span><span>			{
+</span><span>				</span><span style="color:#bf616a;">채널 사용
+</span><span>				</span><span style="color:#bf616a;">END
+</span><span>			}
+</span><span>			</span><span style="color:#bf616a;">ELSE
+</span><span>			{
+</span><span>				</span><span style="color:#bf616a;">기본 요소 사용
+</span><span>				</span><span style="color:#bf616a;">END
+</span><span>			}
+</span><span>		}
+</span><span>	}
+</span><span>}			
+</span></code></pre>
+<h2 id="deiteoyi-soyugweoneul-ijeonharyeogo-haneunga">데이터의 소유권을 이전하려고 하는가?</h2>
+<p>채널은 한번에 하나의 동시 컨텍스트만 데이터 소유권을 가져야 한다는 의도를 채널의 타입에 인코딩함으로써 메모리의 소유권 개념을 전달할 수 있게 도와준다.</p>
+<p>메모리 내부 큐를 통해 생산자와 소비자를 구분할 수 있다.</p>
+<h2 id="gujoceyi-naebu-sangtaereul-bohohagoja-haneunga">구조체의 내부 상태를 보호하고자 하는가?</h2>
+<p>어떤 타입을 넘어서 잠금이 드러나는 것을 발견하면 경계해야 한다.</p>
+<h2 id="yeoreo-bubunyi-nonrireul-jojeonghaeya-haneunga">여러 부분의 논리를 조정해야 하는가?</h2>
+<p>Go 채널과 select를 이용하면 복잡성을 훨씬 쉽게 제어할 수 있다.</p>
+<p>동시성 코드가 작동하는 방식, 데드락 또는 레이스가 발생하는 이유, 기본 요소를 사용하는 방식을 이해하는데 어려움을 겪고 있다면  채널을 사용해야 한다는 신호이다.</p>
+<h2 id="seongneung-sangyi-imgyeyeongyeoginga">성능 상의 임계영역인가?</h2>
+<p>메모리 접근 동기화를 사용하기 때문에 채널이 더 느릴 수 있다.</p>
+<p>// fin.</p>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-dongsiseonggwa-byeongryeolseongyi-cai" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#dongsiseonggwa-byeongryeolseongyi-cai">
+                동시성과 병렬성의 차이
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-cspran-mueosinga" class="toc is-size-7 "
+                href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#cspran-mueosinga">
+                CSP란 무엇인가?
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-dongsiseongeul-jiweonhaneun-eoneoyi-jangjeom" class="toc is-size-7 "
+                href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#dongsiseongeul-jiweonhaneun-eoneoyi-jangjeom">
+                동시성을 지원하는 언어의 장점
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-goyi-dongsiseonge-daehan-ceolhag" class="toc is-size-7 "
+                href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#goyi-dongsiseonge-daehan-ceolhag">
+                Go의 동시성에 대한 철학
+              </a>
+              
+              <ul>
+                
+                <li>
+                  <a id="link-deiteoyi-soyugweoneul-ijeonharyeogo-haneunga" class="toc is-size-7" href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#deiteoyi-soyugweoneul-ijeonharyeogo-haneunga">
+                    데이터의 소유권을 이전하려고 하는가?
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-gujoceyi-naebu-sangtaereul-bohohagoja-haneunga" class="toc is-size-7" href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#gujoceyi-naebu-sangtaereul-bohohagoja-haneunga">
+                    구조체의 내부 상태를 보호하고자 하는가?
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-yeoreo-bubunyi-nonrireul-jojeonghaeya-haneunga" class="toc is-size-7" href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#yeoreo-bubunyi-nonrireul-jojeonghaeya-haneunga">
+                    여러 부분의 논리를 조정해야 하는가?
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-seongneung-sangyi-imgyeyeongyeoginga" class="toc is-size-7" href="https://smpl.kr/posts/210805-concurrency-in-go-ch2/#seongneung-sangyi-imgyeyeongyeoginga">
+                    성능 상의 임계영역인가?
+                  </a>
+                </li>
+                
+              </ul>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210804-concurrency-in-go-ch1&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              [Go 동시성 프로그래밍] 읽기 - 1장 동시성 소개
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210805-concurrency-in-go-ch3&#x2F;">
+              [Go 동시성 프로그래밍] 읽기 - 3장 Go의 동시성 구성 요소<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

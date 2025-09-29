@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - otp</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/otp/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Mon, 14 Mar 2022 13:00:00 +0900</lastBuildDate>
+      <item>
+          <title>윈도우에서 erlang 설치하기</title>
+          <pubDate>Mon, 14 Mar 2022 13:00:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/220314-setup-erlang/</link>
+          <guid>https://smpl.kr/posts/220314-setup-erlang/</guid>
+          <description xml:base="https://smpl.kr/posts/220314-setup-erlang/">&lt;p&gt;심심풀이로 &amp;lt;모바일 서버 프로그래밍 입문 : 얼랭으로 만들며 배운다&amp;gt; 라는 책을 보고 있다. 얼랭에 대한 설명과 서버 프로그래밍에 대한 내용이 무겁지 않게 절반씩 잘 섞인 책이다. 얼랭을 공부할 생각은 없었는데 기대 이상으로 재밌어서, 읽으면서 조금씩 간단히 정리해두고자 한다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;erlang-seolci&quot;&gt;erlang 설치&lt;&#x2F;h1&gt;
+&lt;p&gt;scoop에서도 erlang을 설치할 수 있다. 업데이트도 된다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;scoop install erlang
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;rebar3-seolci&quot;&gt;rebar3 설치&lt;&#x2F;h1&gt;
+&lt;p&gt;rebar3는 scoop에 올려져 있지 않다. 아래 과정을 따라하도록 한다.&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;적당한 디렉토리를 선정하고, rebar3 escript를 다운로드 받는다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;mkdir &#x2F;Portable&#x2F;rebar3
+&lt;&#x2F;span&gt;&lt;span&gt;cd &#x2F;Portable&#x2F;rebar3
+&lt;&#x2F;span&gt;&lt;span&gt;iwr https:&#x2F;&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;s3.amazonaws.com&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;rebar3&#x2F;rebar3 -OutFile rebar3
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;동일 디렉토리에 rebar3.cmd 파일을 아래와 같은 내용으로 만든다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;pre data-lang=&quot;bat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bat &quot;&gt;&lt;code class=&quot;language-bat&quot; data-lang=&quot;bat&quot;&gt;&lt;span&gt;@&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;echo&lt;&#x2F;span&gt;&lt;span&gt; off
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;setlocal
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rebarscript&lt;&#x2F;span&gt;&lt;span&gt;=%&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;~f0
+&lt;&#x2F;span&gt;&lt;span&gt;escript.exe &amp;quot;%&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rebarscript:&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.cmd&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;=&lt;&#x2F;span&gt;&lt;span&gt;%&amp;quot; %&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;*
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ol start=&quot;3&quot;&gt;
+&lt;li&gt;
+&lt;p&gt;PATH 환경변수에 해당 디렉토리를 추가.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;다음과 같이 실행하였을 때 버전 정보가 잘 출력되면 설치가 잘 된 것이다.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;rebar3 --version
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;saero-peurojegteu-saengseonghagi&quot;&gt;새로 프로젝트 생성하기&lt;&#x2F;h1&gt;
+&lt;p&gt;다음과 같이 앱 프로젝트를 생성할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;rebar3 new app myapp
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;다음과 같은 구조가 만들어진다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;myapp
+&lt;&#x2F;span&gt;&lt;span&gt;    src
+&lt;&#x2F;span&gt;&lt;span&gt;        myapp_app.erl
+&lt;&#x2F;span&gt;&lt;span&gt;        myapp_sup.erl
+&lt;&#x2F;span&gt;&lt;span&gt;        myapp.app.src
+&lt;&#x2F;span&gt;&lt;span&gt;    .gitignore
+&lt;&#x2F;span&gt;&lt;span&gt;    LICENSE
+&lt;&#x2F;span&gt;&lt;span&gt;    README.md
+&lt;&#x2F;span&gt;&lt;span&gt;    rebar.config
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;camjo&quot;&gt;참조&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;m.blog.naver.com&#x2F;oidoman&#x2F;220853516701&quot;&gt;우주를 위해 : Rebar3 - Documentation&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;gamtoggi.tistory.com&#x2F;95&quot;&gt;유리의 블로그 : erlang + rebar3 + cowboy&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;velog.io&#x2F;@rajephon&#x2F;Erlang-05.-Rebar3-Project-Setup-dzjv0mxua2&quot;&gt;rajephon.log : Erlang - 05. Rebar3 Project Setup&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;lt;모바일 서버 프로그래밍 : 얼랭으로 만들며 배운다&amp;gt;(이국현)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

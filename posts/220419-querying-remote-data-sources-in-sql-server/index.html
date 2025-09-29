@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | SQL Server 원격 데이터 소스에 쿼리하기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            SQL Server 원격 데이터 소스에 쿼리하기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2022-04-19T14:55:00+09:00">April 19, 2022</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>2 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>236 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/mssql/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>mssql</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <h1 id="camgo-munseo">참고 문서</h1>
+<ul>
+<li><a href="https://www.sqlshack.com/querying-remote-data-sources-in-sql-server/">Querying remote data sources in SQL Server</a></li>
+<li><a href="https://mozi.tistory.com/318">MSSQL OPENROWSET, OPENDATASOURCE, OPENQUERY와 Linked Server 성능, 장단점, 원격 접속 방법</a></li>
+</ul>
+<h1 id="weongyeog-deiteo-soseu-aegseseu-heoyonghagi">원격 데이터 소스 액세스 허용하기</h1>
+<p>Ad Hoc Distributed Queries를 허용하기 위해 다음과 같이 실행한다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>EXEC sp_configure &#39;</span><span style="color:#a3be8c;">show advanced options</span><span>&#39;, </span><span style="color:#d08770;">1
+</span><span>RECONFIGURE
+</span><span>GO
+</span><span>EXEC sp_configure &#39;</span><span style="color:#a3be8c;">ad hoc distributed queries</span><span>&#39;, </span><span style="color:#d08770;">1
+</span><span>RECONFIGURE
+</span><span>GO
+</span></code></pre>
+<h1 id="opendatasource">OPENDATASOURCE</h1>
+<p>다른 SQL Server 머신의 CharacterDb의 Characters 테이블에 쿼리하는 예시는 다음과 같다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT TOP </span><span style="color:#d08770;">100 </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">FROM</span><span> OPENDATASOURCE(&#39;</span><span style="color:#a3be8c;">SQLNCLI</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">Server=ServerHostname,1433;UID=uid;PWD=pwd</span><span>&#39;).</span><span style="color:#d08770;">CharacterDb</span><span>.</span><span style="color:#d08770;">dbo</span><span>.Characters
+</span></code></pre>
+<h1 id="openrowset">OPENROWSET</h1>
+<p>다음과 같은 방법으로, OPENROWSET을 사용하는 방법이 있다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">FROM</span><span> OPENROWSET(&#39;</span><span style="color:#a3be8c;">SQLNCLI</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">Server=ServerHostname,1433;UID=uid;PWD=pwd</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">SELECT TOP 100 * FROM CharacterDb.dbo.Characters(NOLOCK)</span><span>&#39;)
+</span></code></pre>
+<h1 id="openquery-with-linked-server">OPENQUERY with Linked Server</h1>
+<h2 id="linked-server-cugahagi">Linked Server 추가하기</h2>
+<p>Linked Server를 추가하는 방법은 여러가지가 있다. 아래는 그 중 한가지 방법이다.
+다른 방법들은 링크의 참고 문서를 참고한다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>EXEC </span><span style="color:#d08770;">master</span><span>.</span><span style="color:#d08770;">dbo</span><span>.sp_addlinkedserver 
+</span><span>	@server=N&#39;</span><span style="color:#a3be8c;">ServerHostname,1433</span><span>&#39;,
+</span><span>	@srvproduct=N&#39;</span><span style="color:#a3be8c;">SQL Server</span><span>&#39;
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">master</span><span>.</span><span style="color:#d08770;">dbo</span><span>.sp_addlinkedsrvlogin
+</span><span>	@rmtsrvname=N&#39;</span><span style="color:#a3be8c;">ServerHostname,1433</span><span>&#39;,
+</span><span>	@rmtuser=N&#39;</span><span style="color:#a3be8c;">uid</span><span>&#39;,
+</span><span>	@rmtpassword=N&#39;</span><span style="color:#a3be8c;">pwd</span><span>&#39;
+</span><span>	@useself=N&#39;</span><span style="color:#a3be8c;">False</span><span>&#39;,
+</span><span>	@locallogin=</span><span style="color:#d08770;">NULL
+</span></code></pre>
+<h2 id="openquery">OPENQUERY</h2>
+<p>추가한 Linked Server로 OPENQUERY를 이용할 수 있다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">FROM</span><span> OPENQUERY([ServerHostname,</span><span style="color:#d08770;">1433</span><span>], &#39;</span><span style="color:#a3be8c;">SELECT TOP 100 * FROM CharacterDb.dbo.Characters(NOLOCK)</span><span>&#39;)
+</span></code></pre>
+<h1 id="four-part-with-linked-server">Four Part with Linked Server</h1>
+<p>Four Part 쿼리는 ServerName.DatabaseName.SchemaName.ObjectName의 형식의 리소스 표현을 사용하는 쿼리를 말한다.</p>
+<p>이 방식은 다음과 같은 모습을 한다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span style="color:#b48ead;">SELECT TOP </span><span style="color:#d08770;">100 </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">FROM</span><span> [ServerName,</span><span style="color:#d08770;">1433</span><span>].</span><span style="color:#d08770;">CharacterDb</span><span>.</span><span style="color:#d08770;">dbo</span><span>.Characters
+</span></code></pre>
+<h1 id="seongneung-bigyo-seolmyeong">성능 비교 설명</h1>
+<p>링크된 글들을 참고하였을 때, 다음과 같은 순으로 빠른 것으로 보인다. (실제 테스트를 통해 확인된 것이 아니고 참고글을 해석한 것이므로 정확하지 않을 수 있다. 참고.)</p>
+<p>OPENQUERY &gt; Four Part 를 이용한 Linked Server 방식 &gt; OPENROWSET &gt; OPENDATASOURCE</p>
+<p>OPENDATASOURCE는 매번 연결을 맺고, 원격 서버에서 정보(sp_tableinfo_rowset, sp_columns_rowset, sp_index_rowset 등)를 가져와서 쿼리를 최적화 후 원격서버에 보내는 방식이므로 제일 느리다.</p>
+<p>Four Part를 이용한 Linked Server 방식은 연결을 매번 맺진 않지만, 원격 서버에서 정보를 가져와 쿼리를 최적화 후 원격서버에 보내는 방식이므로 상대적으로 느린 면이 있다.</p>
+<p>OPENROWSET은 매번 연결을 맺지만, 실행 및 쿼리 최적화를 원격 서버에서 하고 데이터만 가져오기 때문에 역시 상대적으로 느린 면이 있다.</p>
+<p>OPENQUERY는 Linked Server를 이용해 연결을 매번 맺지도 않고, 쿼리를 원격 서버에 보내서 처리하므로 가장 효율적이고 빠르다.</p>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-camgo-munseo" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#camgo-munseo">
+                참고 문서
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-weongyeog-deiteo-soseu-aegseseu-heoyonghagi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#weongyeog-deiteo-soseu-aegseseu-heoyonghagi">
+                원격 데이터 소스 액세스 허용하기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-opendatasource" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#opendatasource">
+                OPENDATASOURCE
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-openrowset" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#openrowset">
+                OPENROWSET
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-openquery-with-linked-server" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#openquery-with-linked-server">
+                OPENQUERY with Linked Server
+              </a>
+              
+              <ul>
+                
+                <li>
+                  <a id="link-linked-server-cugahagi" class="toc is-size-7" href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#linked-server-cugahagi">
+                    Linked Server 추가하기
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-openquery" class="toc is-size-7" href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#openquery">
+                    OPENQUERY
+                  </a>
+                </li>
+                
+              </ul>
+              
+            </li>
+            
+            <li>
+              <a id="link-four-part-with-linked-server" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#four-part-with-linked-server">
+                Four Part with Linked Server
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-seongneung-bigyo-seolmyeong" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220419-querying-remote-data-sources-in-sql-server/#seongneung-bigyo-seolmyeong">
+                성능 비교 설명
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220314-setup-erlang&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              윈도우에서 erlang 설치하기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220712-writing-locust-agent-in-go&#x2F;">
+              Go 언어로 Locust 성능테스트 작성하기<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

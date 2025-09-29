@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | C++ snippet - Win32 API를 이용하여 원하는 제목의 윈도우를 찾아 종료시키기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            C++ snippet - Win32 API를 이용하여 원하는 제목의 윈도우를 찾아 종료시키기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2021-05-17T15:00:00+09:00">May 17, 2021</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>1 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>12 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/c/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>c++</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/win32/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>win32</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>특정 제목의 윈도우를 주기적으롤 닫아준다거나 하는 작업이 필요할 경우 사용할 수 있다.</p>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">struct </span><span>FindWindowStruct {
+</span><span>    DWORD pid;
+</span><span>    std::vector&lt;</span><span style="color:#b48ead;">const char </span><span>*&gt; find_titles;  </span><span style="color:#65737e;">// lifetime of the string pointed should be as long as this struct
+</span><span>    </span><span style="color:#b48ead;">bool</span><span> found;
+</span><span>}
+</span><span>
+</span><span>BOOL CALLBACK </span><span style="color:#8fa1b3;">enum_windows_by_titles</span><span>(HWND </span><span style="color:#bf616a;">hwnd</span><span>, LPARAM </span><span style="color:#bf616a;">lparam</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> pfws = reinterpret_cast&lt;FindWindowStruct *&gt;(lparam);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!pfws) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    DWORD wnd_pid;
+</span><span>    </span><span style="color:#bf616a;">GetWindowThreadProcessId</span><span>(hwnd, &amp;wnd_pid);
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(pfws-&gt;</span><span style="color:#bf616a;">pid </span><span>!= wnd_pid) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> title_len = </span><span style="color:#bf616a;">GetWindowTextLengthW</span><span>(hwnd);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(title_len &lt;= </span><span style="color:#d08770;">0</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">wchar_t</span><span> wsz_title[MAX_PATH]{</span><span style="color:#d08770;">0</span><span>,};
+</span><span>    </span><span style="color:#bf616a;">GetWindowTextW</span><span>(hwnd, wsz_title, </span><span style="color:#bf616a;">_countof</span><span>(wsz_title));
+</span><span>
+</span><span>    std::wstring_convert&lt;std::codecvt_utf8&lt;</span><span style="color:#b48ead;">wchar_t</span><span>&gt;, </span><span style="color:#b48ead;">wchar_t</span><span>&gt; conv;
+</span><span>    std::string title = conv.</span><span style="color:#bf616a;">to_bytes</span><span>(wsz_title);
+</span><span>
+</span><span>    std::</span><span style="color:#bf616a;">transform</span><span>(title.</span><span style="color:#bf616a;">begin</span><span>(), title.</span><span style="color:#bf616a;">end</span><span>(), title.</span><span style="color:#bf616a;">begin</span><span>(), [](</span><span style="color:#b48ead;">auto</span><span> c) { </span><span style="color:#b48ead;">return </span><span>::</span><span style="color:#bf616a;">tolower</span><span>(c); });
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> found = </span><span style="color:#d08770;">false</span><span>;
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">auto </span><span>&amp; find_title : pwfs-&gt;</span><span style="color:#bf616a;">find_titles</span><span>) {
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(title.</span><span style="color:#bf616a;">find</span><span>(find_title) != std::string::npos) {
+</span><span>            found = </span><span style="color:#d08770;">true</span><span>;
+</span><span>            </span><span style="color:#b48ead;">break</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!found) {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">SendMessage</span><span>(hwnd, WM_CLOSE, </span><span style="color:#d08770;">NULL</span><span>, </span><span style="color:#d08770;">NULL</span><span>);
+</span><span>
+</span><span>    pwfs-&gt;</span><span style="color:#bf616a;">found </span><span>= </span><span style="color:#d08770;">true</span><span>;
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">close_windows_by_titles</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> snap = </span><span style="color:#bf616a;">CreateToolhelp32Snapshot</span><span>(TH32CS_SNAPPROCESS, </span><span style="color:#d08770;">0</span><span>);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(snap == INVALID_HANDLE_VALUE) {
+</span><span>        </span><span style="color:#b48ead;">return</span><span>; </span><span style="color:#65737e;">// error
+</span><span>    }
+</span><span>
+</span><span>    PROCESSENTRY32W pe32;
+</span><span>    pe32.</span><span style="color:#bf616a;">dwSize </span><span>= sizeof(PROCESSENTRY32W);
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(!</span><span style="color:#bf616a;">Process32First</span><span>(snap, &amp;pe32)) {
+</span><span>        </span><span style="color:#bf616a;">CloseHandle</span><span>(snap);
+</span><span>        </span><span style="color:#b48ead;">return</span><span>; </span><span style="color:#65737e;">// error
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> exe_name = &quot;</span><span style="color:#a3be8c;">chrome.exe</span><span>&quot;;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">do </span><span>{
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(exe_name != pe32.</span><span style="color:#bf616a;">szExeFile</span><span>) {
+</span><span>            </span><span style="color:#b48ead;">continue</span><span>;
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">auto</span><span> hProc = </span><span style="color:#bf616a;">OpenProcess</span><span>(process_query_information | process_terminate, </span><span style="color:#d08770;">false</span><span>, pe32.</span><span style="color:#bf616a;">th32ProcessID</span><span>);
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(!hProc) {
+</span><span>            </span><span style="color:#b48ead;">continue</span><span>;   </span><span style="color:#65737e;">// error
+</span><span>        }
+</span><span>
+</span><span>        FindWindowStruct fws;
+</span><span>        fws.</span><span style="color:#bf616a;">pid </span><span>= p332.</span><span style="color:#bf616a;">thProcessID</span><span>;
+</span><span>        fws.</span><span style="color:#bf616a;">find_titles </span><span>= { &quot;</span><span style="color:#a3be8c;">네이버</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">Google</span><span>&quot; };
+</span><span>        fws.</span><span style="color:#bf616a;">found </span><span>= </span><span style="color:#d08770;">false</span><span>;
+</span><span>
+</span><span>        </span><span style="color:#bf616a;">EnumWindows</span><span>(enum_windows_by_titles, reinterpret_cast&lt;LPARAM&gt;(&amp;fws));
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(fws.</span><span style="color:#bf616a;">found</span><span>) {
+</span><span>            </span><span style="color:#65737e;">// found and closed
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#bf616a;">CloseHandle</span><span>(hProc);
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">while </span><span>(</span><span style="color:#bf616a;">Process32Next</span><span>(snap, &amp;pe32));
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">CloseHandle</span><span>(snap);
+</span><span>}
+</span></code></pre>
+
+          </div>
+        </article>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210424-cpp-snippet-string-split&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              C++ snippet - string split 하기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210804-concurrency-in-go-ch1&#x2F;">
+              [Go 동시성 프로그래밍] 읽기 - 1장 동시성 소개<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+
+
+
+
+  
+  
+</body>
+
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | Leetcode 1889. Minimum Space Wasted From Packaging
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            Leetcode 1889. Minimum Space Wasted From Packaging
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2022-06-05T14:50:00+09:00">June 05, 2022</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>1 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>40 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/rust/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>rust</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/leetcode/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>leetcode</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>문제 : <a href="https://leetcode.com/problems/minimum-space-wasted-from-packaging/">1889. Minimum Space Wasted From Packaging</a></p>
+<p>등급 : Hard</p>
+<p>BTreeSet을 이용하려고 했는데, BTreeSet에서 upper_bound의 index를 구하거나, iterator 간의 차를 구할 수 있는 방법을 찾지 못해서, Vec에 binary search를 적용하는 방법으로 다시 접근하였음.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub</span><span>(</span><span style="color:#bf616a;">self</span><span>) </span><span style="color:#b48ead;">mod </span><span>first_try {
+</span><span>    </span><span style="color:#b48ead;">pub struct </span><span>Solution;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">impl </span><span>Solution {
+</span><span>        </span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">min_wasted_space</span><span>(</span><span style="color:#bf616a;">packages</span><span>: Vec&lt;</span><span style="color:#b48ead;">i32</span><span>&gt;, </span><span style="color:#bf616a;">boxes</span><span>: Vec&lt;Vec&lt;</span><span style="color:#b48ead;">i32</span><span>&gt;&gt;) -&gt; </span><span style="color:#b48ead;">i32 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">const </span><span style="color:#d08770;">MOD</span><span>: </span><span style="color:#b48ead;">i64 </span><span>= </span><span style="color:#d08770;">10</span><span style="color:#b48ead;">i64</span><span>.</span><span style="color:#96b5b4;">pow</span><span>(</span><span style="color:#d08770;">9</span><span>) + </span><span style="color:#d08770;">07</span><span style="color:#b48ead;">i64</span><span>;
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> minimum_space = std::i64::</span><span style="color:#d08770;">MAX</span><span>;
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">let</span><span> sum_of_pkgs = packages.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">fold</span><span>(</span><span style="color:#d08770;">0</span><span style="color:#b48ead;">i64</span><span>, |</span><span style="color:#bf616a;">acc</span><span>, &amp;</span><span style="color:#bf616a;">n</span><span>| (acc + n as </span><span style="color:#b48ead;">i64</span><span>) % </span><span style="color:#d08770;">MOD</span><span>);
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> pkgs = packages;
+</span><span>            pkgs.</span><span style="color:#96b5b4;">sort</span><span>();
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> boxes = boxes;
+</span><span>            </span><span style="color:#b48ead;">for</span><span> each_boxes in boxes.</span><span style="color:#96b5b4;">iter_mut</span><span>() {
+</span><span>                each_boxes.</span><span style="color:#96b5b4;">sort</span><span>();
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">if</span><span> pkgs.</span><span style="color:#96b5b4;">last</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>() &gt; each_boxes.</span><span style="color:#96b5b4;">last</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>() {
+</span><span>                    </span><span style="color:#b48ead;">continue</span><span>;
+</span><span>                }
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">let mut</span><span> space = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">i64</span><span>;
+</span><span>                </span><span style="color:#b48ead;">let mut</span><span> prev = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">usize</span><span>;
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">for</span><span> b in each_boxes.</span><span style="color:#96b5b4;">iter</span><span>() {
+</span><span>                    </span><span style="color:#b48ead;">let</span><span> idx = </span><span style="color:#b48ead;">Self</span><span>::binary_search(&amp;pkgs, b);
+</span><span>
+</span><span>                    space += *b as </span><span style="color:#b48ead;">i64 </span><span>* (idx - prev) as </span><span style="color:#b48ead;">i64</span><span>;
+</span><span>                    prev = idx;
+</span><span>                }
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">if</span><span> minimum_space &gt; space {
+</span><span>                    minimum_space = space;
+</span><span>                }
+</span><span>            }
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">if</span><span> minimum_space != std::i64::</span><span style="color:#d08770;">MAX </span><span>{ ((minimum_space - sum_of_pkgs) % </span><span style="color:#d08770;">MOD</span><span>) as </span><span style="color:#b48ead;">i32 </span><span>} </span><span style="color:#b48ead;">else </span><span>{ -</span><span style="color:#d08770;">1 </span><span>}
+</span><span>        }
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">binary_search</span><span>(</span><span style="color:#bf616a;">v</span><span>: &amp;[</span><span style="color:#b48ead;">i32</span><span>], </span><span style="color:#bf616a;">n</span><span>: &amp;</span><span style="color:#b48ead;">i32</span><span>) -&gt; </span><span style="color:#b48ead;">usize </span><span>{
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> start = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">i32</span><span>;
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> end = v.</span><span style="color:#96b5b4;">len</span><span>() as </span><span style="color:#b48ead;">i32 </span><span>- </span><span style="color:#d08770;">1</span><span>;
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">while</span><span> start &lt;= end {
+</span><span>                </span><span style="color:#b48ead;">let</span><span> mid = (start + end) / </span><span style="color:#d08770;">2</span><span>;
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">if</span><span> v[mid as </span><span style="color:#b48ead;">usize</span><span>] &lt;= *n {
+</span><span>                    start = mid + </span><span style="color:#d08770;">1</span><span>;
+</span><span>                }
+</span><span>                </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                    end = mid - </span><span style="color:#d08770;">1</span><span>;
+</span><span>                }
+</span><span>            }
+</span><span>
+</span><span>            start as </span><span style="color:#b48ead;">usize
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">cfg</span><span>(test)]
+</span><span style="color:#b48ead;">mod </span><span>tests {
+</span><span>    </span><span style="color:#b48ead;">use crate</span><span>::minimum_space_wasted_from_packaging::first_try::Solution;
+</span><span>
+</span><span>    #[</span><span style="color:#bf616a;">test</span><span>]
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example</span><span>() {
+</span><span>        assert_eq!(Solution::min_wasted_space(vec![</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">5</span><span>], vec![vec![</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">8</span><span>], vec![</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">8</span><span>]]), </span><span style="color:#d08770;">6</span><span>);
+</span><span>        assert_eq!(Solution::min_wasted_space(vec![</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">5</span><span>], vec![vec![</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">4</span><span>], vec![</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>], vec![</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>]]), -</span><span style="color:#d08770;">1</span><span>);
+</span><span>        assert_eq!(Solution::min_wasted_space(vec![</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">8</span><span>,</span><span style="color:#d08770;">10</span><span>,</span><span style="color:#d08770;">11</span><span>,</span><span style="color:#d08770;">12</span><span>], vec![vec![</span><span style="color:#d08770;">12</span><span>], vec![</span><span style="color:#d08770;">11</span><span>,</span><span style="color:#d08770;">9</span><span>], vec![</span><span style="color:#d08770;">10</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">14</span><span>]]), </span><span style="color:#d08770;">9</span><span>);
+</span><span>        assert_eq!(Solution::min_wasted_space(vec![</span><span style="color:#d08770;">7</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>], vec![vec![</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">7</span><span>], vec![</span><span style="color:#d08770;">6</span><span>], vec![</span><span style="color:#d08770;">10</span><span>,</span><span style="color:#d08770;">5</span><span>]]), </span><span style="color:#d08770;">10</span><span>);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+
+          </div>
+        </article>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps&#x2F;ps-leetcode-1362&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              Leetcode 1362. Closest Divisors
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps&#x2F;ps-leetcode-283&#x2F;">
+              Leetcode 283. Move Zeroes<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+
+
+
+
+  
+  
+</body>
+
+</html>

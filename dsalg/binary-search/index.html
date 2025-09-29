@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | Binary Search
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            Binary Search
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2022-06-05T15:10:00+09:00">June 05, 2022</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>1 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>63 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/algorithm/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>algorithm</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/binary-search/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>binary search</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/rust/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>rust</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>시간 복잡도 : O(logN)</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">binary_search</span><span>&lt;T: PartialOrd + Copy&gt;(</span><span style="color:#bf616a;">v</span><span>: &amp;[T], </span><span style="color:#bf616a;">n</span><span>: T) -&gt; Option&lt;</span><span style="color:#b48ead;">usize</span><span>&gt; {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> start = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">isize</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> end = v.</span><span style="color:#96b5b4;">len</span><span>() as </span><span style="color:#b48ead;">isize </span><span>- </span><span style="color:#d08770;">1</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">while</span><span> start &lt;= end {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> mid = (start + end) / </span><span style="color:#d08770;">2</span><span>;
+</span><span>        </span><span style="color:#b48ead;">let</span><span> midv = v[mid as </span><span style="color:#b48ead;">usize</span><span>];
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">if</span><span> midv == n {
+</span><span>            </span><span style="color:#b48ead;">return </span><span>Some(mid as </span><span style="color:#b48ead;">usize</span><span>)
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">else if</span><span> midv &lt; n {
+</span><span>            start = mid + </span><span style="color:#d08770;">1</span><span>;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            end = mid - </span><span style="color:#d08770;">1</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    None
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">binary_search_recursive</span><span>&lt;T: PartialOrd + Copy&gt;(</span><span style="color:#bf616a;">v</span><span>: &amp;[T], </span><span style="color:#bf616a;">n</span><span>: T) -&gt; Option&lt;</span><span style="color:#b48ead;">usize</span><span>&gt; {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> start = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">isize</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> end = v.</span><span style="color:#96b5b4;">len</span><span>() as </span><span style="color:#b48ead;">isize </span><span>- </span><span style="color:#d08770;">1</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#96b5b4;">binary_search_recursive_impl</span><span>(v, n, start, end)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">binary_search_recursive_impl</span><span>&lt;T: PartialOrd + Copy&gt;(</span><span style="color:#bf616a;">v</span><span>: &amp;[T], </span><span style="color:#bf616a;">n</span><span>: T, </span><span style="color:#bf616a;">start</span><span>: </span><span style="color:#b48ead;">isize</span><span>, </span><span style="color:#bf616a;">end</span><span>: </span><span style="color:#b48ead;">isize</span><span>) -&gt; Option&lt;</span><span style="color:#b48ead;">usize</span><span>&gt; {
+</span><span>    </span><span style="color:#b48ead;">if</span><span> start &gt; end {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>None
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">let</span><span> mid = (start + end) / </span><span style="color:#d08770;">2</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let</span><span> midv = v[mid as </span><span style="color:#b48ead;">usize</span><span>];
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if</span><span> midv == n {
+</span><span>        Some(mid as </span><span style="color:#b48ead;">usize</span><span>)
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">else if</span><span> midv &lt; n {
+</span><span>        </span><span style="color:#96b5b4;">binary_search_recursive_impl</span><span>(v, n, mid + </span><span style="color:#d08770;">1</span><span>, end)
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        </span><span style="color:#96b5b4;">binary_search_recursive_impl</span><span>(v, n, start, mid - </span><span style="color:#d08770;">1</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// n을 초과하는 값의 위치 찾기.
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">binary_search_upper</span><span>&lt;T: PartialOrd + Copy&gt;(</span><span style="color:#bf616a;">v</span><span>: &amp;[T], </span><span style="color:#bf616a;">n</span><span>: T) -&gt; </span><span style="color:#b48ead;">usize </span><span>{
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> start = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">isize</span><span>;
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> end = v.</span><span style="color:#96b5b4;">len</span><span>() as </span><span style="color:#b48ead;">isize</span><span>- </span><span style="color:#d08770;">1</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">while</span><span> start &lt;= end {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> mid = (start + end) / </span><span style="color:#d08770;">2</span><span>;
+</span><span>        </span><span style="color:#b48ead;">let</span><span> midv = v[mid as </span><span style="color:#b48ead;">usize</span><span>];
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">if</span><span> midv &lt;= n {
+</span><span>            start = mid + </span><span style="color:#d08770;">1</span><span>;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            end = mid - </span><span style="color:#d08770;">1</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    start as </span><span style="color:#b48ead;">usize
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">cfg</span><span>(test)]
+</span><span style="color:#b48ead;">mod </span><span>tests {
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">use super</span><span>::{binary_search, binary_search_recursive, binary_search_upper};
+</span><span>
+</span><span>    #[</span><span style="color:#bf616a;">test</span><span>]
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> v = vec![</span><span style="color:#d08770;">17</span><span>, </span><span style="color:#d08770;">28</span><span>, </span><span style="color:#d08770;">43</span><span>, </span><span style="color:#d08770;">67</span><span>, </span><span style="color:#d08770;">88</span><span>, </span><span style="color:#d08770;">92</span><span>, </span><span style="color:#d08770;">100</span><span>, </span><span style="color:#d08770;">150</span><span>];
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(i, &amp;n) in v.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">enumerate</span><span>() {
+</span><span>            assert_eq!(</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;v, n), Some(i));
+</span><span>        }
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;v, </span><span style="color:#d08770;">10</span><span>), None);
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;v, </span><span style="color:#d08770;">55</span><span>), None);
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;v, </span><span style="color:#d08770;">200</span><span>), None);
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(i, &amp;n) in v.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">enumerate</span><span>() {
+</span><span>            assert_eq!(</span><span style="color:#96b5b4;">binary_search_recursive</span><span>(&amp;v, n), Some(i));
+</span><span>        }
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search_recursive</span><span>(&amp;v, </span><span style="color:#d08770;">10</span><span>), None);
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search_recursive</span><span>(&amp;v, </span><span style="color:#d08770;">55</span><span>), None);
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search_recursive</span><span>(&amp;v, </span><span style="color:#d08770;">200</span><span>), None);
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(i, n) in v.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">enumerate</span><span>() {
+</span><span>            assert_eq!(</span><span style="color:#96b5b4;">binary_search_upper</span><span>(&amp;v, *n), i + </span><span style="color:#d08770;">1</span><span>, &quot;</span><span style="color:#a3be8c;">{}, {}</span><span>&quot;, i, n);
+</span><span>        }
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search_upper</span><span>(&amp;v, </span><span style="color:#d08770;">10</span><span>), </span><span style="color:#d08770;">0</span><span>);
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search_upper</span><span>(&amp;v, </span><span style="color:#d08770;">55</span><span>), </span><span style="color:#d08770;">3</span><span>);
+</span><span>        assert_eq!(</span><span style="color:#96b5b4;">binary_search_upper</span><span>(&amp;v, </span><span style="color:#d08770;">200</span><span>), </span><span style="color:#d08770;">8</span><span>);
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(i, &amp;n) in v.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">enumerate</span><span>() {
+</span><span>            assert_eq!(v.</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;n), Ok(i));
+</span><span>        }
+</span><span>        assert_eq!(v.</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;</span><span style="color:#d08770;">10</span><span>), Err(</span><span style="color:#d08770;">0</span><span>));
+</span><span>        assert_eq!(v.</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;</span><span style="color:#d08770;">55</span><span>), Err(</span><span style="color:#d08770;">3</span><span>));
+</span><span>        assert_eq!(v.</span><span style="color:#96b5b4;">binary_search</span><span>(&amp;</span><span style="color:#d08770;">200</span><span>), Err(</span><span style="color:#d08770;">8</span><span>));
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>rust는 Vec 타입의 메소드로 <a href="https://doc.rust-lang.org/stable/std/vec/struct.Vec.html#method.binary_search">binary_search</a>, <a href="https://doc.rust-lang.org/stable/std/vec/struct.Vec.html#method.binary_search_by">binary_search_by</a>를 이미 제공한다.</p>
+<p>Vec::binary_search 함수를 이용하면, 같은 값을 찾거나 upper bound를 쉽게 찾을 수 있다. lower bound를 찾기 위해서는 binary_search_by를 이용할 수 있다.</p>
+<p>참고자료 : <a href="https://12bme.tistory.com/120">길은 가면, 뒤에 있다. : 알고리즘 Lower bound, Upper bound</a></p>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

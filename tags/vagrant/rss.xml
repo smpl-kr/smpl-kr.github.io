@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - vagrant</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/vagrant/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Tue, 30 Sep 2025 07:20:00 +0900</lastBuildDate>
+      <item>
+          <title>Vagrant 시작하기</title>
+          <pubDate>Tue, 30 Sep 2025 07:20:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/250930-start-vagrant/</link>
+          <guid>https://smpl.kr/posts/250930-start-vagrant/</guid>
+          <description xml:base="https://smpl.kr/posts/250930-start-vagrant/">&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;developer.hashicorp.com&#x2F;vagrant&#x2F;&quot;&gt;Vagrant&lt;&#x2F;a&gt;는 Hashicorp에서 개발한 일관되고, 재현 가능하고, 복제 및 공유가 가능한 커맨드라인 기반의 가상환경 관리 도구이다. 주로 단일 개발 환경에서의 가상환경 관리에 사용되며, 보다 더 대규모의 인프라 관리를 위해서는 Puppet이나 Chef, Ansible 등과 함께 사용하거나, 역시 Hashicorp에서 만든 Terraform을 사용하는 것으로 보인다.&lt;&#x2F;p&gt;
+&lt;p&gt;간단하게 로컬 환경에서 학습용으로 간이 K8S 클러스터를 구성해본다거나 하는데 사용될 수 있을 것으로 보여 알아본다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;gibonjeogin-sayongbeob&quot;&gt;기본적인 사용법&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;seolci&quot;&gt;설치&lt;&#x2F;h2&gt;
+&lt;p&gt;윈도우 환경에서는 다음과 같이 입력하여 Vagrant를 설치할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;winget insall Hashicorp.Vagrant
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;vagrantfile-saengseong&quot;&gt;&lt;code&gt;Vagrantfile&lt;&#x2F;code&gt; 생성&lt;&#x2F;h2&gt;
+&lt;p&gt;Vagrant는 &lt;code&gt;Vagrantfile&lt;&#x2F;code&gt;이라는 설정을 기반으로 관리된다.&lt;&#x2F;p&gt;
+&lt;p&gt;처음 &lt;code&gt;Vagrantfile&lt;&#x2F;code&gt;을 만들려면 다음과 같이 입력한다. 필요한 Vagrant Box가 없을 경우 자동으로 가져온다. 사용 가능한 Vagrant Box는 &lt;a href=&quot;https:&#x2F;&#x2F;portal.cloud.hashicorp.com&#x2F;vagrant&#x2F;discover&quot;&gt;Hashicorp Vagrant Public Registry&lt;&#x2F;a&gt;에서 찾을 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant init ubuntu&#x2F;focal64 --box-version &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;20240821.0&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant box list &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# vagrant box 목록 조회
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gasangmeosin-silhaeng&quot;&gt;가상머신 실행&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant up
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant up --provider=virtualbox &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# virtualbox를 provider로 명시적으로 선택
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant status &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 상태 확인 (실행 완료 전에도 Running으로 보임)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gasangmeosin-ssh-jeobsog&quot;&gt;가상머신 ssh 접속&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant ssh
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant ssh-config &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 키 정보 조회
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gasangmeosin-ilsi-jungji-jaegae&quot;&gt;가상머신 일시 중지&#x2F;재개&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant suspend
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant resume
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gasangmeosin-jungji&quot;&gt;가상머신 중지&lt;&#x2F;h2&gt;
+&lt;p&gt;가상머신을 종료한다. docker와는 달리, 실행 중 작업 내용이 초기화되지 않으나, 다른 머신에 그대로 환경을 복제하기 위해서는 &lt;code&gt;Vagrantfile&lt;&#x2F;code&gt;에 프로비저닝 정보로 작성하거나, 별도로 폴더를 싱크하여 작업내용을 저장시켜야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant halt
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gasangmeosin-sagje-vagrant-box-sagje&quot;&gt;가상머신 삭제 &#x2F; Vagrant Box 삭제&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant destroy
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant box remove ubuntu&#x2F;focal
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;gibonjeogin-yesi&quot;&gt;기본적인 예시&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;3gaeyi-ubuntu-gasangmeosin-saengseonghagi&quot;&gt;3개의 우분투 가상머신 생성하기&lt;&#x2F;h2&gt;
+&lt;p&gt;3개의 우분투 가상머신을 셋팅하고, 프로비저닝 명령어를 통해 HTTP 서버를 띄우고 종료시킬 수 있음을 확인해본다.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;vagrantfile&quot;&gt;&lt;code&gt;Vagrantfile&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;rb&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rb &quot;&gt;&lt;code class=&quot;language-rb&quot; data-lang=&quot;rb&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# -*- mode: ruby -*-
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# vi: set ft=ruby :
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Vagrant&lt;&#x2F;span&gt;&lt;span&gt;.configure(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;config&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;  (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;).each &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;i&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;    config.vm.define &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ubuntu&lt;&#x2F;span&gt;&lt;span&gt;#{i}&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cfg&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.box = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ubuntu&#x2F;focal64&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.box_version = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;20240821.0.1&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.provider &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;virtualbox&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do &lt;&#x2F;span&gt;&lt;span&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;vb&lt;&#x2F;span&gt;&lt;span&gt;|
+&lt;&#x2F;span&gt;&lt;span&gt;        vb.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;name &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ubuntu&lt;&#x2F;span&gt;&lt;span&gt;#{i}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        vb.cpus = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;span&gt;        vb.memory = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;1024&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.network &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;private_network&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ip: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;192.168.33.&lt;&#x2F;span&gt;&lt;span&gt;#{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10 &lt;&#x2F;span&gt;&lt;span&gt;+ i}&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.network &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;forwarded_port&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;guest: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8000&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;host: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8080 &lt;&#x2F;span&gt;&lt;span&gt;+ i, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;host_ip: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;127.0.0.1&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.synced_folder &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&#x2F;data&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;vagrant_data&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.synced_folder &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;vagrant&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;disabled: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.provision &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;shell&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;name:&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;init&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;path:&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;init.sh&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      
+&lt;&#x2F;span&gt;&lt;span&gt;      cfg.vm.provision &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;shell&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;name:&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;start_server&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;run:&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;never&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;inline: &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&amp;lt;-SHELL
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;echo &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Starting simple HTTP server...&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;python3 -m&lt;&#x2F;span&gt;&lt;span&gt; http.server 8000 &amp;amp;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;echo &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Server started on port 8000&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;SHELL
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cfg.vm.provision &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;shell&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, name:&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;stop_server&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, run:&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;never&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, inline: &amp;lt;&amp;lt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;SHELL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;        echo &amp;quot;Stopping simple HTTP server...&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;        pkill -f &amp;quot;python3 -m http.server&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;        echo &amp;quot;Server stopped.&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;SHELL
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;init-sh&quot;&gt;&lt;code&gt;init.sh&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;#!&#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;echo &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello, Vagrant! &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;HOSTNAME&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &amp;gt; .&#x2F;index.html
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;apt-get&lt;&#x2F;span&gt;&lt;span&gt; update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;apt-get&lt;&#x2F;span&gt;&lt;span&gt; install&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -y&lt;&#x2F;span&gt;&lt;span&gt; python3 python3-pip
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;echo &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Setup complete.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;peurobijeoning-myeongryeong-naerigi&quot;&gt;프로비저닝 명령 내리기&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;ps1&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-ps1 &quot;&gt;&lt;code class=&quot;language-ps1&quot; data-lang=&quot;ps1&quot;&gt;&lt;span&gt;vagrant provision --provision-with start_server
+&lt;&#x2F;span&gt;&lt;span&gt;vagrant provision --provision-with stop_server
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;references&quot;&gt;References&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;developer.hashicorp.com&#x2F;vagrant&#x2F;tutorials&#x2F;get-started&quot;&gt;Hashicorp Vagrant Tutorial&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;hashicorp-education&#x2F;learn-vagrant-get-started&quot;&gt;hashcorp-education&#x2F;learn-vagrant-get-started&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;developer.hashicorp.com&#x2F;vagrant&#x2F;docs&quot;&gt;Hashicorp Developer Vagrant Docs&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;blog.naver.com&#x2F;dsz08082&#x2F;223245703264&quot;&gt;dsz08082&#x2F;Vagrant 설치 및 사용법 : Vagrant로 VirtualBox 가상 머신 관리&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;dev-scratch.tistory.com&#x2F;62&quot;&gt;dev-scratch&#x2F;Vagrant 가상 머신 설정 및 네트워크 구성&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

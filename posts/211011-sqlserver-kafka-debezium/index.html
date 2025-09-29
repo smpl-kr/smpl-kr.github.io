@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | SQL Server를 Kafka로 복제하는 방법 알아보기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            SQL Server를 Kafka로 복제하는 방법 알아보기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2021-10-11T09:00:00+09:00">October 11, 2021</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>5 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>960 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/kafka/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>kafka</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/kafka-connect/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>kafka connect</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/mssql/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>mssql</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/debezium/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>debezium</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/cdc/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>cdc</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>SQL Server의 데이터를 Kafka Debezium Source Connector와 JDBC Sink Connector를 이용해 복제하는 방법에 대해 알아본 내용을 정리해본다. 아쉽게도 실제 고객 서비스에 적용해보면서 겪어보진 못 하였다..</p>
+<p>다시 정리하는 과정에서 오타나 빠뜨린 부분이 있었을 수 있다.</p>
+<p>Schema Registry의 적용 방법이나, 스키마 변경 시의 운영 방법, Connector/Transform의 커스터마이징 방법 등도 적어보고 싶은데, 이에 대해서는 추가적인 분석을 통해 별도로 자세히 정리하도록 한다.</p>
+<h1 id="kafka-connect-seolci">Kafka Connect 설치</h1>
+<p>주키퍼 &amp; 카프카는 설치되어 있다고 본다. 주석 표시한 부분들은 임의로 교체해 주도록 한다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># prerequisite 설치
+</span><span style="color:#bf616a;">sudo</span><span> apt update &amp;&amp; </span><span style="color:#bf616a;">sudo</span><span> apt upgrade
+</span><span style="color:#bf616a;">sudo</span><span> apt install openjdk-13-jre unzip
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># kafka 다운로드
+</span><span style="color:#bf616a;">mkdir -p</span><span> /var/opt/kafka
+</span><span style="color:#96b5b4;">cd</span><span> /var/opt/kafka
+</span><span style="color:#bf616a;">wget</span><span> https://dlcdn.aapche.org/kafka/2.8.0/kafka_2.13-2.8.0.tgz
+</span><span style="color:#bf616a;">tar</span><span> xvzf kafka_2.13-2.8.0.tgz</span><span style="color:#bf616a;"> --strip-components</span><span>=1
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># kafka connect 설정 편집
+</span><span style="color:#bf616a;">cat </span><span>&gt; config/connect.properties
+</span><span style="color:#bf616a;">bootstrap.servers</span><span>=&lt;kafka </span><span style="color:#bf616a;">host</span><span>&gt;:9092    </span><span style="color:#65737e;"># 실제 카프카 주소
+</span><span>group.id=connect-cluster-id         </span><span style="color:#65737e;"># 임의의 카프카 커넥트 클러스터 id 설정
+</span><span>key.converter=org.apache.kafka.connect.json.JsonConverter
+</span><span style="color:#bf616a;">value.converter</span><span>=</span><span style="color:#a3be8c;">org.apache.kafka.connect.json.JsonConverter
+</span><span style="color:#bf616a;">key.converter.schemas.enable</span><span>=</span><span style="color:#a3be8c;">true
+</span><span style="color:#bf616a;">value.converter.schemas.enable</span><span>=</span><span style="color:#a3be8c;">true
+</span><span style="color:#bf616a;">config.storage.topic</span><span>=</span><span style="color:#a3be8c;">connect-configs
+</span><span style="color:#bf616a;">config.storage.replication.factor</span><span>=</span><span style="color:#a3be8c;">1 </span><span style="color:#65737e;"># 적절하게 조절
+</span><span style="color:#bf616a;">status.storage.topic</span><span>=</span><span style="color:#a3be8c;">connect-status
+</span><span style="color:#bf616a;">status.storage.replication.factor</span><span>=</span><span style="color:#a3be8c;">1 </span><span style="color:#65737e;"># 적절하게 조절
+</span><span style="color:#bf616a;">offset.storage.topic</span><span>=</span><span style="color:#a3be8c;">connect-offset
+</span><span style="color:#bf616a;">offset.storage.replication.factor</span><span>=</span><span style="color:#a3be8c;">1 </span><span style="color:#65737e;"># 적절하게 조절
+</span><span style="color:#bf616a;">offset.flush.interval.ms</span><span>=</span><span style="color:#a3be8c;">10000
+</span><span style="color:#bf616a;">plugin.path</span><span>=</span><span style="color:#a3be8c;">/var/opt/kafka/connect/plugins  </span><span style="color:#65737e;"># 플러그인 주소를 적절하게 설정
+</span><span style="color:#bf616a;">rest.port</span><span>=</span><span style="color:#a3be8c;">8083
+</span><span style="color:#65737e;"># ^Z
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># kafka connect 실행
+</span><span style="color:#bf616a;">bin/connect-distributed.sh</span><span> config/connect.properties
+</span></code></pre>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># debezium, jdbc connector plugin 다운로드
+</span><span style="color:#bf616a;">curl</span><span> https://repo1.maven.org/maven2/io/debezium/debezium-connector-sqlserver/1.7.0.Final/debezium-conenctor-sqlserver-1.7.0.Final-plugin.tar.gz</span><span style="color:#bf616a;"> -o</span><span> /tmp/debezium-connector.tgz
+</span><span style="color:#bf616a;">curl</span><span> https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.2.4/confluentinc-kafka-connect-jdbc-10.2.4.zip</span><span style="color:#bf616a;"> -o</span><span> /tmp/jdbc-connector.zip
+</span><span style="color:#bf616a;">mkdir -p</span><span> /var/opt/kafka/connect/plugins
+</span><span style="color:#bf616a;">tar</span><span> xvzf /tmp/debezium-connector.tgz</span><span style="color:#bf616a;"> -C</span><span> /var/opt/kafka/connect/plugins
+</span><span style="color:#bf616a;">unzip</span><span> /tmp/jdbc-connector.zip</span><span style="color:#bf616a;"> -d</span><span> /var/opt/kafka/connect/plugins
+</span></code></pre>
+<p>설치 후, 로그는 <code>/var/opt/kafka/logs</code> 디렉토리에 남는다.</p>
+<h1 id="sql-servere-cdc-junbi">SQL Server에 CDC 준비</h1>
+<p>별로 그럴듯 하지 않은 예시이지만, 다음과 같이 게임 아이템 정보를 저장하고 있는 두 테이블이 있고, 이 중 아이템 소유자 이력과 관련된 컬럼들을 복제해서 아이템 소유자의 변경 이력을 따로 보려고 한다고 가정하자.</p>
+<p>복제를 하기 위해, 원본 DB(혹은 이하 source db)와 대상 DB(혹은 이하 sink db)를 미리 셋팅해 두어야 한다. sink connector에 auto create 옵션이 있긴 하나, 데이터타입이 정확하게 동기화되는 것이 아니므로, 미리 sink db를 만들어 놓아 주는 것이 좋다.</p>
+<ul>
+<li>
+<p>ItemDb (source db)</p>
+<ul>
+<li>dbo.Items
+<ul>
+<li><strong>ItemId int PK</strong></li>
+<li><strong>ItemName nvarchar(64) not null</strong></li>
+<li><strong>ItemTypeCode int not null</strong></li>
+<li>ItemEnchantLevel tinyint not null</li>
+<li>ItemBlessCode tinyint not null</li>
+<li><strong>ItemOwnerCharacterId int null</strong></li>
+<li><strong>Modified datetimeoffset(3) null</strong></li>
+<li><strong>Registered datetimeoffset(3) not null</strong></li>
+</ul>
+</li>
+<li>dbo.ItemHistory
+<ul>
+<li><strong>ItemId int PK</strong></li>
+<li><strong>Registered datetimeoffset(3) not null PK</strong></li>
+<li>ItemEnchantLevel tinyint null</li>
+<li>ItemBlessCode tinyint null</li>
+<li><strong>ItemOwnerCharacterId int not null</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>ItemOwnerDb (sink db)</p>
+<ul>
+<li>dbo.Items
+<ul>
+<li>ItemId int PK</li>
+<li>ItemName nvarchar(64) not null</li>
+<li>ItemTypeCode int not null</li>
+<li>ItemOwnerCharacterId int null</li>
+<li>Modified datetimeoffset(3) null</li>
+<li>Registered datetimeoffset(3) not null</li>
+</ul>
+</li>
+<li>dbo.ItemHistory
+<ul>
+<li>ItemId int PK</li>
+<li>Registered datetimeoffset(3) not null PK</li>
+<li>ItemOwnerCharacterId int not null</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>먼저 CDC를 구성한다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>use ItemDb
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">sys</span><span>.</span><span style="color:#d08770;">sp_cdc_enable_db
+</span><span>GO
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">sys</span><span>.</span><span style="color:#d08770;">sp_cdc_enable_table
+</span><span>    @source_schema = N&#39;</span><span style="color:#a3be8c;">dbo</span><span>&#39;,
+</span><span>    @source_name = N&#39;</span><span style="color:#a3be8c;">Items</span><span>&#39;,
+</span><span>    @role_name = </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>    @supports_net_changes = </span><span style="color:#d08770;">1
+</span><span>GO
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">sys</span><span>.</span><span style="color:#d08770;">sp_cdc_enable_table
+</span><span>    @source_schema = N&#39;</span><span style="color:#a3be8c;">dbo</span><span>&#39;,
+</span><span>    @source_name = N&#39;</span><span style="color:#a3be8c;">ItemHistory</span><span>&#39;,
+</span><span>    @role_name = </span><span style="color:#d08770;">NULL</span><span>,
+</span><span>    @supports_net_changes = </span><span style="color:#d08770;">1
+</span><span>GO
+</span></code></pre>
+<p>만일 CDC를 제거하거나 초기화 하고 싶다면, 아래와 같이 할 수 있다.</p>
+<pre data-lang="sql" style="background-color:#2b303b;color:#c0c5ce;" class="language-sql "><code class="language-sql" data-lang="sql"><span>use ItemDb
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">sys</span><span>.</span><span style="color:#d08770;">sp_cdc_disable_table
+</span><span>    @source_schema = N&#39;</span><span style="color:#a3be8c;">dbo</span><span>&#39;,
+</span><span>    @source_name = N&#39;</span><span style="color:#a3be8c;">Items</span><span>&#39;,
+</span><span>    @capture_instance = &#39;</span><span style="color:#a3be8c;">all</span><span>&#39;   </span><span style="color:#65737e;">-- CDC 테이블 이름에서 _CT postfix를 제거하면 capture instance 이다. 스키마 업데이트 등으로 인해 CDC를 업데이트하는 것이 아니면, 그냥 all로 지정해주면 된다.
+</span><span>GO
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">sys</span><span>.</span><span style="color:#d08770;">sp_cdc_diable_table
+</span><span>    @source_schema = N&#39;</span><span style="color:#a3be8c;">dbo</span><span>&#39;,
+</span><span>    @source_name = N&#39;</span><span style="color:#a3be8c;">ItemHistory</span><span>&#39;,
+</span><span>    @capture_instance = &#39;</span><span style="color:#a3be8c;">all</span><span>&#39;
+</span><span>GO
+</span><span>
+</span><span>EXEC </span><span style="color:#d08770;">sys</span><span>.</span><span style="color:#d08770;">sp_cdc_disable_db
+</span><span>GO
+</span></code></pre>
+<h1 id="connector-deungrog">Connector 등록</h1>
+<h2 id="seoljeong-junbi">설정 준비</h2>
+<p>source db의 connector는 데이터베이스 당 한 개, sink db의 connector는 테이블 당 한 개 씩, 총 3개의 설정파일이 필요하다.</p>
+<pre data-lang="js" style="background-color:#2b303b;color:#c0c5ce;" class="language-js "><code class="language-js" data-lang="js"><span style="color:#bf616a;">cat </span><span>&gt; </span><span style="color:#bf616a;">itemdb</span><span>.</span><span style="color:#bf616a;">json
+</span><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">name</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">itemdb</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">config</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">connector.class</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">io.debezium.connector.sqlserver.SqlServerConnector</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">tasks.max</span><span>&quot;: </span><span style="color:#d08770;">1</span><span>,                                 # 태스크는 1개 밖에 지정하지 못 한다..
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.hostname</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">&lt;SQL Server IP&gt;</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.port</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">1433</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.user</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">sa</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.password</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">&lt;password&gt;</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.dbname</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">ItemDb</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">table.include.list</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">dbo.Items,dbo.ItemHistory</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.server.name</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">itemdb</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.history.kafka.bootstrap.servers</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">&lt;kafka host&gt;:9092</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">database.history.kafka.topic</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">schema-changes.itemdb.history</span><span>&quot;,
+</span><span>
+</span><span>        &quot;</span><span style="color:#a3be8c;">transforms</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">unwrap</span><span>&quot;,                         # after 레코드들을 unwrap/</span><span style="color:#bf616a;">flatten
+</span><span>        &quot;</span><span style="color:#a3be8c;">transforms.unwrap.type</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">io.debezium.transforms.ExtractNewRecordState</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">transforms.unwrap.drop.tombstones</span><span>&quot;: </span><span style="color:#d08770;">false</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">transforms.unwrap.delete.handling.mode</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">rewrite</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">transforms.unwrap.add.fields</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">source.name</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">transforms.unwrap.add.fields.prefix</span><span>&quot;: &quot;&quot;
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#bf616a;">cat </span><span>&gt; </span><span style="color:#bf616a;">itemownerdb</span><span>-</span><span style="color:#bf616a;">items</span><span>.</span><span style="color:#bf616a;">json
+</span><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">name</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">itemownerdb-items</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">config</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">connector.class</span><span>&quot;:  &quot;</span><span style="color:#a3be8c;">io.confluent.connect.jdbc.JdbcSinkConnector</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">tasks.max</span><span>&quot;: </span><span style="color:#d08770;">1</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">connection.url</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">jdbc:sqlserver://&lt;SQL Server IP&gt;;Trusted_connection=yes;databaseName=ItemOnwerDb</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">connection.user</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">sa</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">connection.password</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">&lt;password&gt;</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">insert.mode</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">upsert</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">db.timezone</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">UTC</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">table.name.format</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">Items</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">auto.create</span><span>&quot;: </span><span style="color:#d08770;">false</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">auto.evolve</span><span>&quot;: </span><span style="color:#d08770;">false</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">delete.enabled</span><span>&quot;:  </span><span style="color:#d08770;">true</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">pk.fields</span><span>&quot;: &quot;&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">pk.mode</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">record_key</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">fields.whitelist</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">ItemId,ItemName,ItemTypeCode,ItemOwnerCharacterId,Modified,Registered</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">topics</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">itemdb.dbo.items</span><span>&quot;,               # 중간에 transform 이상으로 복잡한 데이터를 가공하는 처리를 끼워넣고 </span><span style="color:#bf616a;">싶다면</span><span>, topic 이름을 조정해주면 된다.
+</span><span>                                                    # 예를 </span><span style="color:#bf616a;">들어</span><span>, Kafka Streams 애플리케이션이 itemdb.dbo.items를 consume하여 가공한 </span><span style="color:#bf616a;">뒤
+</span><span>                                                    # itemdb.dbo.items.sink를 produce하도록 </span><span style="color:#bf616a;">작성하고</span><span>,
+</span><span>                                                    # 이 부분에 itemdb.dbo.items 대신 itemdb.dbo.items.sink를 기재해 주면 된다.
+</span><span>        &quot;</span><span style="color:#a3be8c;">max.retries</span><span>&quot;: </span><span style="color:#d08770;">3
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#bf616a;">cat </span><span>&gt; </span><span style="color:#bf616a;">itemownerdb</span><span>-</span><span style="color:#bf616a;">itemhistory</span><span>.</span><span style="color:#bf616a;">json
+</span><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">name</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">itemownerdb-items</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">config</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">connector.class</span><span>&quot;:  &quot;</span><span style="color:#a3be8c;">io.confluent.connect.jdbc.JdbcSinkConnector</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">tasks.max</span><span>&quot;: </span><span style="color:#d08770;">1</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">connection.url</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">jdbc:sqlserver://&lt;SQL Server IP&gt;;Trusted_connection=yes;databaseName=ItemOnwerDb</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">connection.user</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">sa</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">connection.password</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">&lt;password&gt;</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">insert.mode</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">upsert</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">db.timezone</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">UTC</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">table.name.format</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">Items</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">auto.create</span><span>&quot;: </span><span style="color:#d08770;">false</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">auto.evolve</span><span>&quot;: </span><span style="color:#d08770;">false</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">delete.enabled</span><span>&quot;:  </span><span style="color:#d08770;">true</span><span>,
+</span><span>        &quot;</span><span style="color:#a3be8c;">pk.fields</span><span>&quot;: &quot;&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">pk.mode</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">record_key</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">fields.whitelist</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">ItemId,Registered,ItemOwnerCharacterId</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">topics</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">itemdb.dbo.itemhistory</span><span>&quot;,
+</span><span>        &quot;</span><span style="color:#a3be8c;">max.retries</span><span>&quot;: </span><span style="color:#d08770;">3
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="connector-deungrog-1">Connector 등록</h2>
+<p>작성한 설정을 가지고, Connector를 등록해준다. 등록은, Kafka Connect Cluster에 REST API를 호출하여 등록할 수 있다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl -X</span><span> POST</span><span style="color:#bf616a;"> -H </span><span>&quot;</span><span style="color:#a3be8c;">Accept: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -H </span><span>&quot;</span><span style="color:#a3be8c;">Content-Type: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -d</span><span> @itemdb.json http://localhost:8083/connectors
+</span><span style="color:#bf616a;">curl -X</span><span> POST</span><span style="color:#bf616a;"> -H </span><span>&quot;</span><span style="color:#a3be8c;">Accept: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -H </span><span>&quot;</span><span style="color:#a3be8c;">Content-Type: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -d</span><span> @itemownerdb-items.json http://localhost:8083/connectors
+</span><span style="color:#bf616a;">curl -X</span><span> POST</span><span style="color:#bf616a;"> -H </span><span>&quot;</span><span style="color:#a3be8c;">Accept: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -H </span><span>&quot;</span><span style="color:#a3be8c;">Content-Type: application/json</span><span>&quot;</span><span style="color:#bf616a;"> -d</span><span> @itemownerdb-itemhistory.json http://localhost:8083/connectors
+</span></code></pre>
+<p>잘 등록되었는지 다음과 같이 확인해 볼 수 있다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl -X</span><span> GET http://localhost:8083/connectors
+</span></code></pre>
+<p>등록된 Connector를 삭제하려면 다음과 같이 호출해주면 된다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl -X</span><span> DELETE http://localhost:8083/connectors/itemdb
+</span><span style="color:#bf616a;">curl -X</span><span> DELETE http://localhost:8083/connectors/itemownerdb-items
+</span><span style="color:#bf616a;">curl -X</span><span> DELETE http://localhost:8083/connectors/itemownerdb-itemhistory
+</span></code></pre>
+<p>이제 ItemDb에 데이터가 등록/변경/삭제되면, ItemOwnerDb에도 데이터가 복제되어 반영됨을 볼 수 있을 것이다.</p>
+<h1 id="camgo-jaryo">참고 자료</h1>
+<p>작성하면서 찾아본 모든 글들 모음이다.</p>
+<p>여기에는 적지 않았으나 원래 하고자 했던 목적이, SQL Server -&gt; Kafka -&gt; SQL Server로 거쳐가는 스트리밍 데이터를 중간에서 가공하는 처리가 필요했었기 때문에, Kafka Connector나 Transforms를 직접 만드는 방법에 대한 자료가 다수 포함되어 있다.</p>
+<ul>
+<li>SQL Server CDC
+<ul>
+<li><a href="https://docs.microsoft.com/ko-kr/sql/relational-databases/track-changes/about-change-data-capture-sql-server?view=sql-server-ver15">Microsoft Docs - CDC(변경 데이터 캡처) 정의</a></li>
+<li><a href="https://bryteflow.com/sql-server-change-data-capture-cdc-for-real-time-sql-server-replication/">byteflow - SQL Server Change Data Capture (CDC) for real-time SQL Server Replication</a></li>
+<li><a href="https://solutioncenter.apexsql.com/enable-use-sql-server-change-data-capture/">ApexSQL - How to enable and use SQL Server Change Data Capture</a></li>
+<li><a href="https://www.sqler.com/board_Column/862880">SQLER.COM - Change Data Capture(CDC) - 변경 이력 추적</a></li>
+<li><a href="http://www.databaser.net/moniwiki/wiki.php/RTE%EC%99%80SQLServer%28ChangeDataCapture%26Tracking%29">databaser.com - RTE와 SQL Server (Change Data Capture &amp; Tracking)</a></li>
+</ul>
+</li>
+<li>Kafka
+<ul>
+<li><a href="https://docs.confluent.io/platform/current/kafka/monitoring.html#kafka-monitoring">Monitoring Kafka</a></li>
+</ul>
+</li>
+<li>Kafka Connect
+<ul>
+<li>About Kafka Connect 이론
+<ul>
+<li><a href="https://docs.confluent.io/platform/current/connect/concepts.html">Confluent - Kafka Connect Concepts</a></li>
+<li><a href="https://docs.confluent.io/home/connect/userguide.html#installing-kconnect-plugins">Confluent - How to use Kafka Connect - Getting Started - Installing Connect Plugins</a></li>
+<li><a href="https://docs.confluent.io/platform/current/schema-registry/connect.html">Confluent - Using Kafka Connect with Schema Registry</a></li>
+<li><a href="https://www.confluent.io/blog/kafka-connect-deep-dive-converters-serialization-explained/">Confluent Blog - Kafka Connect Deep Dive - Converters and Serialization Explained</a></li>
+<li><a href="https://www.confluent.io/blog/kafka-connect-deep-dive-error-handling-dead-letter-queues/">Confluent Blog - Kafka Connect Deep Dive - Error Handling and Dead Letter Queues</a></li>
+<li><a href="https://scorpio-mercury.tistory.com/30">꿩 이야기 - Kafka Connect 란?</a></li>
+<li><a href="https://scorpio-mercury.tistory.com/31">꿩 이야기 - Kafka Connect 설정</a></li>
+<li><a href="https://godekdls.github.io/Apache%20Kafka/kafka-connect/">토리맘의 한글라이즈 프로젝트 - Apache Kafka - Kafka Connect</a></li>
+</ul>
+</li>
+<li>About Connectors 이론
+<ul>
+<li><a href="https://docs.confluent.io/platform/current/connect/devguide.html#connect-devguide">Confluent - Connector Developer Guide</a></li>
+<li><a href="https://www.confluent.io/blog/write-a-kafka-connect-connector-with-configuration-handling/">Confluent Blog - How to Write a Connecgor for Kafka Connect - Deep Dive into Configuration Handling</a></li>
+</ul>
+</li>
+<li>About Transforms &amp; Predecates 이론
+<ul>
+<li><a href="https://docs.confluent.io/platform/current/connect/transforms/overview.html">Confluent - Single Message Transforms for Confluent</a></li>
+<li><a href="https://www.confluent.io/blog/kafka-connect-single-message-transformation-tutorial-with-examples/">Confluent Blog - How to Use Single Message Transforms in Kafka Connect</a></li>
+<li><a href="https://docs.confluent.io/platform/current/connect/transforms/filter-ak.html#ak-filter">Confluent - Filter (Apache Kafka)</a></li>
+<li><a href="https://docs.confluent.io/platform/current/connect/transforms/custom.html">Confluent - Custom transformations</a></li>
+</ul>
+</li>
+<li>Kafka Client &amp; Connect API Library (java) - Connector 혹은 Transformation 작성 참고 샘플
+<ul>
+<li><a href="https://github.com/confluentinc/kafka-connect-insert-uuid/blob/master/src/main/java/com/github/cjmatta/kafka/connect/smt/InsertUuid.java">Github - confluent/kafka-connect-insert-uuid 예제 코드</a></li>
+<li><a href="https://github.com/lensesio/kafka-connect-kcql-smt/blob/master/src/main/scala/com/landoop/connect/sql/Transformation.scala">Github - lensesio/kafka-connect-kcql-smt 예제 코드(scala)</a></li>
+<li><a href="https://github.com/lensesio/kafka-connect-transformers/blob/master/src/main/scala/com/datamountaineer/streamreactor/connect/transforms/MapKeyToString.scala">Github - lensesio/kafka-connect-transformers 예제 코드(scala)</a></li>
+<li><a href="https://github.com/jcustenborder/kafka-connect-transform-common">Github - jcustenborder/kafka-connect-transform-common 예제 코드(java)</a></li>
+<li><a href="https://github.com/aiven/transforms-for-apache-kafka-connect">Github - avien/transforms-for-apache-kafka-connect 예제 코드(java)</a></li>
+<li><a href="https://www.javadoc.io/doc/org.apache.kafka/kafka-clients/2.8.1/index.html">kafka-clients 2.8.1 apidoc</a></li>
+<li><a href="https://www.javadoc.io/doc/org.apache.kafka/connect-api/2.8.1/index.html">connect-api 2.8.1 apidoc</a></li>
+<li><a href="https://stackoverflow.com/questions/57604283/write-a-custom-kafka-connect-single-message-transform">Stackoverflow - Write a custom kafka connect single message transform</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Debezium Connector
+<ul>
+<li><a href="https://debezium.io/documentation/reference/1.7/tutorial.html">Debezium - Tutorial</a></li>
+<li><a href="https://debezium.io/documentation/reference/1.7/connectors/sqlserver.html">Debezium - Debezium Connector for SQL Server</a></li>
+<li><a href="https://debezium.io/documentation/reference/1.7/transformations/event-flattening.html">Debezium - New Record State Extraction</a></li>
+<li><a href="https://taes-k.github.io/2021/03/02/dbzium-cdc/">Taes-K DevLog - Debezium CDC를 활용한 DB 변경 로그 시스템 구축</a></li>
+<li><a href="https://mongsil-jeong.tistory.com/40?category=850774">정몽실이 - Debezium 카프카 커넥트 메시지 Transform</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-kafka-connect-seolci" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/211011-sqlserver-kafka-debezium/#kafka-connect-seolci">
+                Kafka Connect 설치
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-sql-servere-cdc-junbi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/211011-sqlserver-kafka-debezium/#sql-servere-cdc-junbi">
+                SQL Server에 CDC 준비
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-connector-deungrog" class="toc is-size-7 "
+                href="https://smpl.kr/posts/211011-sqlserver-kafka-debezium/#connector-deungrog">
+                Connector 등록
+              </a>
+              
+              <ul>
+                
+                <li>
+                  <a id="link-seoljeong-junbi" class="toc is-size-7" href="https://smpl.kr/posts/211011-sqlserver-kafka-debezium/#seoljeong-junbi">
+                    설정 준비
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-connector-deungrog-1" class="toc is-size-7" href="https://smpl.kr/posts/211011-sqlserver-kafka-debezium/#connector-deungrog-1">
+                    Connector 등록
+                  </a>
+                </li>
+                
+              </ul>
+              
+            </li>
+            
+            <li>
+              <a id="link-camgo-jaryo" class="toc is-size-7 "
+                href="https://smpl.kr/posts/211011-sqlserver-kafka-debezium/#camgo-jaryo">
+                참고 자료
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210919-running-standalone-kafka-on-docker&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              Docker 위에 Kafka를 standalone으로 실행하기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;211110-build-so-library-using-jna-on-docker&#x2F;">
+              Docker에서 JNA용 리눅스 동적 라이브러리 빌드하기<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

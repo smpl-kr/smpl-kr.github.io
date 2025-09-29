@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - sqlserver</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/sqlserver/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Tue, 31 Aug 2021 22:40:00 +0900</lastBuildDate>
+      <item>
+          <title>MacOS에 SQL Server 도커 컨테이너 설치하기</title>
+          <pubDate>Sat, 28 Aug 2021 10:25:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/</link>
+          <guid>https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/</guid>
+          <description xml:base="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/">&lt;p&gt;맥북 프로에 SQL Server 인스턴스를 개발 목적으로 설치할 필요성이 생겨서, 도커를 이용해서 설치해보고 방법을 남겨 놓습니다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;macose-sql-server-dokeo-keonteineo-seolcihagi&quot;&gt;MacOS에 SQL Server 도커 컨테이너 설치하기&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;imiji-daunrodeu&quot;&gt;이미지 다운로드&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; pull mcr.microsoft.com&#x2F;mssql&#x2F;server:2019-latest
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;seobeo-silhaeng&quot;&gt;서버 실행&lt;&#x2F;h2&gt;
+&lt;p&gt;실행 시, SA_PASSWORD를 지정해주어야 하는데, 다음 규칙을 만족해야 합니다.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;영어 대문자 포함&lt;&#x2F;li&gt;
+&lt;li&gt;영어 소문자 포함&lt;&#x2F;li&gt;
+&lt;li&gt;숫자 포함&lt;&#x2F;li&gt;
+&lt;li&gt;특수문자 포함&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ACCEPT_EULA=Y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;SA_PASSWORD=비밀번호&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -p&lt;&#x2F;span&gt;&lt;span&gt; 1433:1433&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d&lt;&#x2F;span&gt;&lt;span&gt; mcr.microsoft.com&#x2F;mssql&#x2F;server:2019-latest
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;deiteo-yujihagi&quot;&gt;데이터 유지하기&lt;&#x2F;h2&gt;
+&lt;p&gt;위와 같이 실행한 컨테이너는, 종료하고 나면 작업내용이 유지되지 않는다.&lt;&#x2F;p&gt;
+&lt;p&gt;그러므로, 컨테이너를 이미지로 만들고, 컨테이너 안의 데이터 경로를 컨테이너 밖의 파일시스템과 연결하여 데이터가 유지되도록 해야 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;먼저 이미지로 만드는 방법은 다음과 같다. 훨씬 우아한 방법이 있겠지만, 이제 막 docker를 써보기 시작한 상태여서... ;(&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ACCEPT_EULA=Y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;SA_PASSWORD=비밀번호&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -p&lt;&#x2F;span&gt;&lt;span&gt; 1433:1433&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --name &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp-mssql-server-2019-container&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d&lt;&#x2F;span&gt;&lt;span&gt; mcr.microsoft.com&#x2F;mssql&#x2F;server:2019-latest
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; stop &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp-mssql-server-2019-container&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; commit &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp-mssql-server-2019-container&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;my-mssql-2019&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;이렇게 해두면, 다음부터는 &lt;code&gt;my-mssql-2019&lt;&#x2F;code&gt; 이미지로부터 컨테이너를 실행할 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;여기에, &lt;code&gt;~&#x2F;docker-data&#x2F;mssql&lt;&#x2F;code&gt; 경로를 데이터 경로로 연결시켜 준다. 아래는 최종적인 실행 명령이다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d --rm -p&lt;&#x2F;span&gt;&lt;span&gt; 1433:1433&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;docker-data&#x2F;mssql&#x2F;data:&#x2F;var&#x2F;opt&#x2F;mssql&#x2F;data&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;docker-data&#x2F;mssql&#x2F;log:&#x2F;var&#x2F;opt&#x2F;mssql&#x2F;log&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;docker-data&#x2F;mssql&#x2F;secrets:&#x2F;var&#x2F;opt&#x2F;mssql&#x2F;secrets &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;my-mssql-2019&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;(만약에 windows에서 powershell로 실행하는 경우는, &lt;code&gt;~&#x2F;docker-data&#x2F;mssql&lt;&#x2F;code&gt; 대신, &lt;code&gt;$HOME&#x2F;docker-data&#x2F;mssql&lt;&#x2F;code&gt; 을 지정해주면 된다.)&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;odbc-driver-sqlcmd-seolcihagi&quot;&gt;ODBC driver &amp;amp; SqlCmd 설치하기&lt;&#x2F;h1&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span&gt; tap microsoft&#x2F;mssql-release https:&#x2F;&#x2F;github.com&#x2F;Microsoft&#x2F;homebrew-mssql-release
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span&gt; update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ACCEPT_EULA&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Y &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span&gt; install msodbcsql17 mssql-tools
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;sql-server-management-studio-daeyong&quot;&gt;SQL Server Management Studio 대용&lt;&#x2F;h1&gt;
+&lt;p&gt;SSMS는 아직 MacOS에서 지원되지 않고 있습니다. 대신 오픈소스 GUI 클라이언트들 중에서 하나를 선택해서 이용해야 하며,
+개인적으로는 DBeaver라는 프로그램이 기본적인 작업을 하기에는 괜찮아서 사용하고 있습니다.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;dbeaver.io&#x2F;&quot;&gt;DBeaver&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;references&quot;&gt;References&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;cultivo-hy.github.io&#x2F;docker&#x2F;image&#x2F;usage&#x2F;2019&#x2F;03&#x2F;14&#x2F;Docker%EC%A0%95%EB%A6%AC&#x2F;#%EB%8F%84%EC%BB%A4-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&quot;&gt;HY&#x27;s Farm : [Docker] 개념 정리 및 사용방법까지.&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.microsoft.com&#x2F;ko-kr&#x2F;sql&#x2F;linux&#x2F;sql-server-linux-docker-container-configure?view=sql-server-ver15&amp;amp;pivots=cs1-bash#persist&quot;&gt;Microsoft Docs : SQL Server Docker 컨테이너 구성 및 사용자 지정&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - ssh</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/ssh/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Tue, 31 Aug 2021 15:00:00 +0900</lastBuildDate>
+      <item>
+          <title>Powershell에서 OpenSSH로 리모트 리눅스 서버 접속하기</title>
+          <pubDate>Tue, 31 Aug 2021 15:00:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210831-ssh-on-powerhsell/</link>
+          <guid>https://smpl.kr/posts/210831-ssh-on-powerhsell/</guid>
+          <description xml:base="https://smpl.kr/posts/210831-ssh-on-powerhsell/">&lt;h1 id=&quot;donggi&quot;&gt;동기&lt;&#x2F;h1&gt;
+&lt;p&gt;윈도우에서도 파일탐색기보다 커맨드라인을 주로 이용하다보니, putty나 mremote 같은 툴보다는 커맨드라인에서 ssh로 편하게 접속할 수 있는 방법을 찾아보게 되었다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;powershell-profile&quot;&gt;Powershell Profile&lt;&#x2F;h1&gt;
+&lt;p&gt;powershell에도 bash의 bashrc나, zsh의 zshrc 같은 profile 설정이 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;profile의 위치는, $PROFILE 이라는 환경변수로 접근 가능한데, 다음과 같은 명령으로 Profile을 편집하여 원하는 alias나 함수 추가가 가능하다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;powershell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-powershell &quot;&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span&gt;nvim $profile
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;powershell-profile-jagseong&quot;&gt;Powershell Profile 작성&lt;&#x2F;h1&gt;
+&lt;p&gt;기본적인 파워쉘 사용 방법이나, ssh 관련 설명은 References 섹션을 참고한다.&lt;&#x2F;p&gt;
+&lt;p&gt;아래는 connect-ssh 라는 함수로 원하는 서버에 접속하는 profile 내용 예시이다. cp-ssh라는 함수는, 특정 파일을 서버의 홈 폴더에 전송해주는 기능을 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;powershell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-powershell &quot;&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;@&lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;testserver1 &lt;&#x2F;span&gt;&lt;span&gt;= &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;127.0.0.1&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;testserver2 &lt;&#x2F;span&gt;&lt;span&gt;= &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;127.0.0.2&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;function &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;connect-ssh&lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip.ContainsKey&lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;)) {
+&lt;&#x2F;span&gt;&lt;span&gt;        $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip &lt;&#x2F;span&gt;&lt;span&gt;= $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip&lt;&#x2F;span&gt;&lt;span&gt;[$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;        echo &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Connecting &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; ...&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ssh -i ~&#x2F;.ssh&#x2F;the-keypair.pem smpl@$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        echo &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;No such server name. Please check below full server list.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;function &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;cp-to-ssh&lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;filename&lt;&#x2F;span&gt;&lt;span&gt;, $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip.ContainsKey&lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;)) {
+&lt;&#x2F;span&gt;&lt;span&gt;        $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip &lt;&#x2F;span&gt;&lt;span&gt;= $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip&lt;&#x2F;span&gt;&lt;span&gt;[$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;        echo &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Trying to copy &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;filename&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; to ~&#x2F; in &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; ...&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        scp $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;filename&lt;&#x2F;span&gt;&lt;span&gt; smpl@$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;{ip}&lt;&#x2F;span&gt;&lt;span&gt;:~&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        echo &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;No such server name. Please check below full server list.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;function &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;cp-from-ssh&lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;filename&lt;&#x2F;span&gt;&lt;span&gt;, $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip.ContainsKey&lt;&#x2F;span&gt;&lt;span&gt;($&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;)) {
+&lt;&#x2F;span&gt;&lt;span&gt;        $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip &lt;&#x2F;span&gt;&lt;span&gt;= $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip&lt;&#x2F;span&gt;&lt;span&gt;[$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;        echo &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Trying to copy &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;filename&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; from &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;servername&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ip&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; ...&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        scp smpl@$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;{ip}&lt;&#x2F;span&gt;&lt;span&gt;:$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;{filename}&lt;&#x2F;span&gt;&lt;span&gt; .&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        echo &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;No such server name. Please check below full server list.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        echo $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;serverip
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;connect-ssh의 사용 방법은, 다음과 같이 쓰면 된다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;powershell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-powershell &quot;&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;connect-ssh&lt;&#x2F;span&gt;&lt;span&gt; testserver1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;cp-to-ssh의 사용 방법은, 다음과 같이 쓰면 된다. 각각 파일 하나와 여러개를 복사하는 예시이다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;powershell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-powershell &quot;&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span&gt;cp-to-ssh .\file1.txt testserver1
+&lt;&#x2F;span&gt;&lt;span&gt;cp-to-ssh &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;@&lt;&#x2F;span&gt;&lt;span&gt;(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.\file1.txt&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;, &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.\file2.txt&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;, &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.\sub\subfile.txt&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) testserver1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;cp-from-ssh도 거의 동일하다. 단, cp-from-ssh는 1개의 파일을 복사해오는 것만 지원한다. 그리고, 파일의 경로가 로컬이 아니므로, 따옴표로 잘 감싸주어야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;powershell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-powershell &quot;&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span&gt;cp-from-ssh &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;~&#x2F;.config&#x2F;nvim&#x2F;init.nvim&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; testserver1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;references&quot;&gt;References&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;12143245&#x2F;powershell-configuration-with-an-rc-like-file&#x2F;12143436&quot;&gt;Stackoverflow : PowerShell configuration with an rc-like file&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.microsoft.com&#x2F;ko-kr&#x2F;powershell&#x2F;module&#x2F;microsoft.powershell.core&#x2F;about&#x2F;about_functions?view=powershell-7.1&quot;&gt;Microsoft Docs : 함수 정보 - Powershell&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.microsoft.com&#x2F;ko-kr&#x2F;powershell&#x2F;scripting&#x2F;learn&#x2F;deep-dives&#x2F;everything-about-hashtable?view=powershell-7.1&quot;&gt;Microsoft Docs : 해시테이블에 대해 알고 싶은 모든 것 - Powershell&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.microsoft.com&#x2F;ko-kr&#x2F;powershell&#x2F;scripting&#x2F;learn&#x2F;deep-dives&#x2F;everything-about-arrays?view=powershell-7.1&quot;&gt;Microsoft Docs : 배열에 대해 알고 싶은 모든 것 - Powershell&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

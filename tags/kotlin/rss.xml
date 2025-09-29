@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - kotlin</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/kotlin/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Sat, 02 Nov 2024 03:50:00 +0900</lastBuildDate>
+      <item>
+          <title>아토믹 코틀린 3부 사용성</title>
+          <pubDate>Sun, 04 Feb 2024 15:30:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/240204-atomic-kotlin-ch3/</link>
+          <guid>https://smpl.kr/posts/240204-atomic-kotlin-ch3/</guid>
+          <description xml:base="https://smpl.kr/posts/240204-atomic-kotlin-ch3/">&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;aladin.kr&#x2F;p&#x2F;bzcyt&quot;&gt;아토믹 코틀린&lt;&#x2F;a&gt; 책의 3부 사용성 챕터를 읽고, 읽은 내용을 정리해봅니다. 공부하면서 개인적으로 다른 언어와 달랐던 점, 인상깊었던 점 혹은 기억해야할 점들만 적었습니다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hwagjang-hamsu&quot;&gt;확장 함수&lt;&#x2F;h2&gt;
+&lt;p&gt;확장함수(Extension Function)은 수신 객체 타입(Receiver Type)에 멤버함수를 추가하는 효과를 준다. 확장 함수는 수신 객체의 public 원소에만 접근할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 형식
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; 수신타입.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;확장함수&lt;&#x2F;span&gt;&lt;span&gt;() { ... }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; ex
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; String.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;singleQuote&lt;&#x2F;span&gt;&lt;span&gt;() = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$this&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 다른 패키지에서 사용하려면 임포트해야한다.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; mystringext.singleQuote
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Single&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.singleQuote() &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; &amp;#39;Single&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;ireum-buteun-injawa-dipolteu-inja&quot;&gt;이름 붙은 인자와 디폴트 인자&lt;&#x2F;h2&gt;
+&lt;p&gt;함수를 호출하면서 인자의 이름을 지정할 수 있는데, 가독성에 도움이 된다. 이름붙은 인자와 일반인자(위치기반)를 섞어 쓸 수 있는데, 만일 이름붙은 인자를 이용해 순서를 바꿨다면, 인자 목록의 나머지 부분에서도 인자에 이름을 붙여야 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;디폴트 인자와도 결합하면 더 유용하다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Color&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;red: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;green: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;blue: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;override fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;toString&lt;&#x2F;span&gt;&lt;span&gt;() = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$red&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$green&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$blue&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;주의 필요한 것이, 객체 인스턴스를 디폴트 인자로 전달하는 경우 함수를 호출할 때마다 같은 인스턴스가 반복해서 전달된다. 디폴트 인자로 함수 호출이나 생성자 호출 등을 사용하는 경우는 함수를 호출할 때마다 디폴트 인자로 전달된 함수나 생성자가 호출되어 새 인스턴스가 전달된다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;DefaultArg
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;default = DefaultArg()
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;f1&lt;&#x2F;span&gt;&lt;span&gt;(d: DefaultArg = default) = println(d) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 매번 같은 인스턴스
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;f2&lt;&#x2F;span&gt;&lt;span&gt;(d: DefaultArg = default) = println(d) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 매번 같은 인스턴스, f1과도 같은 인스턴스
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;f3&lt;&#x2F;span&gt;&lt;span&gt;(d: DefaultArg = DefaultArg()) = println(d) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 매번 새로운 인스턴스 생성
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;obeoroding&quot;&gt;오버로딩&lt;&#x2F;h2&gt;
+&lt;p&gt;함수의 시그니처는 함수 이름, 파라미터 목록, 반환 타입으로 이루어지는데, 다만 반환 타입은 오버로딩의 대상이 아니다. 함수 시그니처는 함수를 둘러싸고 있는 클래스(확장함수의 경우 수신 객체 타입)도 포함한다.&lt;&#x2F;p&gt;
+&lt;p&gt;동일한 시그니처를 갖는 멤버 함수와 확장 함수가 있을 경우, 멤버 함수는 확장 함수를 가린다. (확장 함수는 불릴 수 없다.) 대신 동일한 이름으로 오버로딩을 해서 확장함수를 만들면 가능하다.&lt;&#x2F;p&gt;
+&lt;p&gt;함수 오버로딩과 디폴트 인자를 함께 사용하는 경우, 오버로딩한 함수를 호출하면 시그니처와 함수 호출이 &#x27;가장 가깝게&#x27; 일치하는 함수를 호출한다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;when-sig&quot;&gt;when 식&lt;&#x2F;h2&gt;
+&lt;p&gt;when 식을 계산할 때는 비교 대상 값과 각 매치의 화살표 왼쪽 값을 순서대로 비교한다. when은 가능한 모든 경우를 처리해야 하므로, 가능한 모든 경우를 처리하기 위해 else 가지를 추가해야 할 수도 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;ten = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;ordinal&lt;&#x2F;span&gt;&lt;span&gt;(i: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= 
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;when&lt;&#x2F;span&gt;&lt;span&gt; (i)  {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;two&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;three&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;four or five&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 여러 값 나열 가능
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;            println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;7 -&amp;gt; {} &#x2F;&#x2F; 아무 일도 하지 않음
+&lt;&#x2F;span&gt;&lt;span&gt;        ten -&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ten&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 꼭 상수가 아니어도 된다.
+&lt;&#x2F;span&gt;&lt;span&gt;        -&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;minus one&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 바로 함수를 리턴하는 것도 가능
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Set과 Set을 매치시킬 수 있음
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;mixColor&lt;&#x2F;span&gt;&lt;span&gt;(first: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;, second: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;) =
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;when&lt;&#x2F;span&gt;&lt;span&gt; (setOf(first, second)) {
+&lt;&#x2F;span&gt;&lt;span&gt;        setOf(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;red&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;blue&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) -&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;purple&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        setOf(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;red&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;yellow&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) -&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;orange&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        setOf(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;blue&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;yellow&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) -&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;green&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;unknown&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 인자가 없는 when은 화살표 왼쪽의 Boolean 식을 순서대로 검사한다.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;when&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    a &amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;100&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    a &amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;200 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;200&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;=200&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;ineom&quot;&gt;이넘&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;enum class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Severity&lt;&#x2F;span&gt;&lt;span&gt; { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; enum은 자동으로 toString()이 생성된다.
+&lt;&#x2F;span&gt;&lt;span&gt;    Debug, Info, Warn, Error
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 같은 패키지
+&lt;&#x2F;span&gt;&lt;span&gt;Severity.Debug &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 한정 필요
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; myenums.Severity.* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 이넘 값을 모두 현재 네임스페이스로 임포트해옴. 같은 패키지 내에서도 가능하며, 이넘이 선언되기 앞쪽에서도 가능하다.
+&lt;&#x2F;span&gt;&lt;span&gt;Debug &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 이제 한정 불필요
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Severity.values() &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 이넘의 값을 이터레이션 가능. Array를 반환.
+&lt;&#x2F;span&gt;&lt;span&gt;Debug.ordinal &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 0. 이넘의 첫 값부터 0에서 1씩 순차증가하는 ordinal 값이 매겨진다.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;이넘은 인스턴스 개수가 정해져 있고 클래스 본문 안에 모든 인스턴스가 나열되어 있는 특별한 종류의 클래스이다. 이 점을 제외하면 멤버함수나 멤버프로퍼티를 정의할 수 있는 등, 일반 클래스와 똑같이 동작한다. 다만, 마지막 이넘 값 다음에 세미콜론을 추가한 후 정의를 포함해야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;enum class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Color&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;red: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;green: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;blue: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    Red(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;), Green(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;), Blue(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;), 
+&lt;&#x2F;span&gt;&lt;span&gt;    Cyan(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;), Magenta(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;), Yellow(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;),
+&lt;&#x2F;span&gt;&lt;span&gt;    White(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;255&lt;&#x2F;span&gt;&lt;span&gt;), Black(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;complementary: Color
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;when&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;this&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;            Red -&amp;gt; Cyan
+&lt;&#x2F;span&gt;&lt;span&gt;            Green -&amp;gt; Magenta
+&lt;&#x2F;span&gt;&lt;span&gt;            Blue -&amp;gt; Yellow
+&lt;&#x2F;span&gt;&lt;span&gt;            White -&amp;gt; Black
+&lt;&#x2F;span&gt;&lt;span&gt;            Cyan -&amp;gt; Red
+&lt;&#x2F;span&gt;&lt;span&gt;            Magenta -&amp;gt; Green
+&lt;&#x2F;span&gt;&lt;span&gt;            Yellow -&amp;gt; Blue
+&lt;&#x2F;span&gt;&lt;span&gt;            Black -&amp;gt; White
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gujo-bunhae-seoneon&quot;&gt;구조 분해 선언&lt;&#x2F;h2&gt;
+&lt;p&gt;구조분해(destructuring) 선언을 하면 여러 식별자를 동시에 선언하면서 초기화할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;abs&lt;&#x2F;span&gt;&lt;span&gt;(input: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;): Pair&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; = 
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (input &amp;gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        Pair(input, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;positive&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;        Pair(-input, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;negative&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; (a, b) = abs(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;res = abs(-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; (c, d) = (res.first, res.second)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 데이터 클래스는 자동으로 구조 분해 선언을 지원한다.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Color&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;red: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;, 
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;green: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;blue: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;name: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;black = Color(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;black&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; (r, g, b, name) = black
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; (_, _, _, colorName) = black &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; _를 이용해 name만 얻을 수도 있고
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; (cr, cg, cb) = black &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 뒷쪽의 변수를 생략해서 name을 이렇게 생략할 수도 있다.
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; map이나 list of pair 혹은 list를 인덱스와 함께 이터레이션하면서 구조분해를 할 수도 있다.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; ((key, value) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; someMap) { ... }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; ((first, second) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; listOfPairs) { ... }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; ((index, value) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; list.withIndex()) { ... }
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;neoli-doel-su-issneun-taib&quot;&gt;널이 될 수 있는 타입&lt;&#x2F;h2&gt;
+&lt;p&gt;코틀린에서 모든 타입은 기본적으로 널이 될 수 없는 타입이지만, ?를 붙여서 널이 될 수도 있음을 표시할 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;?를 붙인 타입은 원본 타입과 다른 타입이다. 예를 들어 String과 String?는 서로 다른 타입이다.&lt;&#x2F;p&gt;
+&lt;p&gt;nullable 타입은 단순히 dereference할 수 없다. 코틀린은 명시적으로 null인지 검사를 하고 나야 객체를 참조할 수 있도록 허락해준다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;s: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;? = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;abc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (s != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;null&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(s.length)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;anjeonhan-hoculgwa-elbiseu-yeonsanja&quot;&gt;안전한 호출과 엘비스 연산자&lt;&#x2F;h2&gt;
+&lt;p&gt;안전한 호출(safe call)은 nullable type의 멤버에 접근하는 안전한 방법을 제공하며, 객체가 null이 아닐 때만 멤버에 접근하도록 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;엘비스(elvis) 연산자는 객체가 null이면 오른쪽 식의 값을 준다. null coalescing operator라고도 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;s1: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;? = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;1234&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;println(s1?.length) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; safe call. 길이
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;s2: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;? = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;null
+&lt;&#x2F;span&gt;&lt;span&gt;println(s2?.length) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; null
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;println(s1 ?: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(null)&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; elvis operator. 1234
+&lt;&#x2F;span&gt;&lt;span&gt;println(s2 ?: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(null)&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; (null)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Node&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;name: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;next: Node? = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;null
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;head = Node(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;head&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;head.next?.next?.name &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 연쇄적으로도 호출할 수 있다.
+&lt;&#x2F;span&gt;&lt;span&gt;head.next?.next?.name ?: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;next??&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 엘비스 연산자까지 결합 가능.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;neol-anim-daneon&quot;&gt;널 아님 단언&lt;&#x2F;h2&gt;
+&lt;p&gt;널 아님 단언(non-null assertion)은 객체가  null인 경우 NullPointerException을 던지게 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;s: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;abc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;s!!.length
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;널 아님 단언 대신 안전한 호출이나 명시적인 null 검사를 활용하는 것이 좀더 권장된다. 널 아님 단언은 자바와의 상호 작용을 위해 도입된 것이다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hwagjang-hamsuwa-neoli-doel-su-issneun-taib&quot;&gt;확장 함수와 널이 될 수 있는 타입&lt;&#x2F;h2&gt;
+&lt;p&gt;String의 확장함수들&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;isNullOrEmpty&lt;&#x2F;li&gt;
+&lt;li&gt;isNullOrBlank&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; nullable 타입에 확장 함수 구현
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; String?.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;isNullOrEmpty&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Boolean &lt;&#x2F;span&gt;&lt;span&gt;=
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;this &lt;&#x2F;span&gt;&lt;span&gt;== &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;null &lt;&#x2F;span&gt;&lt;span&gt;|| isEmpty()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;널이 될 수 있는 타입에 확장함수를 구현하는 것보다는, 널이 될 수 없는 타입에 구현하는 것이 낫다. 안전한 호출과 명시적인 검사는 수신 객체의 널 가능성을 더 명백히 드러내는 반면, 널이 될 수 있는 타입의 확장함수는 널 간으성을 감추고 코드를 읽는 독자를 혼란스럽게 할 수 있다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;jenerigseu-sogae&quot;&gt;제네릭스 소개&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;GenericHolder&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;( &#x2F;&#x2F; T는 generic place holder라 부름.
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private val &lt;&#x2F;span&gt;&lt;span&gt;value: T
+&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;getValue&lt;&#x2F;span&gt;&lt;span&gt;(): T = value
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;genericHolder = GenericHolder(Dog())
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;dog = genericHolder.getValue()
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 각 타입 간에 공통점이 없으면 Any를 고려해봐도...
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;AnyHolder&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private val &lt;&#x2F;span&gt;&lt;span&gt;value: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Any&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;getValue&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Any &lt;&#x2F;span&gt;&lt;span&gt;= value
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 제네릭 함수
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; &amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;identity&lt;&#x2F;span&gt;&lt;span&gt;(arg: T): T = arg
+&lt;&#x2F;span&gt;&lt;span&gt;identity(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;yellow&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;identity(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 제네릭 확장 함수
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; &amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; List&amp;lt;T&amp;gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;first&lt;&#x2F;span&gt;&lt;span&gt;(): T {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (isEmpty())
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;throw&lt;&#x2F;span&gt;&lt;span&gt; NoSuchElementException(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Empty List&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;this&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;hwagjang-peuropeoti&quot;&gt;확장 프로퍼티&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 확장 프로퍼티 형식
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; ReceiverType.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;extensionFunction&lt;&#x2F;span&gt;&lt;span&gt;() { ... }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; ReceiverType.extensionProperty(): PropType
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() { ... }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 예시
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; String.indices: IntRange
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt; until length
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 제네릭 확장 프로퍼티
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val&lt;&#x2F;span&gt;&lt;span&gt; &amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; List&amp;lt;T&amp;gt;.firstOrNull: T?
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (isEmpty()) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;null &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;this&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; star projection
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;List&amp;lt;*&amp;gt;.indices: IntRange
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt; until size
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;파라미터가 없는 확장 함수는 항상 확장 프로퍼티로 변환 가능성이 있지만, 먼저 그래도 생각해보는 것이 좋다. 기능이 단순하고 가독성을 향상시키는 경우에만 프로퍼티를 권한다.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;kotlinlang.org&#x2F;docs&#x2F;coding-conventions.html&quot;&gt;코틀린 스타일 가이드&lt;&#x2F;a&gt;는 함수가 예외를 던질 경우 프로퍼티보다는 함수를 사용하는 것을 권장한다.&lt;&#x2F;p&gt;
+&lt;p&gt;제네릭 인자 타입을 사용하지 않으면 &lt;em&gt;로 대체할 수 있다. 이를 스타 프로젝션(star projection)이라고 한다. List&amp;lt;&lt;&#x2F;em&gt;&amp;gt;를 사용하면 List에 담긴 원소의 타입정보는 모두 잃어버리고, 원소를 얻었을 때는 Any?에만 대입할 수 있다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;breakwa-continue&quot;&gt;break와 continue&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 레이블 용법
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;strings = mutableListOf&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;outer@ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (c &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;..&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (i == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;continue&lt;&#x2F;span&gt;&lt;span&gt;@outer
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$c$i&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; == &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;c3&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;) break@outer
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;        strings.add(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;$c$i)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;break나 continue 대신 이터레이션 조건을 명시적으로 작성하는 것이 더 좋은 해법이다.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>아토믹 코틀린 2부 객체 소개</title>
+          <pubDate>Sat, 03 Feb 2024 16:00:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/240203-atomic-kotlin-ch2/</link>
+          <guid>https://smpl.kr/posts/240203-atomic-kotlin-ch2/</guid>
+          <description xml:base="https://smpl.kr/posts/240203-atomic-kotlin-ch2/">&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;aladin.kr&#x2F;p&#x2F;bzcyt&quot;&gt;아토믹 코틀린&lt;&#x2F;a&gt; 책의 2부 객체 소개 챕터를 읽고, 읽은 내용을 정리해봅니다.
+공부하면서 개인적으로 다른 언어와 달랐던 점, 인상깊었던 점 혹은 기억해야할 점들만 적었습니다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gaegceneun-modeun-gose-jonjaehanda&quot;&gt;객체는 모든 곳에 존재한다&lt;&#x2F;h2&gt;
+&lt;p&gt;모르는 함수나 클래스는 &lt;a href=&quot;https:&#x2F;&#x2F;kotlinlang.org&#x2F;api&#x2F;latest&#x2F;jvm&#x2F;stdlib&#x2F;&quot;&gt;코틀린 표준 라이브러리 문서&lt;&#x2F;a&gt;를 찾아본다.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;play.kotlinlang.org&#x2F;&quot;&gt;코틀린 플레이그라운드&lt;&#x2F;a&gt;는 언어나 라이브러리 사용법을 익히기에 유용하다. 자동완성 추천도 해준다.&lt;&#x2F;p&gt;
+&lt;p&gt;IntRange도 객체이다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;a = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
+&lt;&#x2F;span&gt;&lt;span&gt;println(a.sum())
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;r = IntRange(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;println(r.sum())
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;s = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;AbCd&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;println(s.reversed())
+&lt;&#x2F;span&gt;&lt;span&gt;println()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;멤버 함수 중에는 타입을 변환하는 함수도 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;123&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.toInt()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;123.&lt;&#x2F;span&gt;&lt;span&gt;toString()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;123.&lt;&#x2F;span&gt;&lt;span&gt;toLong()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;keulraeseu-mandeulgi&quot;&gt;클래스 만들기&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 클래스 한줄 정의
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Bear
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Cat&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;meow&lt;&#x2F;span&gt;&lt;span&gt;() = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mrrrow!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;exercise&lt;&#x2F;span&gt;&lt;span&gt;() = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;this&lt;&#x2F;span&gt;&lt;span&gt;.meow() + &amp;quot; &amp;quot; + meow() + &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; Cat is running on wheel&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 객체 생성
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;b = Bear()
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 객체 인스턴스 식별자(?) 찍기
+&lt;&#x2F;span&gt;&lt;span&gt;    println(b) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Bear@74a1...
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;c = Cat()
+&lt;&#x2F;span&gt;&lt;span&gt;    println(c.meow())
+&lt;&#x2F;span&gt;&lt;span&gt;    println(c.exercise())
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;peuropeoti&quot;&gt;프로퍼티&lt;&#x2F;h2&gt;
+&lt;p&gt;프로퍼티를 정의함으로써 클래스 안에서 상태를 유지한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Cup&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;percent = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;max = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span&gt;(increase: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;        percent += increase
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (percent &amp;gt; max) {
+&lt;&#x2F;span&gt;&lt;span&gt;            percent = max
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; percent
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;c1 = Cup()
+&lt;&#x2F;span&gt;&lt;span&gt;    c1.percent = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;50
+&lt;&#x2F;span&gt;&lt;span&gt;    c1.percent = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;70
+&lt;&#x2F;span&gt;&lt;span&gt;    c1.add(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;20&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(c1.percent)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;클래스나 스코프 밖에 최상위 프로퍼티(전역변수)를 정의할 수 있으나, val은 괜찮지만 var를 최상위 프로퍼티로 선언하는 것은 안티패턴으로 간주된다.
+프로그램이 복잡해질 수록 공유된 가변 상태에 대해 제대로 추론하기가 어려워지기 때문이다.&lt;&#x2F;p&gt;
+&lt;p&gt;var와 val은 그 변수가 가리키는 값(참조)을 변경하는 것을 방지하는 것으로, 값 자체의 내부를 바꾸는 것은 방지할 수 없다.
+var와 val이 객체가 아니라 참조를 제한한다는 점. 객체의 가변성 개념은 객체의 내부 상태를 바꿀 수 있는가 기준으로 이야기한다.
+예를 들어 아래에서 Mouse는 가변객체, Keyboard는 불변객체이다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Keyboard&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;brand: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Happy hacking!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Mouse&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;brand: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Logitech&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;kbd = Keyboard()
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; kbd.brand = &amp;quot;FC750R&amp;quot;     &#x2F;&#x2F; error!
+&lt;&#x2F;span&gt;&lt;span&gt;    kbd = Keyboard()            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; change with new instance
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;mse = Mouse()
+&lt;&#x2F;span&gt;&lt;span&gt;    mse.brand = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Microsoft&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;     &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; ok.
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; mse = Mouse()            &#x2F;&#x2F; error!
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;saengseongja&quot;&gt;생성자&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Alien&lt;&#x2F;span&gt;&lt;span&gt;(shape: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;greeting = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello ugly &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$shape&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; shaped alien!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;MutableAlien1&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;shape: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;) { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 생성자를 바로 멤버 변수 - 프로퍼티로
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;greeting1 = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello ugly &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; shaped alien!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;greeting2 = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello handsome &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; shaped alien!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 복잡한 생성자 컨벤션 참고..
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;UnspecifiedAlien&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;name: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;eyes: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;heads: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;hands: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;legs: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;tails: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int
+&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;hasTails&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Boolean &lt;&#x2F;span&gt;&lt;span&gt;= tails &amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 기본 toString() 을 명시적으로 override 하겠다.
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; override를 명시함으로써 코드의 의도를 더 명확히 할 수 있고,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 의도하지 않게 같은 이름의 함수를 정의하는 등의 실수를 줄일 수 있다.
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 여기서는 override를 명시하지 않으면 컴파일 시 에러가 난다.
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;override fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;toString&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Alien with &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$eyes&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; eyes, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$heads&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; heads, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$hands&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; hands, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$legs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; legs and &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$tails&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; tails is named as &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$name&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;a = Alien(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;human&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(a.greeting)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; a.shape = &amp;quot;animal&amp;quot; &#x2F;&#x2F; error!
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;m = MutableAlien(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;rectangle&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(m.greeting1)
+&lt;&#x2F;span&gt;&lt;span&gt;    m.shape = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;octopus&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;    println(m.greeting1) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; result not changed
+&lt;&#x2F;span&gt;&lt;span&gt;    println(m.greeting2) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; result not changed
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;gasiseong-jehanhagi&quot;&gt;가시성 제한하기&lt;&#x2F;h2&gt;
+&lt;p&gt;가시성을 제한하는 것은 리팩터링 시 라이브러리를 만든 사람이 자신이 변경한 내용이 클라이언트의 코드에 영향을 끼치지 않는다는 확신을 바탕으로 라이브러리를 자유롭게 수정하고 개선할 수 있게 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;소프트웨어를 설계할 때 가장 우선적으로 고려해야 하는 내용은 다음과 같다. &lt;code&gt;변화해야 하는 요소와 동일하게 유지해야하는 요소를 분리한다.&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;다음과 같은 접근 변경자들이 있다.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;public : 붙이지 않으면 public이다. 클라이언트 코드에 직접적으로 영향을 끼친다.&lt;&#x2F;li&gt;
+&lt;li&gt;internal : 모듈 안에서만 접근할 수 있다. 하나의 모듈은 여러개의 package로 구성된다.&lt;&#x2F;li&gt;
+&lt;li&gt;private : 같은 클래스에 속한 멤버들만이 접근할 수 있다.
+&lt;ul&gt;
+&lt;li&gt;private가 붙은 클래스, 최상위 프로퍼티, 최상위 함수는 같은 파일 내부에서만 접근이 가능하다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;참고. 클래스 내부에 있는 참조를 private로 정의한다고 해도, 그 참조가 가리키는 객체가 외부에서 주입된 것이라면 그 객체를 가리키는 public 참조가 없다고 보장할 수 없다.
+이렇게 한 객체에 대한 참조를 여러개 유지하는 것을 Aliasing 이라고 한다. 이로 인해 놀랄 만한 동작을 수행할 수도 있다.(좋은 의미인지 나쁜 의미인지 모르겠다.)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Counter&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;start: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;inc&lt;&#x2F;span&gt;&lt;span&gt;() { start += &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;override fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;toString&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= start.toString()
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;CounterHolder&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private val &lt;&#x2F;span&gt;&lt;span&gt;counter: Counter) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;override fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;toString&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;CounterHolder: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; + counter
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;c = Counter(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    c.inc()
+&lt;&#x2F;span&gt;&lt;span&gt;    println(c)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;ch = CounterHolder(c)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(ch)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    c.inc()
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    println(ch)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;paekiji&quot;&gt;패키지&lt;&#x2F;h2&gt;
+&lt;p&gt;package 선언법. 파일에서 주석이 아닌 코드의 가장 앞에 와야 한다. package name은 소문자여야 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;코틀린에서는  파일 이름이나 패키지 이름을 아무 것이나 쓸 수 있다. 그러나 &lt;a href=&quot;https:&#x2F;&#x2F;kotlinlang.org&#x2F;docs&#x2F;coding-conventions.html#directory-structure&quot;&gt;패키지 이름과 패키지 파일이 들어있는 디렉토리의 경로를 똑같이 하는게 좋은 관례로 여겨진다.&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;다른 파일에 정의된 이름과의 충돌을 막기 위해, main 함수가 들어있는 파일이 아닌 모든 파일에는 각자 package 문을 사용하는 것이 좋다. main 함수가 있는 파일은 보통 package 문을 사용하지 않는다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;package &lt;&#x2F;span&gt;&lt;span&gt;animals
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Cat&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;meow&lt;&#x2F;span&gt;&lt;span&gt;() { println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;meow!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; import 사용법 
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; import packagename.ClassName
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; import packagename.functionName
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; import packagename.propertyName
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; kotlin.math.E
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; kotlin.math.sin
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; kotlin.math.PI &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;as&lt;&#x2F;span&gt;&lt;span&gt; circleRatio
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; kotlin.math.cos &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;as&lt;&#x2F;span&gt;&lt;span&gt; cosine
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; kotlin.concurrent.*
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import&lt;&#x2F;span&gt;&lt;span&gt; animals.Cat
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    println(E)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(kotlin.math.E)
+&lt;&#x2F;span&gt;&lt;span&gt;    println(circleRatio)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    println(sin(circleRatio))
+&lt;&#x2F;span&gt;&lt;span&gt;    println(cosine(circleRatio * &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;c = Cat()
+&lt;&#x2F;span&gt;&lt;span&gt;    c.meow()
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;teseuteu&quot;&gt;테스트&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;JUnit : 자바에서 가장 널리 쓰이는 테스트 프레임워크이며, 코틀린에서도 유용하게 쓸 수 있다.&lt;&#x2F;li&gt;
+&lt;li&gt;Kotest : 코틀린 전용으로 언어의 여러 기능을 살려서 작성되었다.&lt;&#x2F;li&gt;
+&lt;li&gt;Spek : 명세 테스트(specification test)라는 다른 형태의 테스트를 제공한다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;테스트 주도 개발의 이득에 대한 설명.
+&#x27;이 결과를 어떻게 테스트하지?&#x27;라고 스스로에게 질문을 던지게 되면, 테스트 외의 다른 이유가 없더라도 함수가 무언가를 반환하게 만들게 되며,
+입력을 받아서 출력을 만들어내고 다른 부수효과를 하지 않는 함수를 만들게 되며 설계와 테스트가 함께 나아지게 된다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;yeoe&quot;&gt;예외&lt;&#x2F;h2&gt;
+&lt;p&gt;저자는 &#x27;exception&#x27;은 &#x27;I Take exception to that(나는 그에 반대한다)&#x27;이라는 문장에 있는 exception과 같은 뜻으로 사용된다고 설명한다.
+프로그램이 진행되는 과정에서 비정상이라고 가정한, 일반적인 정상경로를 벗어나는 상황이 발생할 경우, 프로그래머가 반대하는 상황이 발생했다는 의미라고 해석..&lt;&#x2F;p&gt;
+&lt;p&gt;일반적인 문제와 예외적인 문제를 구분하는 것이 중요.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;일반적인 문제 : 그 문제를 처리하기에 충분한 정보가 현재 맥락에 존재하는 경우.&lt;&#x2F;li&gt;
+&lt;li&gt;예외 상황 : 이 상황에서는 현재 맥락에서 처리를 계속 해나갈 수 없고, 현재 상황을 벗어나기 위해 문제를 바깥쪽 맥락으로 던지는 것 뿐이다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;예외를 잡아내지 않으면 스택 트레이스가 출력된다.&lt;&#x2F;p&gt;
+&lt;p&gt;이 부분은 atomictest를 이용해 설명하고 있기 때문에, 차라리 &lt;a href=&quot;https:&#x2F;&#x2F;kotlinlang.org&#x2F;docs&#x2F;exceptions.html&quot;&gt;공식 문서의 예외 설명&lt;&#x2F;a&gt;을 읽는 것이 나은 것 같다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;try&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;throw&lt;&#x2F;span&gt;&lt;span&gt; Exception(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hi, there! There is a little problem.&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;catch&lt;&#x2F;span&gt;&lt;span&gt; (e: SomeException) {
+&lt;&#x2F;span&gt;&lt;span&gt;    handler
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;finally&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; optional finally block
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;try는 expression이다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;a: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;try&lt;&#x2F;span&gt;&lt;span&gt; { input.toInt() } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;catch&lt;&#x2F;span&gt;&lt;span&gt; (e: NumberFormatException) { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt; }
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;코틀린은 자바의 Checked exception을 사용하지 않는다. 대신 라이브러리 사용자에게 경고를 하고 싶다면, &lt;code&gt;@Throws&lt;&#x2F;code&gt; annotation을 사용할 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;throw expression은 Nothing 타입을 갖는다. 이 타입은 값을 갖고 있지 않으며 해당 코드 지점에 절대 도달하지 않을 것임을 마킹하며, 동시에 해당 함수가 리턴되지 않을 것임을 의미한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fail&lt;&#x2F;span&gt;&lt;span&gt;(message: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nothing&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;throw&lt;&#x2F;span&gt;&lt;span&gt; IllegalArguementException(message)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;kotlinlang.org&#x2F;api&#x2F;latest&#x2F;jvm&#x2F;stdlib&#x2F;kotlin&#x2F;-exception&#x2F;&quot;&gt;표준 라이브러리 Exception 항목으로부터 상속 구조를 따라가며 표준 라이브러리 안의 Exception 클래스들을 둘러볼 수 있다.&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;riseuteu&quot;&gt;리스트&lt;&#x2F;h2&gt;
+&lt;p&gt;List는 표준 코틀린 패키지에 들어 있기 때문에 import를 할 필요가 없다. &lt;code&gt;listOf&lt;&#x2F;code&gt; 라는 표준 라이브러리 함수로 초기화와 함께 리스트를 만들 수 있다. 인덱스는 0부터 시작한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;ints = listOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; ints) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(i)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;println(ints[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;])
+&lt;&#x2F;span&gt;&lt;span&gt;println(ints[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;]) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; ArrayIndexOutOfBoundException
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;List의 멤버 함수들 중 sorted, reversed와 같은 함수들은 결과로 새로운 List를 돌려줌. 이와는 달리 원본 List를 바로 수정하는 경우는 in place라고 부른다.&lt;&#x2F;p&gt;
+&lt;p&gt;타입 파라미터 &lt;code&gt;&amp;lt;&amp;gt;&lt;&#x2F;code&gt;. 예) &lt;code&gt;List&amp;lt;Int&amp;gt;&lt;&#x2F;code&gt;, &lt;code&gt;List&amp;lt;String&amp;gt;&lt;&#x2F;code&gt;, ...&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;mutableListOf&lt;&#x2F;code&gt; 는 MutableList를 돌려준다.  MutableList도 List로 취급할 수 있다. 하지만 그 역은 가능하지 않다.&lt;&#x2F;p&gt;
+&lt;p&gt;List는 읽기 전용이다  그래서 내용을 읽을 수는 있어도 안에 값을 쓸 수는 없다.
+내부 구현을 MutableList로 하면서 이 MutableList에 대한 참조를 유지했다가,  나중에 이 가변 List에 대한 참조를 통해 원소를 변경하면,  읽기 전용 리스트에 대한 참조임에도 불구하고 그 리스트 내부가 바뀐 모습을 볼 수 있다. (aliasing의 예)&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;getList&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;List&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; mutableListOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;+= 연산자를 쓰면 MutableList일 경우 in place로 붙여주며,  List이면 새로운 List를 리턴해주지만,  이 때 변수는 var이어야만 재대입이 가능하다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gabyeon-inja-mogrog&quot;&gt;가변 인자 목록&lt;&#x2F;h2&gt;
+&lt;p&gt;vararg는 가변 인자 목록의 줄임말이다.
+함수 정의에는 vararg로 선언된 인자가 최대 하나만 있어야 한다. 파라미터 목록에서 어떤 위치에 있는 파라미터이든 vararg로 선언할 수 있지만,  일반적으로 마지막 파라미터를 vararg로 선언하는게 일반적이다.
+vararg  인자에는 0개 이상의 임의의 갯수의 타입이 맞는 값들을 전달할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;vf&lt;&#x2F;span&gt;&lt;span&gt;(s: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;vararg &lt;&#x2F;span&gt;&lt;span&gt;i: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;s: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, size: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${i.size}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, sum: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${i.sum()}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, avg: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${i.average()}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;  vf(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;abc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;  vf(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;def&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;  vf(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ghi&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;vararg에는 Array타입을 만들어서 넘길 수도 있다. arrayOf()로 초기화된 Array를 만들 수 있고, Array는 불변타입은 없다.
+Array를 인자 목록으로 변환해서 넘기기 위해 스프레드연산자 &lt;code&gt;*&lt;&#x2F;code&gt;를 사용한다. 프리미티브 타입의 Array를 만들 때는 구체적인 이름의 생성 함수를 사용해야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;array = intArrayOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Array&amp;lt;Int&amp;gt; 타입을 생성하는 생성 함수
+&lt;&#x2F;span&gt;&lt;span&gt;sum(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, *array, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;스프레드 연산자는 배열에만 적용 가능하며,  vararg로 받은 인자를 다시 다른 vararg를 받는 함수에 넘길 때도 사용할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;inner&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;vararg &lt;&#x2F;span&gt;&lt;span&gt;numbers: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;result = &amp;quot;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; numbers) {
+&lt;&#x2F;span&gt;&lt;span&gt;    result += &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; result
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;outer&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;vararg &lt;&#x2F;span&gt;&lt;span&gt;numbers: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  inner(*numbers)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;프로그램의 인자는 다음과 같이 구할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;(args: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Array&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; args) {
+&lt;&#x2F;span&gt;&lt;span&gt;    println(a)
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;first = args[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;second = args[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;].toInt()
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;jibhab&quot;&gt;집합&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;intSet = setOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 중복 없음. 1 2 3 4 5. 순서는 중요하지 않음.  선언한 순서와 다를 수 있음.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; intSet &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 원소 검사
+&lt;&#x2F;span&gt;&lt;span&gt;intSet.contains(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;intSet.containsAll(setOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 다른 집합을 포함하는지 검사
+&lt;&#x2F;span&gt;&lt;span&gt;intSet.union(setOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 합집합
+&lt;&#x2F;span&gt;&lt;span&gt;intSet intersect setOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 교집합 1 2
+&lt;&#x2F;span&gt;&lt;span&gt;intSet subtract setOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 차집합 0 3 4 5
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;list = listOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;list.toSet() &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; setOf(1, 2, 3)
+&lt;&#x2F;span&gt;&lt;span&gt;list.distinct() &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; listOf(3, 2, 1)
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;abcc&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;.toSet() &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; setOf(&amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;mutableSet = mutableSetOf&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;mutableSet += &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;123
+&lt;&#x2F;span&gt;&lt;span&gt;mutableSet += &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;123 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == setOf(123)
+&lt;&#x2F;span&gt;&lt;span&gt;mutableSet -= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;123 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == setOf&amp;lt;Int&amp;gt;()
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;maeb&quot;&gt;맵&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;mathMap = mapOf(
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;PI&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; to &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3.141&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; to &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2.718&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;  &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;phi&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; to &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1.618
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;mathMap[&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == 2.718
+&lt;&#x2F;span&gt;&lt;span&gt;mathMap.keys &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == setOf(&amp;quot;PI&amp;quot;, &amp;quot;e&amp;quot;, &amp;quot;phi&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;mathMap.values &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == [3.141, 2.718, 1.618]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (entry &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; mathMap) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${entry.key}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${entry.value}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; ((key, value) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; mathMap) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${key}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${value}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;m = mutableMapOf(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt; to &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;five&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt; to &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;six&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;m[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == &amp;quot;five&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;m[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;] = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;FIVE&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;m[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; == &amp;quot;FIVE&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;m += &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt; to &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;four&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;mapOf와 mutableMapOf는 원소가 Map에 전달된 순서를 유지해준다  다른 Map 타입에서는 이 순서가 보장되지 않을 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;주어진 키에 해당하는 원소가 포함되어 있지 않으면 Map은 null을 반환한다.  null이 될 수 없는 결과를 원한다면 getValue()를 쓸 수 있고,  이 경우 NoSuchElementException이 발생한다. 이보다는 getOrDefault()가 좀더 나은 대안이다.&lt;&#x2F;p&gt;
+&lt;p&gt;클래스 인스턴스도 맵의 값이 될 수 있다. (키로도 가능은 하지만 설명하지 않고 뒤로 미룸.)&lt;&#x2F;p&gt;
+&lt;p&gt;Map은 연관배열(associative array)이라고 부르기도 한다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;peuropeoti-jeobgeunja&quot;&gt;프로퍼티 접근자&lt;&#x2F;h2&gt;
+&lt;p&gt;프로퍼티 접근자는 getter와 setter를 정의할 수 있게 한다.  프로퍼티 정의 바로 뒤에 get() 혹은 set()을 정의하면 프로퍼티 접근자를 정의할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Integer&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;i: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;      println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;get()&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; field &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; field라는 이름으로 프로퍼티에 접근할 수 있다.
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;set&lt;&#x2F;span&gt;&lt;span&gt;(value) {
+&lt;&#x2F;span&gt;&lt;span&gt;      println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;set()&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;      field = value
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Counter&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;value: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private&lt;&#x2F;span&gt;&lt;span&gt; set           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; get은 정의하지 않았으므로 set만 private로 외부에서 접근 불가.
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;inc&lt;&#x2F;span&gt;&lt;span&gt;() = value++
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 필드가 없는 프로퍼티를 정의하는 예
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Changeable&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private val &lt;&#x2F;span&gt;&lt;span&gt;maxCount: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private var &lt;&#x2F;span&gt;&lt;span&gt;changeCount = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;remain: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() = maxCount - changeCount
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;changeable: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Boolean
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;() = remain &amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;change&lt;&#x2F;span&gt;&lt;span&gt;(): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Boolean&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (!changeable) {
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;false
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;      changeCount++
+&lt;&#x2F;span&gt;&lt;span&gt;      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;코틀린 스타일 가이드에서는 계산 비용이 많이 들지 않고 객체 상태가 바뀌지 않는 한 같은 결과를 내놓는 함수의 경우 프로퍼티를 사용하는 편이 낫다고 안내한다.  그리고 프로퍼티 접근자는 프로퍼티에 대한 일종의 보호수단 역할을 할 수 있다.&lt;&#x2F;p&gt;
+</description>
+      </item>
+      <item>
+          <title>아토믹 코틀린 1부 프로그래밍 기초</title>
+          <pubDate>Sat, 03 Feb 2024 05:00:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/240203-atomic-kotlin-ch1/</link>
+          <guid>https://smpl.kr/posts/240203-atomic-kotlin-ch1/</guid>
+          <description xml:base="https://smpl.kr/posts/240203-atomic-kotlin-ch1/">&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;aladin.kr&#x2F;p&#x2F;bzcyt&quot;&gt;아토믹 코틀린&lt;&#x2F;a&gt; 책의 1부 프로그래밍 기초 챕터를 읽고, 읽은 내용을 정리해봅니다.
+공부하면서 개인적으로 다른 언어와 달랐던 점, 인상깊었던 점 혹은 기억해야할 점들만 적었습니다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;koteulrine-yeonghyangeul-ggicin-eoneodeul&quot;&gt;코틀린에 영향을 끼친 언어들&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;FORTRAN&lt;&#x2F;li&gt;
+&lt;li&gt;LISP&lt;&#x2F;li&gt;
+&lt;li&gt;ALGOL&lt;&#x2F;li&gt;
+&lt;li&gt;COBOL&lt;&#x2F;li&gt;
+&lt;li&gt;BASIC&lt;&#x2F;li&gt;
+&lt;li&gt;Simula&lt;&#x2F;li&gt;
+&lt;li&gt;PASCAL&lt;&#x2F;li&gt;
+&lt;li&gt;C&lt;&#x2F;li&gt;
+&lt;li&gt;Smalltalk&lt;&#x2F;li&gt;
+&lt;li&gt;C++&lt;&#x2F;li&gt;
+&lt;li&gt;Python&lt;&#x2F;li&gt;
+&lt;li&gt;Haskell&lt;&#x2F;li&gt;
+&lt;li&gt;Java&lt;&#x2F;li&gt;
+&lt;li&gt;Javascript&lt;&#x2F;li&gt;
+&lt;li&gt;C#&lt;&#x2F;li&gt;
+&lt;li&gt;Scala&lt;&#x2F;li&gt;
+&lt;li&gt;Groovy&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;koteulrinyi-jangjeom&quot;&gt;코틀린의 장점&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;왜 코틀린인가?
+&lt;ul&gt;
+&lt;li&gt;가독성&lt;&#x2F;li&gt;
+&lt;li&gt;도구(JetBrains)&lt;&#x2F;li&gt;
+&lt;li&gt;다중 패러다임(명령형, 함수형, 객체지향 프로그래밍)&lt;&#x2F;li&gt;
+&lt;li&gt;다중 플랫폼(JVM, 안드로이드 ART, 자바스크립트, 네이티브)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;특징
+&lt;ul&gt;
+&lt;li&gt;노력이 필요없는 자바 상호운용성&lt;&#x2F;li&gt;
+&lt;li&gt;빈값 표현 방식&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;hello-world&quot;&gt;Hello, World&lt;&#x2F;h2&gt;
+&lt;p&gt;entry point&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span&gt;() {}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;주석&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; one line comment
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;* multi line
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;    comment *&#x2F;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;;&lt;&#x2F;code&gt;로 문장을 끝낼 필요가 없다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;varwa-val&quot;&gt;var와 val&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;var : 식별자가 담고 있는 값이 변할 수 있다.(mutable) 내용을 &#x27;재대입&#x27;할 수 있다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;식별자 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 초기화
+&lt;&#x2F;span&gt;&lt;span&gt;식별자 = 식별자 + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;식별자 += &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ul&gt;
+&lt;li&gt;val : 식별자의 값을 단 한번만 초기화할 수 있고 값을 재대입할 수 없다.(immutable)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;식별자 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 초기화
+&lt;&#x2F;span&gt;&lt;span&gt;식별자 = 식별자 + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 오류
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;deiteo-taib&quot;&gt;데이터 타입&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;코틀린은 타입추론을 지원한다. 변수를 만들 때 타입을 명시하는 문법은 다음과 같다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; var 식별자: 타입 = 초기화
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;n: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;d: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Double &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1.2
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;b: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Boolean &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;s: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;hello&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;c: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Char &lt;&#x2F;span&gt;&lt;span&gt;= &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;z&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;lines: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&amp;quot;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;큰 따옴포 세개로
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;여러 줄 문자열 리터럴을 편하게
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;사용할 수 있다.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;삼중 따옴표 String 혹은 Raw String 이라고 부른다.
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ul&gt;
+&lt;li&gt;타입들
+&lt;ul&gt;
+&lt;li&gt;Byte, Short, Int, Long&lt;&#x2F;li&gt;
+&lt;li&gt;Float, Double&lt;&#x2F;li&gt;
+&lt;li&gt;UByte, UShort, UInt, ULong&lt;&#x2F;li&gt;
+&lt;li&gt;Boolean&lt;&#x2F;li&gt;
+&lt;li&gt;Char (16비트 유니코드 문자, 16비트 이하만 저장 가능, 2바이트를 넘을 수 없기 때문에, 차라리 UCS-2라고 간주 가능할 것 같다.)&lt;&#x2F;li&gt;
+&lt;li&gt;String (approximately 2bytes per character, 유니코드를 온전하게 담을 수 있다.)&lt;&#x2F;li&gt;
+&lt;li&gt;UByteArray, UShortArray, UIntArray, ULongArray&lt;&#x2F;li&gt;
+&lt;li&gt;UIntRange&lt;&#x2F;li&gt;
+&lt;li&gt;UIntProgression&lt;&#x2F;li&gt;
+&lt;li&gt;Array&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;hamsu&quot;&gt;함수&lt;&#x2F;h2&gt;
+&lt;p&gt;기본적인 형태&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;함수이름&lt;&#x2F;span&gt;&lt;span&gt;(p: 타입, p2: 타입, ...): 반환타입 {
+&lt;&#x2F;span&gt;&lt;span&gt;    코드
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; 결과
+&lt;&#x2F;span&gt;&lt;span&gt;} 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;의미있는 반환결과를 제공하지 않는 함수의 반환 타입은 Unit이다. 반환 타입의 Unit은 생략할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;sayHello&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hello!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;sayGoodbye&lt;&#x2F;span&gt;&lt;span&gt;() : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Unit&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Goodbye!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;함수 본문이 하나의 식으로만 이루어진 경우&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;fun 함수이름(p1: 타입, p2: 타입, ...): 반환타입 = 식
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;multiply&lt;&#x2F;span&gt;&lt;span&gt;(x: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= x * &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;if-sig&quot;&gt;if 식&lt;&#x2F;h2&gt;
+&lt;p&gt;if 괄호 안에 있는 식은 반드시 true나 false로 평가되어야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;num = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (num &amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bigger than 100&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;lesser than or same as 100&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (num &amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;42
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;munjayeol-tempeulris&quot;&gt;문자열 템플릿&lt;&#x2F;h2&gt;
+&lt;p&gt;문자열 리터럴 안에서 $ 문자로 식을 평가할 수 있다. raw string에서도 $식별자나 ${식}을 쓸 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span&gt;println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;answer is &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$answer&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;${if (condition) &amp;#39;a&amp;#39; else &amp;#39;b&amp;#39;}&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;따옴표&lt;code&gt;&quot;&lt;&#x2F;code&gt;가 들어가야 할 경우 &lt;code&gt;&quot;&quot;&quot;&lt;&#x2F;code&gt;로 감싸거나, &lt;code&gt;\&quot;&lt;&#x2F;code&gt;와 같이 표현한다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;su-taib&quot;&gt;수 타입&lt;&#x2F;h2&gt;
+&lt;p&gt;숫자 사이에 가독성을 위해 &lt;code&gt;_&lt;&#x2F;code&gt; 밑줄을 넣을 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;two_millions = 2_000_000
+&lt;&#x2F;span&gt;&lt;span&gt;println(two_millions)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;정수 나눗셈의 결과는 정수로, 나머지는 버림한다.&lt;&#x2F;p&gt;
+&lt;p&gt;각 타입의 최대 값은 MAX_VALUE로 구할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;i: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;MAX_VALUE
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;코틀린은 넘침 가능성을 컴파일 시점에 경고를 해줄 수 있지만, 항상 체크해주지는 못 하며,
+실행 중에 넘침 여부를 검사하면 성능상 영향이 있기 때문에 넘침을 방지해주지 않는다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bulrieon&quot;&gt;불리언&lt;&#x2F;h2&gt;
+&lt;p&gt;(새로운 내용 없음)&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;whilero-banboghagi&quot;&gt;while로 반복하기&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; (불리언 식) {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 반복 코드
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;do&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 반복 코드
+&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; (불리언 식)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;rupeuwa-beomwi&quot;&gt;루프와 범위&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;for (v in 값들) {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;   v를 이용한 반복 코드
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 양 끝을 포함. 1부터 3까지 3번 반복. 
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 1..3 을 이터레이션이라고 부른다. 이터레이션은 정수, 문자처럼 연속적이지 않은 경우만 가능하며 실수는 사용 불가하다.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hey &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; a부터 z까지 반복
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;..&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;z&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; until 다음의 값 미포함. 1부터 2까지 2번 반복.
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt; unil &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Hey &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 범위 타입
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;range1 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;range2 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt; until &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; range1) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;hello &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (i &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; range2) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;hello &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;range3 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt; downTo &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1         &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 5, 4, 3, 2, 1
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;range4 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt; step &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 0 2 4 6 8
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;range5 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt; until &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt; step &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 0 3 6 9
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;range6 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt; downto &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt; step &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 9 6 3
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 문자열도 이터레이션 가능
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (c &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Quantumized&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(ch + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;조건이 필요하지 않고 단순히 일정 횟수만큼 반복만 하고 싶다면 표준 라이브러리 함수 repeat을 사용할 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span&gt;repeat(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;  println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;hello!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;in-kiweodeu&quot;&gt;in 키워드&lt;&#x2F;h2&gt;
+&lt;p&gt;in 키워드는 for의 이터레이션과 조건 검사 모두로 쓰인다. for 밖의 in 키워드는 어떤 값이 주어진 범위 안에 들어 있는지 검사한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;a = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
+&lt;&#x2F;span&gt;&lt;span&gt;println(a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;100&lt;&#x2F;span&gt;&lt;span&gt;)        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; true
+&lt;&#x2F;span&gt;&lt;span&gt;println(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;k&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;kotlin&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; true
+&lt;&#x2F;span&gt;&lt;span&gt;println(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;c&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;kotlin&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; false
+&lt;&#x2F;span&gt;&lt;span&gt;println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ab&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;aa&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;..&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;az&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; true
+&lt;&#x2F;span&gt;&lt;span&gt;println(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ba&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;aa&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;..&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;az&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; false
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Double도 사실은 범위를 만들 순 있지만, 구간 내에 포함되는지 여부를 검사할 때만 Double의 범위를 쓸 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;r = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1.0&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10.0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;chk1 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0.999999 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; r    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; false
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;chk2 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5.0 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; r         &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; true
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;chk3 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10.0 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; r        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; true
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;chk4 = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10.00000001 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; r &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; false
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;kotlin 1.8부터는 반 열린 범위(semi-open range)를 쓸 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span&gt;println(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;..&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 0 1 2 3 ... 9
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;siggwa-mun&quot;&gt;식과 문&lt;&#x2F;h2&gt;
+&lt;p&gt;문(statement)은 부수효과를 일으키지만 결과를 내놓지 않는다. 식(expression)은 항상 결과를 만들어 낸다.&lt;&#x2F;p&gt;
+&lt;p&gt;for는 statement이고 부수효과를 만들어내기위해 사용한다.&lt;&#x2F;p&gt;
+&lt;p&gt;모든 함수는 expression이다. 함수가 Unit을 반환하고, 부수효과를 갖고 있더라도 여전히 함수 호출 결과를 변수에 대입할 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;Unit 타입에는 오직 Unit이라는 값만 대입 가능하다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;unitFn&lt;&#x2F;span&gt;&lt;span&gt;() = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Unit
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;u1 = unitFn() &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Unit
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;u2 = println(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;42&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Unit
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;if는 식을 만들 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;증가 및 감소 연산자 &lt;code&gt;++&lt;&#x2F;code&gt;과 &lt;code&gt;--&lt;&#x2F;code&gt;는 식이다.&lt;&#x2F;p&gt;
+&lt;p&gt;증가 및 감소 연산자는 전위 혹은 후위로 쓸 수 있지만, 되도록 다른 식 안에 섞어 쓰지 않는 것이 좋다.&lt;&#x2F;p&gt;
+</description>
+      </item>
+    </channel>
+</rss>

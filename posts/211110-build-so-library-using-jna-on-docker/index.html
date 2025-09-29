@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | Docker에서 JNA용 리눅스 동적 라이브러리 빌드하기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            Docker에서 JNA용 리눅스 동적 라이브러리 빌드하기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2021-11-10T09:00:00+09:00">November 10, 2021</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>1 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>146 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/docker/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>docker</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/jna/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>jna</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/linux/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>linux</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/so/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>so</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/dynamiclibrary/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>dynamiclibrary</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/sharedlibrary/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>sharedlibrary</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <h1 id="paildeul">파일들</h1>
+<p>다음과 같은 상황이라고 가정한다.</p>
+<p>crypto++ 라이브러리를 사용하여 특정한 기능을 제공하는 libcrypt라는 동적 라이브러리를, java에서 jna로 사용하려는 상황이다.</p>
+<p>라이브러리 파일이 예시로 다음과 같다고 하고,</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// mycrypt.h
+</span><span>
+</span><span style="color:#b48ead;">#pragma</span><span> once
+</span><span>
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">cstdlib</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">extern </span><span>&quot;</span><span style="color:#a3be8c;">C</span><span>&quot; {
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">DoSomething </span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">a</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">b</span><span>);
+</span><span>}
+</span></code></pre>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// mycrypt.cc
+</span><span>
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">iostream</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mycrypt.h</span><span>&quot;
+</span><span>
+</span><span style="color:#b48ead;">__attribute__</span><span>((constructor)) </span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">init</span><span>() {
+</span><span>    </span><span style="color:#65737e;">// initialize here
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">__attribute__</span><span>((destructor)) </span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">fini</span><span>() {
+</span><span>    </span><span style="color:#65737e;">// finalize here
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">DoSomething</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">a</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">b</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">return</span><span> a + b;
+</span><span>}
+</span></code></pre>
+<p>이를 사용하는 샘플은 다음과 같다.</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// mycryptsample.cc
+</span><span>
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">iostream</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">#include </span><span>&quot;</span><span style="color:#a3be8c;">mycrypt.h</span><span>&quot;
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main </span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">argc</span><span>, </span><span style="color:#b48ead;">char </span><span>** </span><span style="color:#bf616a;">argv</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">int</span><span> ret = </span><span style="color:#bf616a;">DoSomething</span><span>(</span><span style="color:#d08770;">10</span><span>, </span><span style="color:#d08770;">20</span><span>);
+</span><span>    std::cout &lt;&lt; &quot;</span><span style="color:#a3be8c;">mycryptsample : </span><span>&quot; &lt;&lt; ret &lt;&lt; std::endl;
+</span><span>}
+</span></code></pre>
+<pre data-lang="java" style="background-color:#2b303b;color:#c0c5ce;" class="language-java "><code class="language-java" data-lang="java"><span style="color:#65737e;">// MyCryptUser.java
+</span><span>
+</span><span style="color:#b48ead;">import </span><span>com.sun.jna.</span><span style="color:#ebcb8b;">Library</span><span>;
+</span><span style="color:#b48ead;">import </span><span>com.sun.jna.</span><span style="color:#ebcb8b;">Native</span><span>;
+</span><span>
+</span><span style="color:#b48ead;">interface </span><span style="color:#ebcb8b;">MyCryptLibrary </span><span style="color:#b48ead;">extends </span><span style="color:#a3be8c;">Library </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    </span><span style="color:#ebcb8b;">MyCryptLibrary </span><span style="color:#eff1f5;">INSTANCE </span><span>= </span><span style="color:#ebcb8b;">Native</span><span style="color:#eff1f5;">.</span><span style="color:#bf616a;">load</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">mycrypt</span><span>&quot;</span><span style="color:#eff1f5;">, </span><span style="color:#ebcb8b;">MyCryptLibrary</span><span style="color:#eff1f5;">.</span><span style="color:#bf616a;">class</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">DoSomething</span><span style="color:#eff1f5;">(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">a</span><span style="color:#eff1f5;">, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">b</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">}
+</span><span>
+</span><span style="color:#b48ead;">public class </span><span style="color:#ebcb8b;">MyCryptUser </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">    </span><span style="color:#b48ead;">public static void </span><span style="color:#8fa1b3;">main</span><span style="color:#eff1f5;">(</span><span style="color:#ebcb8b;">String</span><span style="color:#b48ead;">[] </span><span style="color:#bf616a;">args</span><span style="color:#eff1f5;">) {
+</span><span style="color:#eff1f5;">        </span><span style="color:#b48ead;">int</span><span style="color:#eff1f5;"> ret </span><span>= </span><span style="color:#ebcb8b;">MyCryptLibrary</span><span style="color:#eff1f5;">.</span><span style="color:#d08770;">INSTANCE</span><span style="color:#eff1f5;">.</span><span style="color:#bf616a;">DoSomething</span><span style="color:#eff1f5;">(</span><span style="color:#d08770;">10</span><span style="color:#eff1f5;">, </span><span style="color:#d08770;">20</span><span style="color:#eff1f5;">);
+</span><span style="color:#eff1f5;">        </span><span style="color:#ebcb8b;">System</span><span style="color:#eff1f5;">.out.</span><span style="color:#bf616a;">println</span><span style="color:#eff1f5;">(</span><span>&quot;</span><span style="color:#a3be8c;">MyCryptUser: </span><span>&quot; +</span><span style="color:#eff1f5;"> ret);
+</span><span style="color:#eff1f5;">    }
+</span><span style="color:#eff1f5;">}
+</span></code></pre>
+<h1 id="dockerfile">Dockerfile</h1>
+<p>아래는 이 코드들을 빌드하고 테스트하고 패키징하는 Dockerfile의 예이다.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>FROM ubuntu:16.04 AS builder
+</span><span>
+</span><span>WORKDIR /root
+</span><span>
+</span><span>RUN apt-get update
+</span><span>RUN apt-get install -y build-essential libcrypto++-dev
+</span><span>
+</span><span>COPY . .
+</span><span>
+</span><span>RUN g++ -std=c++14 -fPIC -c mycrypt.cc -lcrypto++ -I/usr/include/crypto++
+</span><span>RUN g++ -std=c++14 -shared -o libmycrypt.so mycrypt.o -lcrypto++
+</span><span>RUN g++ -std=c++14 -o mycryptsample mycryptsample.cc -L. -lmycrypt -lcrypto++
+</span><span>
+</span><span>FROM ubuntu:16.04 AS testandpackage
+</span><span>
+</span><span>VOLUME /output
+</span><span>WORKDIR /deploy
+</span><span>
+</span><span>RUN apt-get update
+</span><span>RUN apt-get install -y build-essential openjdk-8-jre openjdk-8-jdk wget libcrypto++9v5
+</span><span>
+</span><span>COPY --from=builder /root/libmycrypt.so /deploy/
+</span><span>COPY --from=builder /root/mycrypt.h /deploy/
+</span><span>COPY --from=builder /root/mycryptsample /deploy/
+</span><span>COPY --from=builder /root/MyCryptUser.java /deploy/
+</span><span>COPY --from=builder /root/README.md /deploy/
+</span><span>
+</span><span>RUN wget https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.10.0/jna-5.10.0.jar
+</span><span>
+</span><span>RUN echo `pwd` &gt; mycrypt.conf
+</span><span>RUN mv mycrypt.conf /etc/ld.so.conf.d/
+</span><span>RUN ldconfig
+</span><span>
+</span><span>ENV CLASSPATH=&quot;$CLASS_PATH:jna-5.10.0.jar:/usr/local/lib:/usr/local/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:.&quot;
+</span><span>
+</span><span>RUN javac MyCryptUser.java
+</span><span>
+</span><span>RUN ./mycryptsample
+</span><span>RUN java MyCryptUser
+</span><span>
+</span><span>CMD ./mycryptsample &amp;&amp; java MyCryptUser &amp;&amp; tar cvjf /output/mycrypt.tar.bz2 mycrypt.h MyCryptUser.java README.md libmycrypt.so
+</span></code></pre>
+<p>다음과 같은 shell 명령으로 빌드할 수 있고, 빌드 결과가 output이라는 폴더에 만들어진다.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">docker</span><span> build .</span><span style="color:#bf616a;"> -t</span><span> mycryptbuild:0.1.0
+</span><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -v</span><span> output:/output mycryptbuild:0.1.0
+</span></code></pre>
+<h1 id="camjo">참조</h1>
+<p>다음과 같은 문서들을 참조하였음.</p>
+<ul>
+<li><a href="https://www.lesstif.com/software-architect/shared-library-linker-loader-12943542.html">lesstif : 동적 라이브러리(shared library)와 Linker/Loader 이해하기</a></li>
+<li><a href="https://www.lesstif.com/lpt/shared-library-dependencies-linux-ldd-95880421.html">lesstif : 공유 라이브러리 의존성(shared library dependencies)을 출력하는 linux ldd 사용법</a></li>
+<li><a href="https://stackoverflow.com/questions/9759880/automatically-executed-functions-when-loading-shared-libraries">Stackoverflow : Automatically executed functions when loading shared libraries</a></li>
+<li><a href="https://askubuntu.com/questions/350068/where-does-ubuntu-look-for-shared-libraries">AskUbuntu : Where does Ubuntu look for shared libraries?</a></li>
+<li><a href="https://m.blog.naver.com/whentlr/120188305071">꿈많은아이 : 리눅스 공유라이브러리(동적 라이브러리) 생성 및 사용</a></li>
+</ul>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-paildeul" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/211110-build-so-library-using-jna-on-docker/#paildeul">
+                파일들
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-dockerfile" class="toc is-size-7 "
+                href="https://smpl.kr/posts/211110-build-so-library-using-jna-on-docker/#dockerfile">
+                Dockerfile
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-camjo" class="toc is-size-7 "
+                href="https://smpl.kr/posts/211110-build-so-library-using-jna-on-docker/#camjo">
+                참조
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;211011-sqlserver-kafka-debezium&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              SQL Server를 Kafka로 복제하는 방법 알아보기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220221-learning-cpp-functional-programming&#x2F;">
+              [모던 C++로 배우는 함수형 프로그래밍] 읽기<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

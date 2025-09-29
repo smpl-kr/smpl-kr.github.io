@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - wsl</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/wsl/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Sun, 19 Sep 2021 20:48:00 +0900</lastBuildDate>
+      <item>
+          <title>WSL2 위에서 Docker 실행하기</title>
+          <pubDate>Sun, 19 Sep 2021 20:48:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210919-docker-on-wsl2/</link>
+          <guid>https://smpl.kr/posts/210919-docker-on-wsl2/</guid>
+          <description xml:base="https://smpl.kr/posts/210919-docker-on-wsl2/">&lt;h1 id=&quot;donggi&quot;&gt;동기&lt;&#x2F;h1&gt;
+&lt;p&gt;원래 윈도우 10에서 Docker를 설치할 때 Docker Desktop을 무료로 설치해서 사용할 수 있었으나,
+8월 31일 이후로는 기업용 라이선스의 범위가 확대되면서 개인용이 아닌 경우는 라이선스를 구매한 기업에서만 사용 가능하게 바뀌었다.&lt;&#x2F;p&gt;
+&lt;p&gt;그래서 윈도우 10에서 Docker를 설치해서 쓸 방법을 찾아보니, WSL2 위에 Docker를 설치해서 사용하는 방법이 많이 안내되고 있었고,
+이 문서는 그 방법을 정리한 것이다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;wsl2-seolci&quot;&gt;WSL2 설치&lt;&#x2F;h1&gt;
+&lt;p&gt;WSL2 설치 방법은 생략한다. 이미 인터넷에 문서가 많으므로 찾아서 설치해도 되고, 만약 필요 시에는 별도 문서로 정리 예정이다.&lt;&#x2F;p&gt;
+&lt;p&gt;여기서는 WSL2에 Ubuntu 20.04 버전을 설치했다고 가정한다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;docker-jeojangso-cuga-mic-seolci&quot;&gt;Docker 저장소 추가 및 설치&lt;&#x2F;h1&gt;
+&lt;p&gt;아래 순서를 그대로 따라하면 된다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt install&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -y&lt;&#x2F;span&gt;&lt;span&gt; apt-transport-https ca-certificates curl gnupg gnupg-agent software-properties-common
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;curl -fsSL&lt;&#x2F;span&gt;&lt;span&gt; https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg | &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt-key add -
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; add-apt-repository &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;deb [arch=amd64] https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lsb_release -cs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;) stable&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt install&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -y&lt;&#x2F;span&gt;&lt;span&gt; docker-ce docker-ce-cli containerd.io docker-compose
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;gibon-gyejeonge-gweonhan-buyeohagi&quot;&gt;기본 계정에 권한 부여하기&lt;&#x2F;h1&gt;
+&lt;p&gt;sudo 명령을 매번 입력하지 않아도 되도록, docker 그룹에 기본 계정을 등록해준다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; groupadd docker
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; usermod&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -aG&lt;&#x2F;span&gt;&lt;span&gt; docker $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;USER
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;docker-demon-silhaeng&quot;&gt;Docker 데몬 실행&lt;&#x2F;h1&gt;
+&lt;p&gt;Docker 데몬을 먼저 실행해준 후  사용해야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; service docker start
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;camgojaryo&quot;&gt;참고자료&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bearpooh.com&#x2F;92&quot;&gt;곰탱푸닷컴 : 윈도우 10에서 Docker Desktop 없이 Docker 사용하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bearpooh.com&#x2F;27&quot;&gt;곰탱푸닷컴 : 우분투에 Docker 설치하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | 아토믹 코틀린 2부 객체 소개
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            아토믹 코틀린 2부 객체 소개
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2024-02-03T16:00:00+09:00">February 03, 2024</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>5 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>974 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/kotlin/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>kotlin</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p><a href="http://aladin.kr/p/bzcyt">아토믹 코틀린</a> 책의 2부 객체 소개 챕터를 읽고, 읽은 내용을 정리해봅니다.
+공부하면서 개인적으로 다른 언어와 달랐던 점, 인상깊었던 점 혹은 기억해야할 점들만 적었습니다.</p>
+<h2 id="gaegceneun-modeun-gose-jonjaehanda">객체는 모든 곳에 존재한다</h2>
+<p>모르는 함수나 클래스는 <a href="https://kotlinlang.org/api/latest/jvm/stdlib/">코틀린 표준 라이브러리 문서</a>를 찾아본다.</p>
+<p><a href="https://play.kotlinlang.org/">코틀린 플레이그라운드</a>는 언어나 라이브러리 사용법을 익히기에 유용하다. 자동완성 추천도 해준다.</p>
+<p>IntRange도 객체이다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>a = </span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">10
+</span><span>println(a.sum())
+</span><span style="color:#b48ead;">val </span><span>r = IntRange(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">10</span><span>)
+</span><span>println(r.sum())
+</span><span style="color:#b48ead;">val </span><span>s = &quot;</span><span style="color:#a3be8c;">AbCd</span><span>&quot;
+</span><span>println(s.reversed())
+</span><span>println()
+</span></code></pre>
+<p>멤버 함수 중에는 타입을 변환하는 함수도 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span>&quot;</span><span style="color:#a3be8c;">123</span><span>&quot;.toInt()
+</span><span style="color:#d08770;">123.</span><span>toString()
+</span><span style="color:#d08770;">123.</span><span>toLong()
+</span></code></pre>
+<h2 id="keulraeseu-mandeulgi">클래스 만들기</h2>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">// 클래스 한줄 정의
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Bear
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Cat</span><span> {
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">meow</span><span>() = &quot;</span><span style="color:#a3be8c;">mrrrow!</span><span>&quot;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">exercise</span><span>() = </span><span style="color:#d08770;">this</span><span>.meow() + &quot; &quot; + meow() + &quot;</span><span style="color:#a3be8c;"> Cat is running on wheel</span><span>&quot;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#65737e;">// 객체 생성
+</span><span>    </span><span style="color:#b48ead;">val </span><span>b = Bear()
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 객체 인스턴스 식별자(?) 찍기
+</span><span>    println(b) </span><span style="color:#65737e;">// Bear@74a1...
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">val </span><span>c = Cat()
+</span><span>    println(c.meow())
+</span><span>    println(c.exercise())
+</span><span>}
+</span></code></pre>
+<h2 id="peuropeoti">프로퍼티</h2>
+<p>프로퍼티를 정의함으로써 클래스 안에서 상태를 유지한다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Cup</span><span> {
+</span><span>    </span><span style="color:#b48ead;">var </span><span>percent = </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">val </span><span>max = </span><span style="color:#d08770;">100
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">add</span><span>(increase: </span><span style="color:#b48ead;">Int</span><span>): </span><span style="color:#b48ead;">Int</span><span> {
+</span><span>        percent += increase
+</span><span>        </span><span style="color:#b48ead;">if</span><span> (percent &gt; max) {
+</span><span>            percent = max
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">return</span><span> percent
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">var </span><span>c1 = Cup()
+</span><span>    c1.percent = </span><span style="color:#d08770;">50
+</span><span>    c1.percent = </span><span style="color:#d08770;">70
+</span><span>    c1.add(</span><span style="color:#d08770;">20</span><span>)
+</span><span>    println(c1.percent)
+</span><span>}
+</span></code></pre>
+<p>클래스나 스코프 밖에 최상위 프로퍼티(전역변수)를 정의할 수 있으나, val은 괜찮지만 var를 최상위 프로퍼티로 선언하는 것은 안티패턴으로 간주된다.
+프로그램이 복잡해질 수록 공유된 가변 상태에 대해 제대로 추론하기가 어려워지기 때문이다.</p>
+<p>var와 val은 그 변수가 가리키는 값(참조)을 변경하는 것을 방지하는 것으로, 값 자체의 내부를 바꾸는 것은 방지할 수 없다.
+var와 val이 객체가 아니라 참조를 제한한다는 점. 객체의 가변성 개념은 객체의 내부 상태를 바꿀 수 있는가 기준으로 이야기한다.
+예를 들어 아래에서 Mouse는 가변객체, Keyboard는 불변객체이다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Keyboard</span><span> {
+</span><span>    </span><span style="color:#b48ead;">val </span><span>brand: </span><span style="color:#b48ead;">String </span><span>= &quot;</span><span style="color:#a3be8c;">Happy hacking!</span><span>&quot;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Mouse</span><span> {
+</span><span>    </span><span style="color:#b48ead;">var </span><span>brand: </span><span style="color:#b48ead;">String </span><span>= &quot;</span><span style="color:#a3be8c;">Logitech</span><span>&quot;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">var </span><span>kbd = Keyboard()
+</span><span>    </span><span style="color:#65737e;">// kbd.brand = &quot;FC750R&quot;     // error!
+</span><span>    kbd = Keyboard()            </span><span style="color:#65737e;">// change with new instance
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">val </span><span>mse = Mouse()
+</span><span>    mse.brand = &quot;</span><span style="color:#a3be8c;">Microsoft</span><span>&quot;     </span><span style="color:#65737e;">// ok.
+</span><span>    </span><span style="color:#65737e;">// mse = Mouse()            // error!
+</span><span>}
+</span></code></pre>
+<h2 id="saengseongja">생성자</h2>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Alien</span><span>(shape: </span><span style="color:#b48ead;">String</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">val </span><span>greeting = &quot;</span><span style="color:#a3be8c;">Hello ugly </span><span style="color:#bf616a;">$shape</span><span style="color:#a3be8c;"> shaped alien!</span><span>&quot;
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">MutableAlien1</span><span>(</span><span style="color:#b48ead;">var </span><span>shape: </span><span style="color:#b48ead;">String</span><span>) { </span><span style="color:#65737e;">// 생성자를 바로 멤버 변수 - 프로퍼티로
+</span><span>    </span><span style="color:#b48ead;">val </span><span>greeting1 = &quot;</span><span style="color:#a3be8c;">Hello ugly </span><span style="color:#bf616a;">$name</span><span style="color:#a3be8c;"> shaped alien!</span><span>&quot;
+</span><span>    </span><span style="color:#b48ead;">var </span><span>greeting2 = &quot;</span><span style="color:#a3be8c;">Hello handsome </span><span style="color:#bf616a;">$name</span><span style="color:#a3be8c;"> shaped alien!</span><span>&quot;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// 복잡한 생성자 컨벤션 참고..
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">UnspecifiedAlien</span><span>(
+</span><span>    </span><span style="color:#b48ead;">val </span><span>name: </span><span style="color:#b48ead;">String</span><span>,
+</span><span>    </span><span style="color:#b48ead;">val </span><span>eyes: </span><span style="color:#b48ead;">Int</span><span>,
+</span><span>    </span><span style="color:#b48ead;">val </span><span>heads: </span><span style="color:#b48ead;">Int</span><span>,
+</span><span>    </span><span style="color:#b48ead;">val </span><span>hands: </span><span style="color:#b48ead;">Int</span><span>,
+</span><span>    </span><span style="color:#b48ead;">val </span><span>legs: </span><span style="color:#b48ead;">Int</span><span>,
+</span><span>    </span><span style="color:#b48ead;">val </span><span>tails: </span><span style="color:#b48ead;">Int
+</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">hasTails</span><span>(): </span><span style="color:#b48ead;">Boolean </span><span>= tails &gt; </span><span style="color:#d08770;">0
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 기본 toString() 을 명시적으로 override 하겠다.
+</span><span>    </span><span style="color:#65737e;">// override를 명시함으로써 코드의 의도를 더 명확히 할 수 있고,
+</span><span>    </span><span style="color:#65737e;">// 의도하지 않게 같은 이름의 함수를 정의하는 등의 실수를 줄일 수 있다.
+</span><span>    </span><span style="color:#65737e;">// 여기서는 override를 명시하지 않으면 컴파일 시 에러가 난다.
+</span><span>    </span><span style="color:#b48ead;">override fun </span><span style="color:#8fa1b3;">toString</span><span>(): </span><span style="color:#b48ead;">String</span><span> {
+</span><span>        </span><span style="color:#b48ead;">return </span><span>&quot;</span><span style="color:#a3be8c;">Alien with </span><span style="color:#bf616a;">$eyes</span><span style="color:#a3be8c;"> eyes, </span><span style="color:#bf616a;">$heads</span><span style="color:#a3be8c;"> heads, </span><span style="color:#bf616a;">$hands</span><span style="color:#a3be8c;"> hands, </span><span style="color:#bf616a;">$legs</span><span style="color:#a3be8c;"> legs and </span><span style="color:#bf616a;">$tails</span><span style="color:#a3be8c;"> tails is named as </span><span style="color:#bf616a;">$name</span><span>&quot;
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">val </span><span>a = Alien(&quot;</span><span style="color:#a3be8c;">human</span><span>&quot;)
+</span><span>    println(a.greeting)
+</span><span>    </span><span style="color:#65737e;">// a.shape = &quot;animal&quot; // error!
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">val </span><span>m = MutableAlien(&quot;</span><span style="color:#a3be8c;">rectangle</span><span>&quot;)
+</span><span>    println(m.greeting1)
+</span><span>    m.shape = &quot;</span><span style="color:#a3be8c;">octopus</span><span>&quot;
+</span><span>    println(m.greeting1) </span><span style="color:#65737e;">// result not changed
+</span><span>    println(m.greeting2) </span><span style="color:#65737e;">// result not changed
+</span><span>}
+</span></code></pre>
+<h2 id="gasiseong-jehanhagi">가시성 제한하기</h2>
+<p>가시성을 제한하는 것은 리팩터링 시 라이브러리를 만든 사람이 자신이 변경한 내용이 클라이언트의 코드에 영향을 끼치지 않는다는 확신을 바탕으로 라이브러리를 자유롭게 수정하고 개선할 수 있게 한다.</p>
+<p>소프트웨어를 설계할 때 가장 우선적으로 고려해야 하는 내용은 다음과 같다. <code>변화해야 하는 요소와 동일하게 유지해야하는 요소를 분리한다.</code></p>
+<p>다음과 같은 접근 변경자들이 있다.</p>
+<ul>
+<li>public : 붙이지 않으면 public이다. 클라이언트 코드에 직접적으로 영향을 끼친다.</li>
+<li>internal : 모듈 안에서만 접근할 수 있다. 하나의 모듈은 여러개의 package로 구성된다.</li>
+<li>private : 같은 클래스에 속한 멤버들만이 접근할 수 있다.
+<ul>
+<li>private가 붙은 클래스, 최상위 프로퍼티, 최상위 함수는 같은 파일 내부에서만 접근이 가능하다.</li>
+</ul>
+</li>
+</ul>
+<p>참고. 클래스 내부에 있는 참조를 private로 정의한다고 해도, 그 참조가 가리키는 객체가 외부에서 주입된 것이라면 그 객체를 가리키는 public 참조가 없다고 보장할 수 없다.
+이렇게 한 객체에 대한 참조를 여러개 유지하는 것을 Aliasing 이라고 한다. 이로 인해 놀랄 만한 동작을 수행할 수도 있다.(좋은 의미인지 나쁜 의미인지 모르겠다.)</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Counter</span><span>(</span><span style="color:#b48ead;">var </span><span>start: </span><span style="color:#b48ead;">Int</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">inc</span><span>() { start += </span><span style="color:#d08770;">1</span><span>}
+</span><span>    </span><span style="color:#b48ead;">override fun </span><span style="color:#8fa1b3;">toString</span><span>(): </span><span style="color:#b48ead;">String </span><span>= start.toString()
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">CounterHolder</span><span>(</span><span style="color:#b48ead;">private val </span><span>counter: Counter) {
+</span><span>    </span><span style="color:#b48ead;">override fun </span><span style="color:#8fa1b3;">toString</span><span>(): </span><span style="color:#b48ead;">String </span><span>= &quot;</span><span style="color:#a3be8c;">CounterHolder: </span><span>&quot; + counter
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    </span><span style="color:#b48ead;">val </span><span>c = Counter(</span><span style="color:#d08770;">1</span><span>)
+</span><span>    c.inc()
+</span><span>    println(c)
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">val </span><span>ch = CounterHolder(c)
+</span><span>    println(ch)
+</span><span>
+</span><span>    c.inc()
+</span><span>
+</span><span>    println(ch)
+</span><span>}
+</span></code></pre>
+<h2 id="paekiji">패키지</h2>
+<p>package 선언법. 파일에서 주석이 아닌 코드의 가장 앞에 와야 한다. package name은 소문자여야 한다.</p>
+<p>코틀린에서는  파일 이름이나 패키지 이름을 아무 것이나 쓸 수 있다. 그러나 <a href="https://kotlinlang.org/docs/coding-conventions.html#directory-structure">패키지 이름과 패키지 파일이 들어있는 디렉토리의 경로를 똑같이 하는게 좋은 관례로 여겨진다.</a></p>
+<p>다른 파일에 정의된 이름과의 충돌을 막기 위해, main 함수가 들어있는 파일이 아닌 모든 파일에는 각자 package 문을 사용하는 것이 좋다. main 함수가 있는 파일은 보통 package 문을 사용하지 않는다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">package </span><span>animals
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Cat</span><span> {
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">meow</span><span>() { println(&quot;</span><span style="color:#a3be8c;">meow!</span><span>&quot;) }
+</span><span>}
+</span></code></pre>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">// import 사용법 
+</span><span style="color:#65737e;">// import packagename.ClassName
+</span><span style="color:#65737e;">// import packagename.functionName
+</span><span style="color:#65737e;">// import packagename.propertyName
+</span><span style="color:#b48ead;">import</span><span> kotlin.math.E
+</span><span style="color:#b48ead;">import</span><span> kotlin.math.sin
+</span><span>
+</span><span style="color:#b48ead;">import</span><span> kotlin.math.PI </span><span style="color:#b48ead;">as</span><span> circleRatio
+</span><span style="color:#b48ead;">import</span><span> kotlin.math.cos </span><span style="color:#b48ead;">as</span><span> cosine
+</span><span>
+</span><span style="color:#b48ead;">import</span><span> kotlin.concurrent.*
+</span><span>
+</span><span style="color:#b48ead;">import</span><span> animals.Cat
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>    println(E)
+</span><span>    println(kotlin.math.E)
+</span><span>    println(circleRatio)
+</span><span>
+</span><span>    println(sin(circleRatio))
+</span><span>    println(cosine(circleRatio * </span><span style="color:#d08770;">2</span><span>))
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">val </span><span>c = Cat()
+</span><span>    c.meow()
+</span><span>}
+</span></code></pre>
+<h2 id="teseuteu">테스트</h2>
+<ul>
+<li>JUnit : 자바에서 가장 널리 쓰이는 테스트 프레임워크이며, 코틀린에서도 유용하게 쓸 수 있다.</li>
+<li>Kotest : 코틀린 전용으로 언어의 여러 기능을 살려서 작성되었다.</li>
+<li>Spek : 명세 테스트(specification test)라는 다른 형태의 테스트를 제공한다.</li>
+</ul>
+<p>테스트 주도 개발의 이득에 대한 설명.
+'이 결과를 어떻게 테스트하지?'라고 스스로에게 질문을 던지게 되면, 테스트 외의 다른 이유가 없더라도 함수가 무언가를 반환하게 만들게 되며,
+입력을 받아서 출력을 만들어내고 다른 부수효과를 하지 않는 함수를 만들게 되며 설계와 테스트가 함께 나아지게 된다.</p>
+<h2 id="yeoe">예외</h2>
+<p>저자는 'exception'은 'I Take exception to that(나는 그에 반대한다)'이라는 문장에 있는 exception과 같은 뜻으로 사용된다고 설명한다.
+프로그램이 진행되는 과정에서 비정상이라고 가정한, 일반적인 정상경로를 벗어나는 상황이 발생할 경우, 프로그래머가 반대하는 상황이 발생했다는 의미라고 해석..</p>
+<p>일반적인 문제와 예외적인 문제를 구분하는 것이 중요.</p>
+<ul>
+<li>일반적인 문제 : 그 문제를 처리하기에 충분한 정보가 현재 맥락에 존재하는 경우.</li>
+<li>예외 상황 : 이 상황에서는 현재 맥락에서 처리를 계속 해나갈 수 없고, 현재 상황을 벗어나기 위해 문제를 바깥쪽 맥락으로 던지는 것 뿐이다.</li>
+</ul>
+<p>예외를 잡아내지 않으면 스택 트레이스가 출력된다.</p>
+<p>이 부분은 atomictest를 이용해 설명하고 있기 때문에, 차라리 <a href="https://kotlinlang.org/docs/exceptions.html">공식 문서의 예외 설명</a>을 읽는 것이 나은 것 같다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">try</span><span> {
+</span><span>    </span><span style="color:#b48ead;">throw</span><span> Exception(&quot;</span><span style="color:#a3be8c;">Hi, there! There is a little problem.</span><span>&quot;)
+</span><span>}
+</span><span style="color:#b48ead;">catch</span><span> (e: SomeException) {
+</span><span>    handler
+</span><span>}
+</span><span style="color:#b48ead;">finally</span><span> {
+</span><span>    </span><span style="color:#65737e;">// optional finally block
+</span><span>}
+</span></code></pre>
+<p>try는 expression이다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>a: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#b48ead;">try</span><span> { input.toInt() } </span><span style="color:#b48ead;">catch</span><span> (e: NumberFormatException) { </span><span style="color:#d08770;">0</span><span> }
+</span></code></pre>
+<p>코틀린은 자바의 Checked exception을 사용하지 않는다. 대신 라이브러리 사용자에게 경고를 하고 싶다면, <code>@Throws</code> annotation을 사용할 수 있다.</p>
+<p>throw expression은 Nothing 타입을 갖는다. 이 타입은 값을 갖고 있지 않으며 해당 코드 지점에 절대 도달하지 않을 것임을 마킹하며, 동시에 해당 함수가 리턴되지 않을 것임을 의미한다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">fail</span><span>(message: </span><span style="color:#b48ead;">String</span><span>): </span><span style="color:#b48ead;">Nothing</span><span> {
+</span><span>    </span><span style="color:#b48ead;">throw</span><span> IllegalArguementException(message)
+</span><span>}
+</span></code></pre>
+<p><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/">표준 라이브러리 Exception 항목으로부터 상속 구조를 따라가며 표준 라이브러리 안의 Exception 클래스들을 둘러볼 수 있다.</a></p>
+<h2 id="riseuteu">리스트</h2>
+<p>List는 표준 코틀린 패키지에 들어 있기 때문에 import를 할 필요가 없다. <code>listOf</code> 라는 표준 라이브러리 함수로 초기화와 함께 리스트를 만들 수 있다. 인덱스는 0부터 시작한다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>ints = listOf(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>)
+</span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in</span><span> ints) {
+</span><span>  println(i)
+</span><span>}
+</span><span>println(ints[</span><span style="color:#d08770;">4</span><span>])
+</span><span>println(ints[</span><span style="color:#d08770;">5</span><span>]) </span><span style="color:#65737e;">// ArrayIndexOutOfBoundException
+</span></code></pre>
+<p>List의 멤버 함수들 중 sorted, reversed와 같은 함수들은 결과로 새로운 List를 돌려줌. 이와는 달리 원본 List를 바로 수정하는 경우는 in place라고 부른다.</p>
+<p>타입 파라미터 <code>&lt;&gt;</code>. 예) <code>List&lt;Int&gt;</code>, <code>List&lt;String&gt;</code>, ...</p>
+<p><code>mutableListOf</code> 는 MutableList를 돌려준다.  MutableList도 List로 취급할 수 있다. 하지만 그 역은 가능하지 않다.</p>
+<p>List는 읽기 전용이다  그래서 내용을 읽을 수는 있어도 안에 값을 쓸 수는 없다.
+내부 구현을 MutableList로 하면서 이 MutableList에 대한 참조를 유지했다가,  나중에 이 가변 List에 대한 참조를 통해 원소를 변경하면,  읽기 전용 리스트에 대한 참조임에도 불구하고 그 리스트 내부가 바뀐 모습을 볼 수 있다. (aliasing의 예)</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">getList</span><span>(): </span><span style="color:#b48ead;">List</span><span>&lt;</span><span style="color:#b48ead;">Int</span><span>&gt; {
+</span><span>  </span><span style="color:#b48ead;">return</span><span> mutableListOf(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>)
+</span><span>}
+</span></code></pre>
+<p>+= 연산자를 쓰면 MutableList일 경우 in place로 붙여주며,  List이면 새로운 List를 리턴해주지만,  이 때 변수는 var이어야만 재대입이 가능하다.</p>
+<h2 id="gabyeon-inja-mogrog">가변 인자 목록</h2>
+<p>vararg는 가변 인자 목록의 줄임말이다.
+함수 정의에는 vararg로 선언된 인자가 최대 하나만 있어야 한다. 파라미터 목록에서 어떤 위치에 있는 파라미터이든 vararg로 선언할 수 있지만,  일반적으로 마지막 파라미터를 vararg로 선언하는게 일반적이다.
+vararg  인자에는 0개 이상의 임의의 갯수의 타입이 맞는 값들을 전달할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">vf</span><span>(s: </span><span style="color:#b48ead;">String</span><span>, </span><span style="color:#b48ead;">vararg </span><span>i: </span><span style="color:#b48ead;">Int</span><span>) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">s: </span><span style="color:#bf616a;">$s</span><span style="color:#a3be8c;">, size: </span><span style="color:#bf616a;">${i.size}</span><span style="color:#a3be8c;">, sum: </span><span style="color:#bf616a;">${i.sum()}</span><span style="color:#a3be8c;">, avg: </span><span style="color:#bf616a;">${i.average()}</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>  vf(&quot;</span><span style="color:#a3be8c;">abc</span><span>&quot;, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>)
+</span><span>  vf(&quot;</span><span style="color:#a3be8c;">def</span><span>&quot;, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>)
+</span><span>  vf(&quot;</span><span style="color:#a3be8c;">ghi</span><span>&quot;)
+</span><span>}
+</span></code></pre>
+<p>vararg에는 Array타입을 만들어서 넘길 수도 있다. arrayOf()로 초기화된 Array를 만들 수 있고, Array는 불변타입은 없다.
+Array를 인자 목록으로 변환해서 넘기기 위해 스프레드연산자 <code>*</code>를 사용한다. 프리미티브 타입의 Array를 만들 때는 구체적인 이름의 생성 함수를 사용해야 한다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>array = intArrayOf(</span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>) </span><span style="color:#65737e;">// Array&lt;Int&gt; 타입을 생성하는 생성 함수
+</span><span>sum(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, *array, </span><span style="color:#d08770;">6</span><span>)
+</span></code></pre>
+<p>스프레드 연산자는 배열에만 적용 가능하며,  vararg로 받은 인자를 다시 다른 vararg를 받는 함수에 넘길 때도 사용할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">inner</span><span>(</span><span style="color:#b48ead;">vararg </span><span>numbers: </span><span style="color:#b48ead;">Int</span><span>): </span><span style="color:#b48ead;">String</span><span> {
+</span><span>  </span><span style="color:#b48ead;">var </span><span>result = &quot;&quot;
+</span><span>  </span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in</span><span> numbers) {
+</span><span>    result += &quot;</span><span style="color:#a3be8c;">[</span><span style="color:#bf616a;">$i</span><span style="color:#a3be8c;">]</span><span>&quot;
+</span><span>  }
+</span><span>  </span><span style="color:#b48ead;">return</span><span> result
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">outer</span><span>(</span><span style="color:#b48ead;">vararg </span><span>numbers: </span><span style="color:#b48ead;">Int</span><span>): </span><span style="color:#b48ead;">String</span><span> {
+</span><span>  inner(*numbers)
+</span><span>}
+</span></code></pre>
+<p>프로그램의 인자는 다음과 같이 구할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>(args: </span><span style="color:#b48ead;">Array</span><span>&lt;</span><span style="color:#b48ead;">String</span><span>&gt;) {
+</span><span>  </span><span style="color:#b48ead;">for</span><span> (a </span><span style="color:#b48ead;">in</span><span> args) {
+</span><span>    println(a)
+</span><span>  }
+</span><span>
+</span><span>  </span><span style="color:#b48ead;">val </span><span>first = args[</span><span style="color:#d08770;">0</span><span>]
+</span><span>  </span><span style="color:#b48ead;">val </span><span>second = args[</span><span style="color:#d08770;">1</span><span>].toInt()
+</span><span>}
+</span></code></pre>
+<h2 id="jibhab">집합</h2>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>intSet = setOf(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">5</span><span>) </span><span style="color:#65737e;">// 중복 없음. 1 2 3 4 5. 순서는 중요하지 않음.  선언한 순서와 다를 수 있음.
+</span><span style="color:#d08770;">3 </span><span style="color:#b48ead;">in</span><span> intSet </span><span style="color:#65737e;">// 원소 검사
+</span><span>intSet.contains(</span><span style="color:#d08770;">3</span><span>)
+</span><span>intSet.containsAll(setOf(</span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>)) </span><span style="color:#65737e;">// 다른 집합을 포함하는지 검사
+</span><span>intSet.union(setOf(</span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">6</span><span>, </span><span style="color:#d08770;">7</span><span>)) </span><span style="color:#65737e;">// 합집합
+</span><span>intSet intersect setOf(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>) </span><span style="color:#65737e;">// 교집합 1 2
+</span><span>intSet subtract setOf(</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>) </span><span style="color:#65737e;">// 차집합 0 3 4 5
+</span><span>
+</span><span style="color:#b48ead;">val </span><span>list = listOf(</span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>)
+</span><span>list.toSet() </span><span style="color:#65737e;">// setOf(1, 2, 3)
+</span><span>list.distinct() </span><span style="color:#65737e;">// listOf(3, 2, 1)
+</span><span>&quot;</span><span style="color:#a3be8c;">abcc</span><span>&quot;.toSet() </span><span style="color:#65737e;">// setOf(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+</span><span>
+</span><span style="color:#b48ead;">val </span><span>mutableSet = mutableSetOf&lt;</span><span style="color:#b48ead;">Int</span><span>&gt;()
+</span><span>mutableSet += </span><span style="color:#d08770;">123
+</span><span>mutableSet += </span><span style="color:#d08770;">123 </span><span style="color:#65737e;">// == setOf(123)
+</span><span>mutableSet -= </span><span style="color:#d08770;">123 </span><span style="color:#65737e;">// == setOf&lt;Int&gt;()
+</span></code></pre>
+<h2 id="maeb">맵</h2>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>mathMap = mapOf(
+</span><span>  &quot;</span><span style="color:#a3be8c;">PI</span><span>&quot; to </span><span style="color:#d08770;">3.141</span><span>,
+</span><span>  &quot;</span><span style="color:#a3be8c;">e</span><span>&quot; to </span><span style="color:#d08770;">2.718</span><span>,
+</span><span>  &quot;</span><span style="color:#a3be8c;">phi</span><span>&quot; to </span><span style="color:#d08770;">1.618
+</span><span>)
+</span><span>
+</span><span>mathMap[&quot;</span><span style="color:#a3be8c;">e</span><span>&quot;] </span><span style="color:#65737e;">// == 2.718
+</span><span>mathMap.keys </span><span style="color:#65737e;">// == setOf(&quot;PI&quot;, &quot;e&quot;, &quot;phi&quot;)
+</span><span>mathMap.values </span><span style="color:#65737e;">// == [3.141, 2.718, 1.618]
+</span><span style="color:#b48ead;">for</span><span> (entry </span><span style="color:#b48ead;">in</span><span> mathMap) {
+</span><span>  println(&quot;</span><span style="color:#bf616a;">${entry.key}</span><span style="color:#a3be8c;"> = </span><span style="color:#bf616a;">${entry.value}</span><span>&quot;)
+</span><span>}
+</span><span style="color:#b48ead;">for</span><span> ((key, value) </span><span style="color:#b48ead;">in</span><span> mathMap) {
+</span><span>  println(&quot;</span><span style="color:#bf616a;">${key}</span><span style="color:#a3be8c;"> = </span><span style="color:#bf616a;">${value}</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">val </span><span>m = mutableMapOf(</span><span style="color:#d08770;">5</span><span> to &quot;</span><span style="color:#a3be8c;">five</span><span>&quot;, </span><span style="color:#d08770;">6</span><span> to &quot;</span><span style="color:#a3be8c;">six</span><span>&quot;)
+</span><span>m[</span><span style="color:#d08770;">5</span><span>] </span><span style="color:#65737e;">// == &quot;five&quot;
+</span><span>m[</span><span style="color:#d08770;">5</span><span>] = &quot;</span><span style="color:#a3be8c;">FIVE</span><span>&quot;
+</span><span>m[</span><span style="color:#d08770;">5</span><span>] </span><span style="color:#65737e;">// == &quot;FIVE&quot;
+</span><span>m += </span><span style="color:#d08770;">4</span><span> to &quot;</span><span style="color:#a3be8c;">four</span><span>&quot;
+</span></code></pre>
+<p>mapOf와 mutableMapOf는 원소가 Map에 전달된 순서를 유지해준다  다른 Map 타입에서는 이 순서가 보장되지 않을 수 있다.</p>
+<p>주어진 키에 해당하는 원소가 포함되어 있지 않으면 Map은 null을 반환한다.  null이 될 수 없는 결과를 원한다면 getValue()를 쓸 수 있고,  이 경우 NoSuchElementException이 발생한다. 이보다는 getOrDefault()가 좀더 나은 대안이다.</p>
+<p>클래스 인스턴스도 맵의 값이 될 수 있다. (키로도 가능은 하지만 설명하지 않고 뒤로 미룸.)</p>
+<p>Map은 연관배열(associative array)이라고 부르기도 한다.</p>
+<h2 id="peuropeoti-jeobgeunja">프로퍼티 접근자</h2>
+<p>프로퍼티 접근자는 getter와 setter를 정의할 수 있게 한다.  프로퍼티 정의 바로 뒤에 get() 혹은 set()을 정의하면 프로퍼티 접근자를 정의할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Integer</span><span> {
+</span><span>  </span><span style="color:#b48ead;">var </span><span>i: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#8fa1b3;">get</span><span>() {
+</span><span>      println(&quot;</span><span style="color:#a3be8c;">get()</span><span>&quot;)
+</span><span>      </span><span style="color:#b48ead;">return</span><span> field </span><span style="color:#65737e;">// field라는 이름으로 프로퍼티에 접근할 수 있다.
+</span><span>    }
+</span><span>    </span><span style="color:#8fa1b3;">set</span><span>(value) {
+</span><span>      println(&quot;</span><span style="color:#a3be8c;">set()</span><span>&quot;)
+</span><span>      field = value
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Counter</span><span> {
+</span><span>  </span><span style="color:#b48ead;">var </span><span>value: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">private</span><span> set           </span><span style="color:#65737e;">// get은 정의하지 않았으므로 set만 private로 외부에서 접근 불가.
+</span><span>  </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">inc</span><span>() = value++
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// 필드가 없는 프로퍼티를 정의하는 예
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Changeable</span><span>(</span><span style="color:#b48ead;">private val </span><span>maxCount: </span><span style="color:#b48ead;">Int</span><span>) {
+</span><span>  </span><span style="color:#b48ead;">private var </span><span>changeCount = </span><span style="color:#d08770;">0
+</span><span>  </span><span style="color:#b48ead;">val </span><span>remain: </span><span style="color:#b48ead;">Int
+</span><span>    </span><span style="color:#8fa1b3;">get</span><span>() = maxCount - changeCount
+</span><span>  </span><span style="color:#b48ead;">val </span><span>changeable: </span><span style="color:#b48ead;">Boolean
+</span><span>    </span><span style="color:#8fa1b3;">get</span><span>() = remain &gt; </span><span style="color:#d08770;">0
+</span><span>  </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">change</span><span>(): </span><span style="color:#b48ead;">Boolean</span><span> {
+</span><span>    </span><span style="color:#b48ead;">if</span><span> (!changeable) {
+</span><span>      </span><span style="color:#d08770;">false
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">else</span><span> {
+</span><span>      changeCount++
+</span><span>      </span><span style="color:#d08770;">true
+</span><span>    }
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>코틀린 스타일 가이드에서는 계산 비용이 많이 들지 않고 객체 상태가 바뀌지 않는 한 같은 결과를 내놓는 함수의 경우 프로퍼티를 사용하는 편이 낫다고 안내한다.  그리고 프로퍼티 접근자는 프로퍼티에 대한 일종의 보호수단 역할을 할 수 있다.</p>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-gaegceneun-modeun-gose-jonjaehanda" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#gaegceneun-modeun-gose-jonjaehanda">
+                객체는 모든 곳에 존재한다
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-keulraeseu-mandeulgi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#keulraeseu-mandeulgi">
+                클래스 만들기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-peuropeoti" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#peuropeoti">
+                프로퍼티
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-saengseongja" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#saengseongja">
+                생성자
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-gasiseong-jehanhagi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#gasiseong-jehanhagi">
+                가시성 제한하기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-paekiji" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#paekiji">
+                패키지
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-teseuteu" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#teseuteu">
+                테스트
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-yeoe" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#yeoe">
+                예외
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-riseuteu" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#riseuteu">
+                리스트
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-gabyeon-inja-mogrog" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#gabyeon-inja-mogrog">
+                가변 인자 목록
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-jibhab" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#jibhab">
+                집합
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-maeb" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#maeb">
+                맵
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-peuropeoti-jeobgeunja" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch2/#peuropeoti-jeobgeunja">
+                프로퍼티 접근자
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;240203-atomic-kotlin-ch1&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              아토믹 코틀린 1부 프로그래밍 기초
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;240204-atomic-kotlin-ch3&#x2F;">
+              아토믹 코틀린 3부 사용성<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://smpl.kr/sitemap.xml

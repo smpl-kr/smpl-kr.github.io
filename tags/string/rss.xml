@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - string</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/string/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Sat, 24 Apr 2021 07:19:00 +0900</lastBuildDate>
+      <item>
+          <title>C++ snippet - string split 하기</title>
+          <pubDate>Sat, 24 Apr 2021 07:19:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210424-cpp-snippet-string-split/</link>
+          <guid>https://smpl.kr/posts/210424-cpp-snippet-string-split/</guid>
+          <description xml:base="https://smpl.kr/posts/210424-cpp-snippet-string-split/">&lt;p&gt;문자열을 특정한 글자나 문자열로 분할해야 하는 경우는 자주 마주치는데, C++에서는 이 기본적인 기능이 표준 라이브러리에서 제공되지 않기 때문에 직접 구현하여 써야 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;어려운 일은 아니지만 그 때 그 때 만들기에는 번거롭기 때문에, 편리하게 간단한 snippet을 만들어 둔다.&lt;&#x2F;p&gt;
+&lt;p&gt;상황에 따라 조금씩 고쳐야 하는 경우도 있긴 할 것이다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;munjaro-bunhalhagi&quot;&gt;문자로 분할하기&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span&gt;std::vector &amp;lt;std::string&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;tokenize&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; std::string&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;delim&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    std::vector&amp;lt;std::string&amp;gt; ret;
+&lt;&#x2F;span&gt;&lt;span&gt;    std::stringstream &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ss&lt;&#x2F;span&gt;&lt;span&gt;(str);
+&lt;&#x2F;span&gt;&lt;span&gt;    std::string token;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(;;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(!std::&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;getline&lt;&#x2F;span&gt;&lt;span&gt;(ss, token, delim)) {
+&lt;&#x2F;span&gt;&lt;span&gt;            ret.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;emplace_back&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&amp;quot;);
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;break&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ret.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;emplace_back&lt;&#x2F;span&gt;&lt;span&gt;(token);
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; ret;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;munjayeolro-bunhalhagi&quot;&gt;문자열로 분할하기&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span&gt;std::vector&amp;lt;std::string&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;tokenize&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; std::string&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;str&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span&gt; std::string&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;delim&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    std::vector&amp;lt;std::string&amp;gt; ret;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t cur = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(;;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(cur &amp;gt;= str.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;size&lt;&#x2F;span&gt;&lt;span&gt;()) {
+&lt;&#x2F;span&gt;&lt;span&gt;            ret.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;emplace_back&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&amp;quot;);
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;break&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const auto&lt;&#x2F;span&gt;&lt;span&gt; next = str.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;find_first_of&lt;&#x2F;span&gt;&lt;span&gt;(delim, cur);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        ret.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;emplace_back&lt;&#x2F;span&gt;&lt;span&gt;(str.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;substr&lt;&#x2F;span&gt;&lt;span&gt;(cur, next - cur));
+&lt;&#x2F;span&gt;&lt;span&gt;        
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(next == std::string::npos)
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;break&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        cur = next + delim.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;size&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; ret;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</description>
+      </item>
+    </channel>
+</rss>

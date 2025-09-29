@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | Leetcode 1349. Maximum Students Taking Exam
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            Leetcode 1349. Maximum Students Taking Exam
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2022-06-13T23:57:00+09:00">June 13, 2022</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>1 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>15 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/rust/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>rust</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/leetcode/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>leetcode</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>문제 : <a href="https://leetcode.com/problems/maximum-students-taking-exam/">1349. Maximum Students Taking Exam</a></p>
+<p>등급 : Hard</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub</span><span>(</span><span style="color:#bf616a;">self</span><span>) </span><span style="color:#b48ead;">mod </span><span>first_try {
+</span><span>    </span><span style="color:#b48ead;">pub struct </span><span>Solution;
+</span><span>    </span><span style="color:#b48ead;">impl </span><span>Solution {
+</span><span>        </span><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">max_students</span><span>(</span><span style="color:#bf616a;">seats</span><span>: Vec&lt;Vec&lt;</span><span style="color:#b48ead;">char</span><span>&gt;&gt;) -&gt; </span><span style="color:#b48ead;">i32 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> possible_rows = Vec::&lt;std::collections::HashMap&lt;</span><span style="color:#b48ead;">u32</span><span>, </span><span style="color:#b48ead;">u32</span><span>&gt;&gt;::new();
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// 각 줄 별로 모든 가능한 자리배치를 계산
+</span><span>            </span><span style="color:#b48ead;">for</span><span> s in seats.</span><span style="color:#96b5b4;">iter</span><span>() {
+</span><span>                possible_rows.</span><span style="color:#96b5b4;">push</span><span>(Solution::possible_rows(s));
+</span><span>            }
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// 첫 줄의 가능한 자리배치들의 학생이 앉은 자리 갯수를 계산
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> row = possible_rows.</span><span style="color:#96b5b4;">drain</span><span>(..</span><span style="color:#d08770;">1</span><span>).</span><span style="color:#96b5b4;">take</span><span>(</span><span style="color:#d08770;">1</span><span>).</span><span style="color:#96b5b4;">next</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(num, count) in row.</span><span style="color:#96b5b4;">iter_mut</span><span>() {
+</span><span>                *count = Solution::count_of_bit(*num);
+</span><span>            }
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">loop </span><span>{
+</span><span>                </span><span style="color:#65737e;">// 모든 줄을 탐색할 때까지...
+</span><span>                </span><span style="color:#b48ead;">if</span><span> possible_rows.</span><span style="color:#96b5b4;">is_empty</span><span>() {
+</span><span>                    </span><span style="color:#b48ead;">break
+</span><span>                }
+</span><span>
+</span><span>                </span><span style="color:#65737e;">// 다음줄로 넘어가면서 계산. 전 줄까지 계산된 누적된 학생이 앉아 있는 자리 갯수 정보를 활용한다.
+</span><span>                </span><span style="color:#b48ead;">let</span><span> prior_row = row;
+</span><span>                row = possible_rows.</span><span style="color:#96b5b4;">drain</span><span>(..</span><span style="color:#d08770;">1</span><span>).</span><span style="color:#96b5b4;">take</span><span>(</span><span style="color:#d08770;">1</span><span>).</span><span style="color:#96b5b4;">next</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>
+</span><span>                </span><span style="color:#65737e;">// 전 줄의 자리배치와 이번 줄의 자리배치가 문제 조건에 부합하는지를 확인하고, 부합한다면,
+</span><span>                </span><span style="color:#65737e;">// 전 줄까지의 자리배치를 계산하면서, 학생이 최대로 앉아있을 수 있는 자리갯수를 얻었을텐데,
+</span><span>                </span><span style="color:#65737e;">// 그 최대 자리 갯수를 이번 줄의 각 배치의 자리 갯수에 합산한다. (누적)
+</span><span>                </span><span style="color:#65737e;">// 그러면 이번 줄까지의 각 자리배치에서 최대로 학생들이 앉을 수 있는 자리갯수를 도출할 수 있다.
+</span><span>                </span><span style="color:#b48ead;">for </span><span>(cur_num, cur_count) in row.</span><span style="color:#96b5b4;">iter_mut</span><span>() {
+</span><span>                    </span><span style="color:#b48ead;">let</span><span> count_of_bit = Solution::count_of_bit(*cur_num);
+</span><span>
+</span><span>                    </span><span style="color:#b48ead;">for </span><span>(prior_num, prior_count) in prior_row.</span><span style="color:#96b5b4;">iter</span><span>() {
+</span><span>                        </span><span style="color:#b48ead;">if </span><span>Solution::compare_rows(prior_num, cur_num) {
+</span><span>                            </span><span style="color:#b48ead;">if</span><span> count_of_bit + *prior_count &gt; *cur_count {
+</span><span>                                *cur_count = count_of_bit + *prior_count;
+</span><span>                            }
+</span><span>                        }
+</span><span>                    }
+</span><span>                }
+</span><span>            }
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// 마지막 줄의 배치들 중 자리 갯수가 가장 큰 값을 리턴
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> largest = </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">u32</span><span>;
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(_, count) in row.</span><span style="color:#96b5b4;">iter</span><span>() {
+</span><span>                </span><span style="color:#b48ead;">if </span><span>*count &gt; largest {
+</span><span>                    largest = *count;
+</span><span>                }
+</span><span>            }
+</span><span>
+</span><span>            largest as </span><span style="color:#b48ead;">i32
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#65737e;">// 현재 줄의 빈 자리 정보로부터, 배치 가능한 모든 경우의 수를 구함.
+</span><span>        </span><span style="color:#65737e;">// 해시맵의 키는 배치의 모습을 8bit 비트필드로 표현한 것이고, 밸류는 해당 배치에서 나올 수 있는 자리 갯수이다.
+</span><span>        </span><span style="color:#65737e;">// 이 함수에서는 아직 자리 갯수가 계산되지 않았으므로 0으로 지정한다.
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">possible_rows</span><span>(</span><span style="color:#bf616a;">row</span><span>: &amp;Vec&lt;</span><span style="color:#b48ead;">char</span><span>&gt;) -&gt; std::collections::HashMap&lt;</span><span style="color:#b48ead;">u32</span><span>, </span><span style="color:#b48ead;">u32</span><span>&gt; {
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> ret = Vec::&lt;</span><span style="color:#b48ead;">u32</span><span>&gt;::new();
+</span><span>            
+</span><span>            </span><span style="color:#b48ead;">for</span><span> c in row.</span><span style="color:#96b5b4;">iter</span><span>() {
+</span><span>                </span><span style="color:#b48ead;">if </span><span>*c == &#39;</span><span style="color:#a3be8c;">#</span><span>&#39; {
+</span><span>                    </span><span style="color:#b48ead;">if</span><span> ret.</span><span style="color:#96b5b4;">is_empty</span><span>() {
+</span><span>                        ret.</span><span style="color:#96b5b4;">push</span><span>(</span><span style="color:#d08770;">0</span><span>);
+</span><span>                    }
+</span><span>                    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                        </span><span style="color:#b48ead;">for</span><span> each in ret.</span><span style="color:#96b5b4;">iter_mut</span><span>() {
+</span><span>                            *each &lt;&lt;= </span><span style="color:#d08770;">1</span><span>;
+</span><span>                        }
+</span><span>                    }
+</span><span>                }
+</span><span>                </span><span style="color:#b48ead;">else if </span><span>*c == &#39;</span><span style="color:#a3be8c;">.</span><span>&#39; {
+</span><span>                    </span><span style="color:#b48ead;">if</span><span> ret.</span><span style="color:#96b5b4;">is_empty</span><span>() {
+</span><span>                        ret.</span><span style="color:#96b5b4;">push</span><span>(</span><span style="color:#d08770;">1</span><span>);
+</span><span>                        ret.</span><span style="color:#96b5b4;">push</span><span>(</span><span style="color:#d08770;">0</span><span>);
+</span><span>                    }
+</span><span>                    </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                        </span><span style="color:#b48ead;">let mut</span><span> temp = Vec::&lt;</span><span style="color:#b48ead;">u32</span><span>&gt;::new();
+</span><span>                        </span><span style="color:#b48ead;">for</span><span> each in ret.</span><span style="color:#96b5b4;">iter</span><span>() {
+</span><span>                            </span><span style="color:#b48ead;">if</span><span> each &amp; </span><span style="color:#d08770;">1 </span><span>== </span><span style="color:#d08770;">0 </span><span>{
+</span><span>                                temp.</span><span style="color:#96b5b4;">push</span><span>(*each &lt;&lt; </span><span style="color:#d08770;">1</span><span>);
+</span><span>                                temp.</span><span style="color:#96b5b4;">push</span><span>((*each &lt;&lt; </span><span style="color:#d08770;">1</span><span>) | </span><span style="color:#d08770;">1</span><span>);
+</span><span>                            }
+</span><span>                            </span><span style="color:#b48ead;">else </span><span>{
+</span><span>                                temp.</span><span style="color:#96b5b4;">push</span><span>(*each &lt;&lt; </span><span style="color:#d08770;">1</span><span>);
+</span><span>                            }
+</span><span>                        }
+</span><span>                        ret = temp;
+</span><span>                    }
+</span><span>                }
+</span><span>            }
+</span><span>
+</span><span>            ret.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">map</span><span>(|</span><span style="color:#bf616a;">n</span><span>| (*n, </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">u32</span><span>)).</span><span style="color:#96b5b4;">collect</span><span>()
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#65737e;">// 입력된 줄에서 지정된 열이 학생이 앉아있는 자리인지를 얻는다.
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">get_bit</span><span>(</span><span style="color:#bf616a;">num</span><span>: &amp;</span><span style="color:#b48ead;">u32</span><span>, </span><span style="color:#bf616a;">bit</span><span>: </span><span style="color:#b48ead;">u8</span><span>) -&gt; </span><span style="color:#b48ead;">bool </span><span>{
+</span><span>            num &amp; (</span><span style="color:#d08770;">1 </span><span>&lt;&lt; bit) != </span><span style="color:#d08770;">0
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#65737e;">// 입력된 줄에서 학생이 앉아있는 자리 갯수를 구한다.
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">count_of_bit</span><span>(</span><span style="color:#b48ead;">mut </span><span style="color:#bf616a;">num</span><span>: </span><span style="color:#b48ead;">u32</span><span>) -&gt; </span><span style="color:#b48ead;">u32 </span><span>{
+</span><span>            </span><span style="color:#b48ead;">let mut</span><span> count = </span><span style="color:#d08770;">0</span><span>;
+</span><span>            </span><span style="color:#b48ead;">while</span><span> num &gt; </span><span style="color:#d08770;">0 </span><span>{
+</span><span>                </span><span style="color:#b48ead;">if</span><span> num &amp; </span><span style="color:#d08770;">1 </span><span>== </span><span style="color:#d08770;">1 </span><span>{
+</span><span>                    count += </span><span style="color:#d08770;">1</span><span>;
+</span><span>                }
+</span><span>                num &gt;&gt;= </span><span style="color:#d08770;">1</span><span>;
+</span><span>            }
+</span><span>            count
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#65737e;">// 이전 줄과 현재 줄을 비교해서, 문제의 조건에 부합하는지 확인한다.
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">compare_rows</span><span>(</span><span style="color:#bf616a;">prior_num</span><span>: &amp;</span><span style="color:#b48ead;">u32</span><span>, </span><span style="color:#bf616a;">cur_num</span><span>: &amp;</span><span style="color:#b48ead;">u32</span><span>) -&gt; </span><span style="color:#b48ead;">bool </span><span>{
+</span><span>            </span><span style="color:#b48ead;">for</span><span> i in </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">8 </span><span>{
+</span><span>                </span><span style="color:#b48ead;">if </span><span>Solution::get_bit(cur_num, i) {
+</span><span>                    </span><span style="color:#b48ead;">if</span><span> i &gt; </span><span style="color:#d08770;">0 </span><span>&amp;&amp; Solution::get_bit(prior_num, i-</span><span style="color:#d08770;">1</span><span>) {
+</span><span>                        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">false
+</span><span>                    }
+</span><span>
+</span><span>                    </span><span style="color:#b48ead;">if</span><span> i &lt; </span><span style="color:#d08770;">7 </span><span>&amp;&amp; Solution::get_bit(prior_num, i+</span><span style="color:#d08770;">1</span><span>) {
+</span><span>                        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">false
+</span><span>                    }
+</span><span>                }
+</span><span>            }
+</span><span>
+</span><span>            </span><span style="color:#d08770;">true
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#bf616a;">cfg</span><span>(test)]
+</span><span style="color:#b48ead;">mod </span><span>tests {
+</span><span>    </span><span style="color:#b48ead;">use crate</span><span>::maximum_students_taking_exam::first_try::Solution;
+</span><span>
+</span><span>    #[</span><span style="color:#bf616a;">test</span><span>]
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">example</span><span>() {
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> seats = vec![
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;]
+</span><span>            ];
+</span><span>            </span><span style="color:#b48ead;">let</span><span> expected = </span><span style="color:#d08770;">4</span><span>;
+</span><span>            assert_eq!(Solution::max_students(seats), expected);
+</span><span>        }
+</span><span>
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> seats = vec![
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>            ];
+</span><span>            </span><span style="color:#b48ead;">let</span><span> expected = </span><span style="color:#d08770;">3</span><span>;
+</span><span>            assert_eq!(Solution::max_students(seats), expected);
+</span><span>        }
+</span><span>
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> seats = vec![
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;],
+</span><span>                vec![&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;,&#39;</span><span style="color:#a3be8c;">#</span><span>&#39;],
+</span><span>            ];
+</span><span>            </span><span style="color:#b48ead;">let</span><span> expected = </span><span style="color:#d08770;">10</span><span>;
+</span><span>            assert_eq!(Solution::max_students(seats), expected);
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+
+          </div>
+        </article>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps&#x2F;ps-leetcode-1297&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              Leetcode 1297. Maximum Number of Occurrences of a Substring
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps&#x2F;ps-leetcode-405&#x2F;">
+              Leetcode 405. Convert a Number to Hexadecimal<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+
+
+
+
+  
+  
+</body>
+
+</html>

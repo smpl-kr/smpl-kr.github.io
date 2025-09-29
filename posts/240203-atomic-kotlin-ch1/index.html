@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | 아토믹 코틀린 1부 프로그래밍 기초
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            아토믹 코틀린 1부 프로그래밍 기초
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2024-02-03T05:00:00+09:00">February 03, 2024</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>3 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>440 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/kotlin/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>kotlin</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p><a href="http://aladin.kr/p/bzcyt">아토믹 코틀린</a> 책의 1부 프로그래밍 기초 챕터를 읽고, 읽은 내용을 정리해봅니다.
+공부하면서 개인적으로 다른 언어와 달랐던 점, 인상깊었던 점 혹은 기억해야할 점들만 적었습니다.</p>
+<h2 id="koteulrine-yeonghyangeul-ggicin-eoneodeul">코틀린에 영향을 끼친 언어들</h2>
+<ul>
+<li>FORTRAN</li>
+<li>LISP</li>
+<li>ALGOL</li>
+<li>COBOL</li>
+<li>BASIC</li>
+<li>Simula</li>
+<li>PASCAL</li>
+<li>C</li>
+<li>Smalltalk</li>
+<li>C++</li>
+<li>Python</li>
+<li>Haskell</li>
+<li>Java</li>
+<li>Javascript</li>
+<li>C#</li>
+<li>Scala</li>
+<li>Groovy</li>
+</ul>
+<h2 id="koteulrinyi-jangjeom">코틀린의 장점</h2>
+<ul>
+<li>왜 코틀린인가?
+<ul>
+<li>가독성</li>
+<li>도구(JetBrains)</li>
+<li>다중 패러다임(명령형, 함수형, 객체지향 프로그래밍)</li>
+<li>다중 플랫폼(JVM, 안드로이드 ART, 자바스크립트, 네이티브)</li>
+</ul>
+</li>
+<li>특징
+<ul>
+<li>노력이 필요없는 자바 상호운용성</li>
+<li>빈값 표현 방식</li>
+</ul>
+</li>
+</ul>
+<h2 id="hello-world">Hello, World</h2>
+<p>entry point</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">main</span><span>() {}
+</span></code></pre>
+<p>주석</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">// one line comment
+</span><span style="color:#65737e;">/* multi line
+</span><span style="color:#65737e;">    comment */
+</span></code></pre>
+<p><code>;</code>로 문장을 끝낼 필요가 없다.</p>
+<h2 id="varwa-val">var와 val</h2>
+<ul>
+<li>var : 식별자가 담고 있는 값이 변할 수 있다.(mutable) 내용을 '재대입'할 수 있다.</li>
+</ul>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">var </span><span>식별자 = </span><span style="color:#d08770;">1 </span><span style="color:#65737e;">// 초기화
+</span><span>식별자 = 식별자 + </span><span style="color:#d08770;">1
+</span><span>식별자 += </span><span style="color:#d08770;">1
+</span></code></pre>
+<ul>
+<li>val : 식별자의 값을 단 한번만 초기화할 수 있고 값을 재대입할 수 없다.(immutable)</li>
+</ul>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>식별자 = </span><span style="color:#d08770;">1 </span><span style="color:#65737e;">// 초기화
+</span><span>식별자 = 식별자 + </span><span style="color:#d08770;">1 </span><span style="color:#65737e;">// 오류
+</span></code></pre>
+<h2 id="deiteo-taib">데이터 타입</h2>
+<ul>
+<li>코틀린은 타입추론을 지원한다. 변수를 만들 때 타입을 명시하는 문법은 다음과 같다.</li>
+</ul>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">// var 식별자: 타입 = 초기화
+</span><span style="color:#b48ead;">var </span><span>n: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#d08770;">1
+</span><span style="color:#b48ead;">var </span><span>d: </span><span style="color:#b48ead;">Double </span><span>= </span><span style="color:#d08770;">1.2
+</span><span style="color:#b48ead;">var </span><span>b: </span><span style="color:#b48ead;">Boolean </span><span>= </span><span style="color:#d08770;">true
+</span><span style="color:#b48ead;">var </span><span>s: </span><span style="color:#b48ead;">String </span><span>= &quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;
+</span><span style="color:#b48ead;">var </span><span>c: </span><span style="color:#b48ead;">Char </span><span>= &#39;</span><span style="color:#a3be8c;">z</span><span>&#39;
+</span><span style="color:#b48ead;">var </span><span>lines: </span><span style="color:#b48ead;">String </span><span>= &quot;&quot;&quot;</span><span style="color:#a3be8c;">큰 따옴포 세개로
+</span><span style="color:#a3be8c;">여러 줄 문자열 리터럴을 편하게
+</span><span style="color:#a3be8c;">사용할 수 있다.
+</span><span style="color:#a3be8c;">삼중 따옴표 String 혹은 Raw String 이라고 부른다.
+</span></code></pre>
+<ul>
+<li>타입들
+<ul>
+<li>Byte, Short, Int, Long</li>
+<li>Float, Double</li>
+<li>UByte, UShort, UInt, ULong</li>
+<li>Boolean</li>
+<li>Char (16비트 유니코드 문자, 16비트 이하만 저장 가능, 2바이트를 넘을 수 없기 때문에, 차라리 UCS-2라고 간주 가능할 것 같다.)</li>
+<li>String (approximately 2bytes per character, 유니코드를 온전하게 담을 수 있다.)</li>
+<li>UByteArray, UShortArray, UIntArray, ULongArray</li>
+<li>UIntRange</li>
+<li>UIntProgression</li>
+<li>Array</li>
+</ul>
+</li>
+</ul>
+<h2 id="hamsu">함수</h2>
+<p>기본적인 형태</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">함수이름</span><span>(p: 타입, p2: 타입, ...): 반환타입 {
+</span><span>    코드
+</span><span>    </span><span style="color:#b48ead;">return</span><span> 결과
+</span><span>} 
+</span></code></pre>
+<p>의미있는 반환결과를 제공하지 않는 함수의 반환 타입은 Unit이다. 반환 타입의 Unit은 생략할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">sayHello</span><span>() {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">Hello!</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">sayGoodbye</span><span>() : </span><span style="color:#b48ead;">Unit</span><span> {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">Goodbye!</span><span>&quot;)
+</span><span>}
+</span></code></pre>
+<p>함수 본문이 하나의 식으로만 이루어진 경우</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">//fun 함수이름(p1: 타입, p2: 타입, ...): 반환타입 = 식
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">multiply</span><span>(x: </span><span style="color:#b48ead;">Int</span><span>): </span><span style="color:#b48ead;">Int </span><span>= x * </span><span style="color:#d08770;">2
+</span></code></pre>
+<h2 id="if-sig">if 식</h2>
+<p>if 괄호 안에 있는 식은 반드시 true나 false로 평가되어야 한다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>num = </span><span style="color:#d08770;">10
+</span><span style="color:#b48ead;">if</span><span> (num &gt; </span><span style="color:#d08770;">100</span><span>) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">bigger than 100</span><span>&quot;)
+</span><span>} </span><span style="color:#b48ead;">else</span><span> {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">lesser than or same as 100</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">val </span><span>result = </span><span style="color:#b48ead;">if</span><span> (num &gt; </span><span style="color:#d08770;">100</span><span>) </span><span style="color:#d08770;">4 </span><span style="color:#b48ead;">else </span><span style="color:#d08770;">42
+</span></code></pre>
+<h2 id="munjayeol-tempeulris">문자열 템플릿</h2>
+<p>문자열 리터럴 안에서 $ 문자로 식을 평가할 수 있다. raw string에서도 $식별자나 ${식}을 쓸 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span>println(&quot;</span><span style="color:#a3be8c;">answer is </span><span style="color:#bf616a;">$answer</span><span>&quot;)
+</span><span>println(&quot;</span><span style="color:#bf616a;">${if (condition) &#39;a&#39; else &#39;b&#39;}</span><span>&quot;)
+</span></code></pre>
+<p>따옴표<code>"</code>가 들어가야 할 경우 <code>"""</code>로 감싸거나, <code>\"</code>와 같이 표현한다.</p>
+<h2 id="su-taib">수 타입</h2>
+<p>숫자 사이에 가독성을 위해 <code>_</code> 밑줄을 넣을 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>two_millions = 2_000_000
+</span><span>println(two_millions)
+</span></code></pre>
+<p>정수 나눗셈의 결과는 정수로, 나머지는 버림한다.</p>
+<p>각 타입의 최대 값은 MAX_VALUE로 구할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>i: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#b48ead;">Int</span><span>.</span><span style="color:#d08770;">MAX_VALUE
+</span></code></pre>
+<p>코틀린은 넘침 가능성을 컴파일 시점에 경고를 해줄 수 있지만, 항상 체크해주지는 못 하며,
+실행 중에 넘침 여부를 검사하면 성능상 영향이 있기 때문에 넘침을 방지해주지 않는다.</p>
+<h2 id="bulrieon">불리언</h2>
+<p>(새로운 내용 없음)</p>
+<h2 id="whilero-banboghagi">while로 반복하기</h2>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">while</span><span> (불리언 식) {
+</span><span>  </span><span style="color:#65737e;">// 반복 코드
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">do</span><span> {
+</span><span>  </span><span style="color:#65737e;">// 반복 코드
+</span><span>} </span><span style="color:#b48ead;">while</span><span> (불리언 식)
+</span></code></pre>
+<h2 id="rupeuwa-beomwi">루프와 범위</h2>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">//for (v in 값들) {
+</span><span style="color:#65737e;">//   v를 이용한 반복 코드
+</span><span style="color:#65737e;">//}
+</span><span>
+</span><span style="color:#65737e;">// 양 끝을 포함. 1부터 3까지 3번 반복. 
+</span><span style="color:#65737e;">// 1..3 을 이터레이션이라고 부른다. 이터레이션은 정수, 문자처럼 연속적이지 않은 경우만 가능하며 실수는 사용 불가하다.
+</span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in </span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">3</span><span>) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">Hey </span><span style="color:#bf616a;">$i</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// a부터 z까지 반복
+</span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in </span><span>&#39;</span><span style="color:#a3be8c;">a</span><span>&#39;..&#39;</span><span style="color:#a3be8c;">z</span><span>&#39;) {
+</span><span>  println(&quot;</span><span style="color:#bf616a;">$i</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// until 다음의 값 미포함. 1부터 2까지 2번 반복.
+</span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in </span><span style="color:#d08770;">1</span><span> unil </span><span style="color:#d08770;">3</span><span>) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">Hey </span><span style="color:#bf616a;">$i</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// 범위 타입
+</span><span style="color:#b48ead;">val </span><span>range1 = </span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">10
+</span><span style="color:#b48ead;">val </span><span>range2 = </span><span style="color:#d08770;">0</span><span> until </span><span style="color:#d08770;">10
+</span><span>
+</span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in</span><span> range1) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">hello </span><span style="color:#bf616a;">$i</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">for</span><span> (i </span><span style="color:#b48ead;">in</span><span> range2) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">hello </span><span style="color:#bf616a;">$i</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">val </span><span>range3 = </span><span style="color:#d08770;">5</span><span> downTo </span><span style="color:#d08770;">1         </span><span style="color:#65737e;">// 5, 4, 3, 2, 1
+</span><span style="color:#b48ead;">val </span><span>range4 = </span><span style="color:#d08770;">0</span><span>..</span><span style="color:#d08770;">9</span><span> step </span><span style="color:#d08770;">2        </span><span style="color:#65737e;">// 0 2 4 6 8
+</span><span style="color:#b48ead;">val </span><span>range5 = </span><span style="color:#d08770;">0</span><span> until </span><span style="color:#d08770;">10</span><span> step </span><span style="color:#d08770;">3  </span><span style="color:#65737e;">// 0 3 6 9
+</span><span style="color:#b48ead;">val </span><span>range6 = </span><span style="color:#d08770;">9</span><span> downto </span><span style="color:#d08770;">2</span><span> step </span><span style="color:#d08770;">3  </span><span style="color:#65737e;">// 9 6 3
+</span><span>
+</span><span style="color:#65737e;">// 문자열도 이터레이션 가능
+</span><span style="color:#b48ead;">for</span><span> (c </span><span style="color:#b48ead;">in </span><span>&quot;</span><span style="color:#a3be8c;">Quantumized</span><span>&quot;) {
+</span><span>  println(ch + </span><span style="color:#d08770;">1</span><span>)
+</span><span>}
+</span></code></pre>
+<p>조건이 필요하지 않고 단순히 일정 횟수만큼 반복만 하고 싶다면 표준 라이브러리 함수 repeat을 사용할 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span>repeat(</span><span style="color:#d08770;">2</span><span>) {
+</span><span>  println(&quot;</span><span style="color:#a3be8c;">hello!</span><span>&quot;)
+</span><span>}
+</span></code></pre>
+<h2 id="in-kiweodeu">in 키워드</h2>
+<p>in 키워드는 for의 이터레이션과 조건 검사 모두로 쓰인다. for 밖의 in 키워드는 어떤 값이 주어진 범위 안에 들어 있는지 검사한다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>a = </span><span style="color:#d08770;">10
+</span><span>println(a </span><span style="color:#b48ead;">in </span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">100</span><span>)        </span><span style="color:#65737e;">// true
+</span><span>println(&#39;</span><span style="color:#a3be8c;">k</span><span>&#39; </span><span style="color:#b48ead;">in </span><span>&quot;</span><span style="color:#a3be8c;">kotlin</span><span>&quot;)    </span><span style="color:#65737e;">// true
+</span><span>println(&#39;</span><span style="color:#a3be8c;">c</span><span>&#39; </span><span style="color:#b48ead;">in </span><span>&quot;</span><span style="color:#a3be8c;">kotlin</span><span>&quot;)    </span><span style="color:#65737e;">// false
+</span><span>println(&quot;</span><span style="color:#a3be8c;">ab</span><span>&quot; </span><span style="color:#b48ead;">in </span><span>&quot;</span><span style="color:#a3be8c;">aa</span><span>&quot;..&quot;</span><span style="color:#a3be8c;">az</span><span>&quot;) </span><span style="color:#65737e;">// true
+</span><span>println(&quot;</span><span style="color:#a3be8c;">ba</span><span>&quot; </span><span style="color:#b48ead;">in </span><span>&quot;</span><span style="color:#a3be8c;">aa</span><span>&quot;..&quot;</span><span style="color:#a3be8c;">az</span><span>&quot;) </span><span style="color:#65737e;">// false
+</span></code></pre>
+<p>Double도 사실은 범위를 만들 순 있지만, 구간 내에 포함되는지 여부를 검사할 때만 Double의 범위를 쓸 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">val </span><span>r = </span><span style="color:#d08770;">1.0</span><span>..</span><span style="color:#d08770;">10.0
+</span><span style="color:#b48ead;">val </span><span>chk1 = </span><span style="color:#d08770;">0.999999 </span><span style="color:#b48ead;">in</span><span> r    </span><span style="color:#65737e;">// false
+</span><span style="color:#b48ead;">val </span><span>chk2 = </span><span style="color:#d08770;">5.0 </span><span style="color:#b48ead;">in</span><span> r         </span><span style="color:#65737e;">// true
+</span><span style="color:#b48ead;">val </span><span>chk3 = </span><span style="color:#d08770;">10.0 </span><span style="color:#b48ead;">in</span><span> r        </span><span style="color:#65737e;">// true
+</span><span style="color:#b48ead;">val </span><span>chk4 = </span><span style="color:#d08770;">10.00000001 </span><span style="color:#b48ead;">in</span><span> r </span><span style="color:#65737e;">// false
+</span></code></pre>
+<p>kotlin 1.8부터는 반 열린 범위(semi-open range)를 쓸 수 있다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span>println(</span><span style="color:#d08770;">0</span><span>..&lt;</span><span style="color:#d08770;">10</span><span>) </span><span style="color:#65737e;">// 0 1 2 3 ... 9
+</span></code></pre>
+<h2 id="siggwa-mun">식과 문</h2>
+<p>문(statement)은 부수효과를 일으키지만 결과를 내놓지 않는다. 식(expression)은 항상 결과를 만들어 낸다.</p>
+<p>for는 statement이고 부수효과를 만들어내기위해 사용한다.</p>
+<p>모든 함수는 expression이다. 함수가 Unit을 반환하고, 부수효과를 갖고 있더라도 여전히 함수 호출 결과를 변수에 대입할 수 있다.</p>
+<p>Unit 타입에는 오직 Unit이라는 값만 대입 가능하다.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">unitFn</span><span>() = </span><span style="color:#b48ead;">Unit
+</span><span>
+</span><span style="color:#b48ead;">val </span><span>u1 = unitFn() </span><span style="color:#65737e;">// Unit
+</span><span style="color:#b48ead;">val </span><span>u2 = println(</span><span style="color:#d08770;">42</span><span>) </span><span style="color:#65737e;">// Unit
+</span></code></pre>
+<p>if는 식을 만들 수 있다.</p>
+<p>증가 및 감소 연산자 <code>++</code>과 <code>--</code>는 식이다.</p>
+<p>증가 및 감소 연산자는 전위 혹은 후위로 쓸 수 있지만, 되도록 다른 식 안에 섞어 쓰지 않는 것이 좋다.</p>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-koteulrine-yeonghyangeul-ggicin-eoneodeul" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#koteulrine-yeonghyangeul-ggicin-eoneodeul">
+                코틀린에 영향을 끼친 언어들
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-koteulrinyi-jangjeom" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#koteulrinyi-jangjeom">
+                코틀린의 장점
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-hello-world" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#hello-world">
+                Hello, World
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-varwa-val" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#varwa-val">
+                var와 val
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-deiteo-taib" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#deiteo-taib">
+                데이터 타입
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-hamsu" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#hamsu">
+                함수
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-if-sig" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#if-sig">
+                if 식
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-munjayeol-tempeulris" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#munjayeol-tempeulris">
+                문자열 템플릿
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-su-taib" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#su-taib">
+                수 타입
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-bulrieon" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#bulrieon">
+                불리언
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-whilero-banboghagi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#whilero-banboghagi">
+                while로 반복하기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-rupeuwa-beomwi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#rupeuwa-beomwi">
+                루프와 범위
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-in-kiweodeu" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#in-kiweodeu">
+                in 키워드
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-siggwa-mun" class="toc is-size-7 "
+                href="https://smpl.kr/posts/240203-atomic-kotlin-ch1/#siggwa-mun">
+                식과 문
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220712-writing-locust-agent-in-go&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              Go 언어로 Locust 성능테스트 작성하기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;240203-atomic-kotlin-ch2&#x2F;">
+              아토믹 코틀린 2부 객체 소개<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

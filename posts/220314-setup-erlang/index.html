@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | 윈도우에서 erlang 설치하기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            윈도우에서 erlang 설치하기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2022-03-14T13:00:00+09:00">March 14, 2022</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>1 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>147 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/erlang/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>erlang</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/otp/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>otp</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/rebar3/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>rebar3</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>심심풀이로 &lt;모바일 서버 프로그래밍 입문 : 얼랭으로 만들며 배운다&gt; 라는 책을 보고 있다. 얼랭에 대한 설명과 서버 프로그래밍에 대한 내용이 무겁지 않게 절반씩 잘 섞인 책이다. 얼랭을 공부할 생각은 없었는데 기대 이상으로 재밌어서, 읽으면서 조금씩 간단히 정리해두고자 한다.</p>
+<h1 id="erlang-seolci">erlang 설치</h1>
+<p>scoop에서도 erlang을 설치할 수 있다. 업데이트도 된다.</p>
+<pre data-lang="ps1" style="background-color:#2b303b;color:#c0c5ce;" class="language-ps1 "><code class="language-ps1" data-lang="ps1"><span>scoop install erlang
+</span></code></pre>
+<h1 id="rebar3-seolci">rebar3 설치</h1>
+<p>rebar3는 scoop에 올려져 있지 않다. 아래 과정을 따라하도록 한다.</p>
+<ol>
+<li>적당한 디렉토리를 선정하고, rebar3 escript를 다운로드 받는다.</li>
+</ol>
+<pre data-lang="ps1" style="background-color:#2b303b;color:#c0c5ce;" class="language-ps1 "><code class="language-ps1" data-lang="ps1"><span>mkdir /Portable/rebar3
+</span><span>cd /Portable/rebar3
+</span><span>iwr https://</span><span style="color:#96b5b4;">s3.amazonaws.com</span><span>/rebar3/rebar3 -OutFile rebar3
+</span></code></pre>
+<ol start="2">
+<li>동일 디렉토리에 rebar3.cmd 파일을 아래와 같은 내용으로 만든다.</li>
+</ol>
+<pre data-lang="bat" style="background-color:#2b303b;color:#c0c5ce;" class="language-bat "><code class="language-bat" data-lang="bat"><span>@</span><span style="color:#b48ead;">echo</span><span> off
+</span><span style="color:#b48ead;">setlocal
+</span><span style="color:#b48ead;">set </span><span style="color:#bf616a;">rebarscript</span><span>=%</span><span style="color:#bf616a;">~f0
+</span><span>escript.exe &quot;%</span><span style="color:#bf616a;">rebarscript:</span><span style="color:#a3be8c;">.cmd</span><span style="color:#bf616a;">=</span><span>%&quot; %</span><span style="color:#bf616a;">*
+</span></code></pre>
+<ol start="3">
+<li>
+<p>PATH 환경변수에 해당 디렉토리를 추가.</p>
+</li>
+<li>
+<p>다음과 같이 실행하였을 때 버전 정보가 잘 출력되면 설치가 잘 된 것이다.</p>
+</li>
+</ol>
+<pre data-lang="ps1" style="background-color:#2b303b;color:#c0c5ce;" class="language-ps1 "><code class="language-ps1" data-lang="ps1"><span>rebar3 --version
+</span></code></pre>
+<h1 id="saero-peurojegteu-saengseonghagi">새로 프로젝트 생성하기</h1>
+<p>다음과 같이 앱 프로젝트를 생성할 수 있다.</p>
+<pre data-lang="ps1" style="background-color:#2b303b;color:#c0c5ce;" class="language-ps1 "><code class="language-ps1" data-lang="ps1"><span>rebar3 new app myapp
+</span></code></pre>
+<p>다음과 같은 구조가 만들어진다.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>myapp
+</span><span>    src
+</span><span>        myapp_app.erl
+</span><span>        myapp_sup.erl
+</span><span>        myapp.app.src
+</span><span>    .gitignore
+</span><span>    LICENSE
+</span><span>    README.md
+</span><span>    rebar.config
+</span></code></pre>
+<h1 id="camjo">참조</h1>
+<ul>
+<li><a href="https://m.blog.naver.com/oidoman/220853516701">우주를 위해 : Rebar3 - Documentation</a></li>
+<li><a href="https://gamtoggi.tistory.com/95">유리의 블로그 : erlang + rebar3 + cowboy</a></li>
+<li><a href="https://velog.io/@rajephon/Erlang-05.-Rebar3-Project-Setup-dzjv0mxua2">rajephon.log : Erlang - 05. Rebar3 Project Setup</a></li>
+<li>&lt;모바일 서버 프로그래밍 : 얼랭으로 만들며 배운다&gt;(이국현)</li>
+</ul>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-erlang-seolci" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/220314-setup-erlang/#erlang-seolci">
+                erlang 설치
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-rebar3-seolci" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220314-setup-erlang/#rebar3-seolci">
+                rebar3 설치
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-saero-peurojegteu-saengseonghagi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220314-setup-erlang/#saero-peurojegteu-saengseonghagi">
+                새로 프로젝트 생성하기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-camjo" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220314-setup-erlang/#camjo">
+                참조
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220221-learning-cpp-functional-programming&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              [모던 C++로 배우는 함수형 프로그래밍] 읽기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220419-querying-remote-data-sources-in-sql-server&#x2F;">
+              SQL Server 원격 데이터 소스에 쿼리하기<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

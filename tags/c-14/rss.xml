@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - c++14</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/c-14/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Mon, 21 Feb 2022 22:55:00 +0900</lastBuildDate>
+      <item>
+          <title>[모던 C++로 배우는 함수형 프로그래밍] 읽기</title>
+          <pubDate>Mon, 21 Feb 2022 22:55:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/220221-learning-cpp-functional-programming/</link>
+          <guid>https://smpl.kr/posts/220221-learning-cpp-functional-programming/</guid>
+          <description xml:base="https://smpl.kr/posts/220221-learning-cpp-functional-programming/">&lt;p&gt;&lt;a href=&quot;http:&#x2F;&#x2F;aladin.kr&#x2F;p&#x2F;41dHc&quot;&gt;모던 C++로 배우는 함수형 프로그래밍&lt;&#x2F;a&gt; 책을 읽고, 읽은 내용을 정리해봅니다.&lt;&#x2F;p&gt;
+&lt;p&gt;이론 설명도 부족하면서 실제 사례도 부족하여, 입문서로서 썩 만족스러운 책이 아니었고, 다른 이에게 권하고 싶은 책은 아니었습니다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;01jang-modeon-c-wa-cinsughaejigi&quot;&gt;01장. 모던 C++와 친숙해지기&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;auto 키워드, C++14 이후로는 trailiing return type 으로 auto 지원.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;typeid(a).name()&lt;&#x2F;code&gt; 로 타입 이름을 얻을 수 있음. RTTI가 필요하며, gcc는 기본적으로 RTTI가 켜져 있음.&lt;&#x2F;li&gt;
+&lt;li&gt;decltype 키워드.
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;decltype(x-&amp;gt;d)&lt;&#x2F;code&gt;는 x 인스턴스의 멤버 변수 d의 타입인 &lt;code&gt;double&lt;&#x2F;code&gt;을 나타낸다. &lt;code&gt;decltype((x-&amp;gt;d))&lt;&#x2F;code&gt;는 표현식을 나타내며, 표현식의 주소값을 얻을 수 있는 lvalue이므로 표현식의 주소 타입인 &lt;code&gt;const double&amp;amp;&lt;&#x2F;code&gt;이 된다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;nullptr은 기존의 NULL정의 같은 용법에서의 매개변수 호출 시의 모호함을 없애준다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;std::begin()&lt;&#x2F;code&gt;과 &lt;code&gt;std::end()&lt;&#x2F;code&gt;, ranged for&lt;&#x2F;li&gt;
+&lt;li&gt;C++11에서 새로 추가된 std::array. 일반 배열과 성능차이는 없으면서 크기도 알 수 있고, 반복자 이용도 가능하며, 친숙한 값 의미론(value semantics)을 사용한다.
+&lt;ul&gt;
+&lt;li&gt;요소에 접근 시 컨테이너 범위를 벗어나면 &lt;code&gt;[]&lt;&#x2F;code&gt;연산자는 UB(undefined behavior)를 유발하나, &lt;code&gt;at()&lt;&#x2F;code&gt;은 out_of_range 예외를 던지므로, &lt;code&gt;at()&lt;&#x2F;code&gt;을 쓰는 것이 더 낫다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;std::find_if, std::find_if_not, std::for_each&lt;&#x2F;li&gt;
+&lt;li&gt;헤더파일에는 using namespace 를 쓰지 않는 것이 좋다.&lt;&#x2F;li&gt;
+&lt;li&gt;람다 표현식 &lt;code&gt;[](){}&lt;&#x2F;code&gt;. 반환타입도 &lt;code&gt;[]()-&amp;gt;return_type {}&lt;&#x2F;code&gt;처럼 명시 가능.
+&lt;ul&gt;
+&lt;li&gt;mutable 키워드는 캡처 방식(참조 캡처 or 값 캡처)과 무관하게, 캡처한 변수를 수정할 수 있게 해준다.&lt;&#x2F;li&gt;
+&lt;li&gt;초기화 캡처: 예 &lt;code&gt;[&amp;amp;x = a]() { x += 2; }&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;제네릭 람다: 예 &lt;code&gt;[](auto&amp;amp; x, auto&amp;amp; y) {}&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;C++17에서는 *this를 사용해 객체의 복사본을 캡처할 수 있다. 람다 표현식 constexpr 객체를 컴파일 타임에 생성할 수 있다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;std::unique_ptr. 독점 소유권. std::make_unique()로 생성. 복사 생성자&#x2F;할당자가 없고 이동 생성자&#x2F;할당자 제공.&lt;&#x2F;li&gt;
+&lt;li&gt;std::shared_ptr. 공유 소유권. use_count()로 참조횟수를 알 수 있음. unique()로 참조 횟수가 1인지 알 수 있음. std::make_shared()로 생성.&lt;&#x2F;li&gt;
+&lt;li&gt;std::weak_ptr. &lt;code&gt;std::shared_ptr (강한 참조 횟수) &amp;lt;-&amp;gt; std::weak_ptr (약한 참조 횟수)&lt;&#x2F;code&gt;. expired()로 참조하는 객체가 만료되었는지 확인. lock()으로 새로운 shared_ptr 생성.&lt;&#x2F;li&gt;
+&lt;li&gt;std::tuple. &lt;code&gt;std::tie()&lt;&#x2F;code&gt;는 튜플에서 개별 값을 읽어들이거나 lvalue를 참조하는 튜플을 생성할 때 사용하며, 필요하지 않은 요소는 &lt;code&gt;ignore&lt;&#x2F;code&gt;로 제외할 수 있다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;02jang-hamsuhyeong-peurogeuraemingeseo-hamsu-darugi&quot;&gt;02장. 함수형 프로그래밍에서 함수 다루기&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;일급함수를 지원하는 언어는, 다음을 할 수 있다.
+&lt;ul&gt;
+&lt;li&gt;다른 함수의 매개변수로 함수 전달&lt;&#x2F;li&gt;
+&lt;li&gt;변수에 함수 대입&lt;&#x2F;li&gt;
+&lt;li&gt;컨테이너에 함수 저장&lt;&#x2F;li&gt;
+&lt;li&gt;런타임에 새로운 함수 생성&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;std::function&amp;lt;&amp;gt;&lt;&#x2F;code&gt;은 호출 가능한 함수, 람다 표현식, 다른 함수 객체, 멤버 함수에 대한 포인터, 멤버 변수에 대한 포인터 등을 저장, 복사, 호출할 때 사용 가능.&lt;&#x2F;li&gt;
+&lt;li&gt;함수 합성&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;template&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; A, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; B, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; C&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;function&amp;lt;C(A)&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;compose&lt;&#x2F;span&gt;&lt;span&gt;(function&amp;lt;C(B)&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;, function&amp;lt;B(A)&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;g&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;[f, g](A x) { 
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;g&lt;&#x2F;span&gt;&lt;span&gt;(x));
+&lt;&#x2F;span&gt;&lt;span&gt;    };
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;고차함수 : 하나 이상의 함수를 인수로 사용할 수 있으머ㅕ, 반환 값으로 함수 사용이 가능한 함수. 예 map, filter, fold.
+&lt;ul&gt;
+&lt;li&gt;map : std::transform&lt;&#x2F;li&gt;
+&lt;li&gt;filter : std::copy_if. 반대로 std::remove_copy_if 도 있음.&lt;&#x2F;li&gt;
+&lt;li&gt;fold : 왼쪽부터 결합하는 foldl과 오른쪽부터 결합하는 foldr 두 종류. foldl을 std::accumulate와 std::begin, std::end로 구현 가능. foldr은 std::rbegin, std::rend로 구현 가능.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;순수 함수 : 동일한 입력에 대해 항상 같은 결과를 반환하는 함수. 함수에서 전역 변수 등 함수 바깥의 변수를 참조하지 않으므로 외부 상태를 변경하는 부작용이 없다. 화면 출력 등 I&#x2F;O 연산도 부작용에 포함된다.&lt;&#x2F;li&gt;
+&lt;li&gt;커링 : 여러 개의 인수를 갖는 하나의 함수를, 단일 인수를 갖는 여러 개의 연속된 함수로 나누는 것이다.&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;template&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; Func, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt;... Args&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;auto &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;curry&lt;&#x2F;span&gt;&lt;span&gt;(Func &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;func&lt;&#x2F;span&gt;&lt;span&gt;, Args... &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;args&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;[=](&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;auto&lt;&#x2F;span&gt;&lt;span&gt;... lastParam) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;func&lt;&#x2F;span&gt;&lt;span&gt;(args..., lastParam...);
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;03jang-hamsue-bulbyeon-gaegce-sayonghagi&quot;&gt;03장. 함수에 불변 객체 사용하기&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;불변성을 따르려면 두가지 규칙을 지켜야 한다.
+&lt;ul&gt;
+&lt;li&gt;지역 변수를 변경하면 안되며&lt;&#x2F;li&gt;
+&lt;li&gt;함수 내에서 전역 변수에 접근하면 안 된다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;불변 객체로 만들어진 클래스의 특징
+&lt;ul&gt;
+&lt;li&gt;모든 멤버 변수는 const로 선언.&lt;&#x2F;li&gt;
+&lt;li&gt;읽기용 멤버 함수는 값 대신에 const 참조를 리턴.&lt;&#x2F;li&gt;
+&lt;li&gt;쓰기용 멤버 함수는 값을 변경하는 대신, 필요한 값만 수정된 새로운 불변 객체를 리턴.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;불변 객체를 통해 얻을 수 있는 이득
+&lt;ul&gt;
+&lt;li&gt;외부 상태에 변경되지 않으므로 부작용을 없앨 수 있다.&lt;&#x2F;li&gt;
+&lt;li&gt;잘못된 객체 상태가 존재하지 않는다.&lt;&#x2F;li&gt;
+&lt;li&gt;잠금 없이 여러개의 함수를 함께 실행할 수 있어 thread-safe하고, 동기화 이슈를 피할 수 있다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;04jang-jaegwi-hamsu-hocul&quot;&gt;04장. 재귀 함수 호출&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;반복은 작업을 완료할 때까지 필요한 처리를 되풀이하면서 유지하는 것. 재귀는 작업을 해결할 수 있을 때까지 작은 조각으로 나누는 것.&lt;&#x2F;li&gt;
+&lt;li&gt;꼬리재귀 : 함수 끝에서 자기 자신을 호출하는 것 외에 더 해야할 일이 없다는 점에서 일반 재귀와 구분. 컴파일러가 코드를 최적화 할 수 있어, 스택을 소비하지 않는다.
+&lt;ul&gt;
+&lt;li&gt;컴파일러가 꼬리 재귀를 최적화 하는 방식은 goto 키워드로 마지막 함수 호출을 대체하는 꼬리 호출 제거(tail-calll elimination)와 같다.&lt;&#x2F;li&gt;
+&lt;li&gt;꼬리 재귀의 예시&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;factorialTail&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;i&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(n == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; i;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;factorialTail&lt;&#x2F;span&gt;&lt;span&gt;(n - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, n * i);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;factorial&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;factorialTail&lt;&#x2F;span&gt;&lt;span&gt;(n, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;함수형 재귀 : 재귀적으로 문제를 풀면서 결과 값을 반환하며 합치는 방식.&lt;&#x2F;li&gt;
+&lt;li&gt;절차형 재귀 : 필요한 작업을 바로 처리하고, 값을 반환하지 않는 방식. (결과를 반환하지 않고 바로 출력 등)&lt;&#x2F;li&gt;
+&lt;li&gt;백트래킹 재귀 : 실행을 취소할 수 있는 재귀. 예로 깊이 우선 탐색.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;05jang-jiyeon-pyeonggaro-silhaeng-neujcugi&quot;&gt;05장. 지연 평가로 실행 늦추기&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;즉시 실행 : 코드를 바로 실행. &lt;code&gt;(x + (y * z))&lt;&#x2F;code&gt;와 같은 식이 있다고 할 때, 가장 안쪽 괄호가 우선 계산되고 다음에 바깥 쪽 괄호가 처리됨.&lt;&#x2F;li&gt;
+&lt;li&gt;지연 평가 : 실행 순서가 외부에서 시작하여 내부로 이동. 위의 식의 예에서, &lt;code&gt;+&lt;&#x2F;code&gt;를 먼저 처리하고 &lt;code&gt;y * z&lt;&#x2F;code&gt;를 나중에 평가. 구현하기 위해 다음과 같은 것들이 필요.
+&lt;ul&gt;
+&lt;li&gt;처리 흐름 늦추기. Fetch()를 호출하지 않으면 실행되지 않는다.&lt;&#x2F;li&gt;
+&lt;li&gt;메모이제이션 : 함수 호출 결과를 저장했다가 동일한 입력이 발생하면 저장된 결과를 반환. 메모이제이션을 사용할 때, 버그를 유발하지 않기 위해 비순수 함수를 배제해야 한다. 결과를 재사용하기 때문에 최적화 효과가 있다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;06jang-metapeurogeuraemingeuro-kodeu-coejeoghwa&quot;&gt;06장. 메타프로그래밍으로 코드 최적화&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;메타프로그래밍 : 코드를 사용해서 코드를 생성하는 기술. C++ TMP(템플릿 메타 프로그래밍)는 튜링 완전하다.&lt;&#x2F;li&gt;
+&lt;li&gt;C 매크로&lt;&#x2F;li&gt;
+&lt;li&gt;C++ TMP의 4개 기본 요소
+&lt;ul&gt;
+&lt;li&gt;타입 : 템플릿은 C++ 타입 시스템에 통합되어 있고, 변수를 타입 이름으로 접근한다.&lt;&#x2F;li&gt;
+&lt;li&gt;값 : 값을 다루고자 할 경우 enum의 데이터 멤버에 저장할 수 있다. 입력 매개변수를 받고 계산하여 저장하는 것도 가능하다.&lt;&#x2F;li&gt;
+&lt;li&gt;조건 : 부분 특수화(specialization)를 통해 처리한다.&lt;&#x2F;li&gt;
+&lt;li&gt;재귀 처리 : 템플릿 매개변수의 하한(예컨대 0)을 두고, 템플릿을 특수화.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;컴파일 타임에 조건에 따라 타입 선택하는 템플릿 코드 예시. 비슷하게 특수화를 이용해 if-else, switch, do-while도 구현 가능하다.&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span&gt;tmeplate&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;bool&lt;&#x2F;span&gt;&lt;span&gt; predicate, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; TrueType, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; FalseType&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;struct&lt;&#x2F;span&gt;&lt;span&gt; IfElseDataType {};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;template&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; TrueType, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; FalseType&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span&gt;IfElseDataType&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;, TrueType, FalseType&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef&lt;&#x2F;span&gt;&lt;span&gt; TrueType type;
+&lt;&#x2F;span&gt;&lt;span&gt;};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;template&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; TrueType, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typename&lt;&#x2F;span&gt;&lt;span&gt; FalseType&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;struct &lt;&#x2F;span&gt;&lt;span&gt;IfElseDataType&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;false&lt;&#x2F;span&gt;&lt;span&gt;, TrueType, FalseType&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef&lt;&#x2F;span&gt;&lt;span&gt; FalseType type;
+&lt;&#x2F;span&gt;&lt;span&gt;};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 사용
+&lt;&#x2F;span&gt;&lt;span&gt;IfElseDataType&amp;lt;SHRT_MAX == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2147483647&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;short&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;::type var; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; int 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;컴파일 타임에 피보나치 수열을 계산하는 예시. 값 범위에서 소수를 찾아 출력하는 예시.&lt;&#x2F;li&gt;
+&lt;li&gt;TMP의 장점 : 불변성이 있어 기존 타입을 수정할 수 없어 부작용이 없다. 가독성. 코드 반복 감소. 성능 최적화.&lt;&#x2F;li&gt;
+&lt;li&gt;TMP의 단점 : 구문이 꽤 복잡해질 수 있다. 컴파일 시간 증가. 디버깅이 어렵다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;07jang-dongsiseongeul-iyongha-byeongryeol-silhaeng&quot;&gt;07장. 동시성을 이용하 병렬 실행&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;lock_guard&amp;lt;mutex&amp;gt;&lt;&#x2F;code&gt; : 코드 블록을 빠져나갈 때 자동으로 잠금이 해제되므로 예외가 발생해도 잠금이 반드시 풀린다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;CreateThread()&lt;&#x2F;code&gt;로 만든 쓰레드 내에서는 signal() 외의 CRT 함수가 모두 잘 동작하지만, 누수 발생 가능. CRT 함수를 사용하려면 &lt;code&gt;_beginthreadex()&lt;&#x2F;code&gt;로 쓰레드를 생성할 것.&lt;&#x2F;li&gt;
+&lt;li&gt;소감 : 이 장의 내용은 본래 주제에서 많이 벗어났고, 함수형 프로그래밍의 장점과 거리가 많이 먼 내용이 아닌가 생각한다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;08jang-hamsuhyeong-bangsigeuro-kodeu-jagseonghagi&quot;&gt;08장. 함수형 방식으로 코드 작성하기&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;전체 정리.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

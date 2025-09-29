@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | Go 언어로 Locust 성능테스트 작성하기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            Go 언어로 Locust 성능테스트 작성하기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2022-07-12T22:30:00+09:00">July 12, 2022</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>2 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>267 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/go/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>go</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/locust/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>locust</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/boomer/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>boomer</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/benchmark/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>benchmark</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p><a href="https://locust.io">Locust</a>는 파이썬으로 작성된 성능테스트 툴이다. 성능테스트를 위한 코드 역시 파이썬으로 작성하는 것이 일반적인데, 혹시 Go로 Locust를 위한 성능테스트를 작성할 수 있을지 알아보다가, <a href="https://github.com/myzhan/boomer">Boomer</a>라는 패키지가 사용 가능함을 알게 되어 방법을 정리해둔다.</p>
+<p>요약을 하면, Locust를 분산 모드의 master로 실행하고, Boomer 패키지를 이용해 작성된 프로그램이 그 slave agent가 되어 동작하는 방식이다.</p>
+<h1 id="locust-master-seolci-mic-silhaenghagi">Locust master 설치 및 실행하기</h1>
+<p>Locust master는 Python과 Poetry 패키지 관리자를 이용해 설치하고 실행하도록 한다.</p>
+<p>먼저 적당한 디렉토리에 Poetry 프로젝트를 생성하고, 필요한 의존성들을 설치해준다. 아쉽게도 Boomer는 Locust 최신버전과 호환되지 않으며, Locust 1.6.0 버전과 호환되므로, Locust 또한 해당 버전을 준비해야 하며, Locust의 간접 의존 패키지들 또한 호환되는 버전으로 선택해서 설치해주어야 한다. 게다가 파이썬 최신버전이 지원되고 있지 않으므로, 3.8 버전을 사용하도록 설정해준다. 아래는 그 과정이다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># 프로젝트 생성
+</span><span style="color:#bf616a;">$</span><span> poetry init
+</span><span style="color:#bf616a;">$</span><span> cd &lt;projectname&gt;
+</span><span>
+</span><span style="color:#65737e;"># python 3.8 사용
+</span><span style="color:#bf616a;">poetry</span><span> env use 3.8
+</span><span>
+</span><span style="color:#65737e;"># 의존성 설치
+</span><span style="color:#bf616a;">$</span><span> poetry add locust@1.6.0 jinja2@2.10.1 markupsafe@2.0 itsdangerous@0.24 werkzeug@1.0.1
+</span></code></pre>
+<p>Locust master를 실행할 때, Locustfile이라는 테스트 소스파일을 요구하는데, 여기서는 Go로 테스트를 작성할 것이므로, 임의의 더미 파일을 만들어서 넘겨준다.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;">#!/usr/bin/env python3
+</span><span style="color:#65737e;"># -*- coding: utf8 -*-
+</span><span>
+</span><span style="color:#65737e;"># dummy.py
+</span><span>
+</span><span style="color:#b48ead;">from </span><span>locust </span><span style="color:#b48ead;">import </span><span>User, task
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Dummy</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">User</span><span style="color:#eff1f5;">):
+</span><span>    @</span><span style="color:#bf616a;">task
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">dummy</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">pass
+</span></code></pre>
+<p>이제 Locust master를 실행한다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">poetry</span><span> run locust</span><span style="color:#bf616a;"> --master -f</span><span> dummy.py
+</span></code></pre>
+<p>Locust master의 대시보드는 콘솔에도 출력되듯, localhost의 8089 포트로 접속하면 된다.</p>
+<h1 id="boomerro-teseuteu-jagseonghagi">Boomer로 테스트 작성하기</h1>
+<p>Boomer v1.6.0은 현재 Task와 TaskSet을 지원한다. boomer github의 examples 디렉토리에 많은 예제 코드들이 있으므로 이를 참고하여 작성하면 된다.</p>
+<p>만일 테스트할 API가 한 개가 아니고, API의 정해진 호출 순서가 있으면서 API 별로도 성능 측정이 필요할 경우, 아래 예시와 같이 하나의 Task 안에서 name을 구분하여 여러번 Record를 호출하는 방법으로 작성할 수 있다.</p>
+<p>아래는 실제 API 호출 코드는 아니지만, 이러한 방법을 보이기 위한 예시이다.</p>
+<p>먼저 boomer 의존성을 갖는 Go 프로젝트 모듈을 생성한다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span> go mod init &lt;packagename&gt;
+</span><span>
+</span><span style="color:#65737e;"># 의존성을 설치해준다.
+</span><span style="color:#bf616a;">$</span><span> go get github.com/myzhan/boomer@v1.6.0
+</span></code></pre>
+<p>그리고 프로그램 main을 작성해준다.</p>
+<pre data-lang="go" style="background-color:#2b303b;color:#c0c5ce;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#b48ead;">package </span><span style="color:#bf616a;">main
+</span><span>
+</span><span style="color:#b48ead;">import </span><span>(
+</span><span>	&quot;</span><span style="color:#a3be8c;">time</span><span>&quot;
+</span><span>
+</span><span>	&quot;</span><span style="color:#a3be8c;">github.com/myzhan/boomer</span><span>&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">foo</span><span>() {
+</span><span>	</span><span style="color:#bf616a;">start </span><span>:= </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Now</span><span>()
+</span><span>	</span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Sleep</span><span>(</span><span style="color:#d08770;">100 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Millisecond</span><span>)
+</span><span>	</span><span style="color:#bf616a;">elapsed </span><span>:= </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Since</span><span>(</span><span style="color:#bf616a;">start</span><span>).</span><span style="color:#bf616a;">Nanoseconds</span><span>() / </span><span style="color:#bf616a;">int64</span><span>(</span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Millisecond</span><span>)
+</span><span>	</span><span style="color:#bf616a;">boomer</span><span>.</span><span style="color:#bf616a;">RecordSuccess</span><span>(&quot;</span><span style="color:#a3be8c;">tcp</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">foo1</span><span>&quot;, </span><span style="color:#bf616a;">elapsed</span><span>, </span><span style="color:#d08770;">100</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#bf616a;">start2 </span><span>:= </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Now</span><span>()
+</span><span>	</span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Sleep</span><span>(</span><span style="color:#d08770;">150 </span><span>* </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Millisecond</span><span>)
+</span><span>	</span><span style="color:#bf616a;">elapsed2 </span><span>:= </span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Since</span><span>(</span><span style="color:#bf616a;">start2</span><span>).</span><span style="color:#bf616a;">Nanoseconds</span><span>() / </span><span style="color:#bf616a;">int64</span><span>(</span><span style="color:#bf616a;">time</span><span>.</span><span style="color:#bf616a;">Millisecond</span><span>)
+</span><span>	</span><span style="color:#bf616a;">boomer</span><span>.</span><span style="color:#bf616a;">RecordFailure</span><span>(&quot;</span><span style="color:#a3be8c;">tcp</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">foo2</span><span>&quot;, </span><span style="color:#bf616a;">elapsed2</span><span>, &quot;</span><span style="color:#a3be8c;">justerror</span><span>&quot;)
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">func </span><span style="color:#8fa1b3;">main</span><span>() {
+</span><span>	</span><span style="color:#bf616a;">tfoo </span><span>:= &amp;</span><span style="color:#bf616a;">boomer</span><span>.</span><span style="color:#bf616a;">Task</span><span>{
+</span><span>		</span><span style="color:#bf616a;">Weight</span><span>: </span><span style="color:#d08770;">100</span><span>,
+</span><span>		</span><span style="color:#bf616a;">Fn</span><span>:     </span><span style="color:#bf616a;">foo</span><span>,
+</span><span>		</span><span style="color:#bf616a;">Name</span><span>:   &quot;</span><span style="color:#a3be8c;">foo</span><span>&quot;,
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#bf616a;">boomer</span><span>.</span><span style="color:#bf616a;">Run</span><span>(</span><span style="color:#bf616a;">tfoo</span><span>)
+</span><span>}
+</span></code></pre>
+<p>작성된 코드를 일반적인 Go 프로그램처럼 빌드하고 실행하면, 스스로 로컬의 Locust master에 접속하여 slave agent로 동작하며, 대시보드에서 테스트를 작동시킬 수 있다.</p>
+<p>만일 Locust master가 로컬 머신에 있지 않다면, slave agent 프로그램의 실행 인자에 Locust master의 주소와 포트 등을 지정해줄 수 있다.</p>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-locust-master-seolci-mic-silhaenghagi" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/220712-writing-locust-agent-in-go/#locust-master-seolci-mic-silhaenghagi">
+                Locust master 설치 및 실행하기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-boomerro-teseuteu-jagseonghagi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/220712-writing-locust-agent-in-go/#boomerro-teseuteu-jagseonghagi">
+                Boomer로 테스트 작성하기
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;220419-querying-remote-data-sources-in-sql-server&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              SQL Server 원격 데이터 소스에 쿼리하기
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;240203-atomic-kotlin-ch1&#x2F;">
+              아토믹 코틀린 1부 프로그래밍 기초<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>

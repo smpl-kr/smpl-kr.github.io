@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>smpl.kr - docker</title>
+      <link>https://smpl.kr</link>
+      <description>simplicity-driven development</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://smpl.kr/tags/docker/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Fri, 14 Jan 2022 00:00:00 +0900</lastBuildDate>
+      <item>
+          <title>Docker에서 JNA용 리눅스 동적 라이브러리 빌드하기</title>
+          <pubDate>Wed, 10 Nov 2021 09:00:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/211110-build-so-library-using-jna-on-docker/</link>
+          <guid>https://smpl.kr/posts/211110-build-so-library-using-jna-on-docker/</guid>
+          <description xml:base="https://smpl.kr/posts/211110-build-so-library-using-jna-on-docker/">&lt;h1 id=&quot;paildeul&quot;&gt;파일들&lt;&#x2F;h1&gt;
+&lt;p&gt;다음과 같은 상황이라고 가정한다.&lt;&#x2F;p&gt;
+&lt;p&gt;crypto++ 라이브러리를 사용하여 특정한 기능을 제공하는 libcrypt라는 동적 라이브러리를, java에서 jna로 사용하려는 상황이다.&lt;&#x2F;p&gt;
+&lt;p&gt;라이브러리 파일이 예시로 다음과 같다고 하고,&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; mycrypt.h
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#pragma&lt;&#x2F;span&gt;&lt;span&gt; once
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;cstdlib&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;extern &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; {
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;DoSomething &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; mycrypt.cc
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;iostream&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mycrypt.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;__attribute__&lt;&#x2F;span&gt;&lt;span&gt;((constructor)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;init&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; initialize here
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;__attribute__&lt;&#x2F;span&gt;&lt;span&gt;((destructor)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fini&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; finalize here
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;DoSomething&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; a + b;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;이를 사용하는 샘플은 다음과 같다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; mycryptsample.cc
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;iostream&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;#include &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mycrypt.h&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;argc&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;** &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;argv&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; ret = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;DoSomething&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;20&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;    std::cout &amp;lt;&amp;lt; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mycryptsample : &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &amp;lt;&amp;lt; ret &amp;lt;&amp;lt; std::endl;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;java&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-java &quot;&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; MyCryptUser.java
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;com.sun.jna.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Library&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span&gt;com.sun.jna.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Native&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;interface &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;MyCryptLibrary &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;extends &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Library &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;MyCryptLibrary &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;INSTANCE &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Native&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;load&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mycrypt&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;MyCryptLibrary&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;class&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;DoSomething&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;MyCryptUser &lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;public static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;main&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;[] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;args&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;) {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; ret &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;MyCryptLibrary&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;INSTANCE&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;DoSomething&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;20&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;System&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;.out.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;println&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;MyCryptUser: &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; +&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt; ret);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;    }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#eff1f5;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;&#x2F;h1&gt;
+&lt;p&gt;아래는 이 코드들을 빌드하고 테스트하고 패키징하는 Dockerfile의 예이다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;FROM ubuntu:16.04 AS builder
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;WORKDIR &#x2F;root
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get update
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get install -y build-essential libcrypto++-dev
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY . .
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN g++ -std=c++14 -fPIC -c mycrypt.cc -lcrypto++ -I&#x2F;usr&#x2F;include&#x2F;crypto++
+&lt;&#x2F;span&gt;&lt;span&gt;RUN g++ -std=c++14 -shared -o libmycrypt.so mycrypt.o -lcrypto++
+&lt;&#x2F;span&gt;&lt;span&gt;RUN g++ -std=c++14 -o mycryptsample mycryptsample.cc -L. -lmycrypt -lcrypto++
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;FROM ubuntu:16.04 AS testandpackage
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;VOLUME &#x2F;output
+&lt;&#x2F;span&gt;&lt;span&gt;WORKDIR &#x2F;deploy
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get update
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get install -y build-essential openjdk-8-jre openjdk-8-jdk wget libcrypto++9v5
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY --from=builder &#x2F;root&#x2F;libmycrypt.so &#x2F;deploy&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY --from=builder &#x2F;root&#x2F;mycrypt.h &#x2F;deploy&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY --from=builder &#x2F;root&#x2F;mycryptsample &#x2F;deploy&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY --from=builder &#x2F;root&#x2F;MyCryptUser.java &#x2F;deploy&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY --from=builder &#x2F;root&#x2F;README.md &#x2F;deploy&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN wget https:&#x2F;&#x2F;repo1.maven.org&#x2F;maven2&#x2F;net&#x2F;java&#x2F;dev&#x2F;jna&#x2F;jna&#x2F;5.10.0&#x2F;jna-5.10.0.jar
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN echo `pwd` &amp;gt; mycrypt.conf
+&lt;&#x2F;span&gt;&lt;span&gt;RUN mv mycrypt.conf &#x2F;etc&#x2F;ld.so.conf.d&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN ldconfig
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;ENV CLASSPATH=&amp;quot;$CLASS_PATH:jna-5.10.0.jar:&#x2F;usr&#x2F;local&#x2F;lib:&#x2F;usr&#x2F;local&#x2F;lib&#x2F;x86_64-linux-gnu:&#x2F;lib&#x2F;x86_64-linux-gnu:&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu:.&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN javac MyCryptUser.java
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN .&#x2F;mycryptsample
+&lt;&#x2F;span&gt;&lt;span&gt;RUN java MyCryptUser
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CMD .&#x2F;mycryptsample &amp;amp;&amp;amp; java MyCryptUser &amp;amp;&amp;amp; tar cvjf &#x2F;output&#x2F;mycrypt.tar.bz2 mycrypt.h MyCryptUser.java README.md libmycrypt.so
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;다음과 같은 shell 명령으로 빌드할 수 있고, 빌드 결과가 output이라는 폴더에 만들어진다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; build .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -t&lt;&#x2F;span&gt;&lt;span&gt; mycryptbuild:0.1.0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v&lt;&#x2F;span&gt;&lt;span&gt; output:&#x2F;output mycryptbuild:0.1.0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;camjo&quot;&gt;참조&lt;&#x2F;h1&gt;
+&lt;p&gt;다음과 같은 문서들을 참조하였음.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.lesstif.com&#x2F;software-architect&#x2F;shared-library-linker-loader-12943542.html&quot;&gt;lesstif : 동적 라이브러리(shared library)와 Linker&#x2F;Loader 이해하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.lesstif.com&#x2F;lpt&#x2F;shared-library-dependencies-linux-ldd-95880421.html&quot;&gt;lesstif : 공유 라이브러리 의존성(shared library dependencies)을 출력하는 linux ldd 사용법&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;9759880&#x2F;automatically-executed-functions-when-loading-shared-libraries&quot;&gt;Stackoverflow : Automatically executed functions when loading shared libraries&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;askubuntu.com&#x2F;questions&#x2F;350068&#x2F;where-does-ubuntu-look-for-shared-libraries&quot;&gt;AskUbuntu : Where does Ubuntu look for shared libraries?&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;m.blog.naver.com&#x2F;whentlr&#x2F;120188305071&quot;&gt;꿈많은아이 : 리눅스 공유라이브러리(동적 라이브러리) 생성 및 사용&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+      <item>
+          <title>Docker 위에 Kafka를 standalone으로 실행하기</title>
+          <pubDate>Sun, 19 Sep 2021 21:55:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210919-running-standalone-kafka-on-docker/</link>
+          <guid>https://smpl.kr/posts/210919-running-standalone-kafka-on-docker/</guid>
+          <description xml:base="https://smpl.kr/posts/210919-running-standalone-kafka-on-docker/">&lt;h1 id=&quot;donggi&quot;&gt;동기&lt;&#x2F;h1&gt;
+&lt;p&gt;Kafka를 자주 테스트할 일이 있어서, Dockerfile을 이용해 컨테이너를 만드는 방법을 알아보고 정리해 보았다.&lt;&#x2F;p&gt;
+&lt;p&gt;더 나은 방법이 분명 더 있을텐데... 다른 글에서 docker compose를 이용해서 좀더 개선을 해볼 예정이다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;sajeon-jisig&quot;&gt;사전 지식&lt;&#x2F;h1&gt;
+&lt;p&gt;이제 막 공부를 시작한 입장에서, 사전지식이라고 정리할 내용은 거의 없으나.. 그래도 조금이라도 정리를 해본다.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;docker-myeongryeongeo&quot;&gt;docker 명령어&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sudo service docker start&lt;&#x2F;code&gt; : 도커 데몬 시작&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker pull &amp;lt;image name&amp;gt;&lt;&#x2F;code&gt; : 도커 이미지 내려받기&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker images&lt;&#x2F;code&gt; : 도커 이미지 목록 보기&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker ps&lt;&#x2F;code&gt; : 도커 컨테이너 목록 보기&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker ps --all&lt;&#x2F;code&gt; : 모든 도커 컨테이너 목록 보기 (멈춘 컨테이너까지 보여준다.)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker rmi &amp;lt;image name&amp;gt;&lt;&#x2F;code&gt; : 도커 이미지 삭제&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker rm &amp;lt;container name&amp;gt;&lt;&#x2F;code&gt; : 도커 컨테이너 삭제&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker stop &amp;lt;container name&amp;gt;&lt;&#x2F;code&gt; : 도커 컨테이너 중지&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker run --rm --name &amp;lt;container name&amp;gt; -p &amp;lt;host port&amp;gt;:&amp;lt;container port&amp;gt; --network &amp;lt;network name&amp;gt; &amp;lt;image name&amp;gt;&lt;&#x2F;code&gt; : 도커 이미지를 컨테이너로 실행(인스턴스화)하기
+&lt;ul&gt;
+&lt;li&gt;rm 옵션 : 컨테이너가 종료되면 바로 삭제한다.&lt;&#x2F;li&gt;
+&lt;li&gt;name 옵션 : 컨테이너 이름을 지정한다.&lt;&#x2F;li&gt;
+&lt;li&gt;p 옵션 : 호스트 포트에 컨테이너 포트를 맵핑한다. 부가적으로, 대문자 P 옵션은 Dockerfile에 EXPOSE 설정된 포트를 임의의 호스트 포트에 자동으로 맵핑하는 옵션이다.&lt;&#x2F;li&gt;
+&lt;li&gt;network 옵션 : 컨테이너가 속할 네트워크 이름을 지정한다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker exec -it &amp;lt;container name&amp;gt; &#x2F;bin&#x2F;bash&lt;&#x2F;code&gt; : 컨테이너에 &#x2F;bin&#x2F;bash의 새 프로세스를 띄우고, 호스트의 표준입출력을 연결해 접속할 수 있게 해준다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker build -t &amp;lt;image name&amp;gt; &amp;lt;dockerfile path&amp;gt;&lt;&#x2F;code&gt; : Dockerfile을 이미지로 빌드한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker network create &amp;lt;network name&amp;gt;&lt;&#x2F;code&gt; : 네트워크를 생성한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker network inspect &amp;lt;network name&amp;gt;&lt;&#x2F;code&gt; : 네트워크 구성을 확인한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker network list&lt;&#x2F;code&gt; : 네트워크 목록을 확인한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;docker network prune&lt;&#x2F;code&gt; : 아무 컨테이너도 참여하고 있지 않은, 미사용 상태의 네트워크를 정리한다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;dockerfile-myeongryeongeo&quot;&gt;Dockerfile 명령어&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;FROM &amp;lt;image name&amp;gt;&lt;&#x2F;code&gt; : 특정 이미지를 상속받아 시작한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;ENV &amp;lt;key&amp;gt;=&amp;lt;value&amp;gt;&lt;&#x2F;code&gt; : 환경변수를 지정한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;EXPOSE &amp;lt;port&amp;gt;&lt;&#x2F;code&gt; : 호스트와 연결할 포트를 명시한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;RUN &amp;lt;command&amp;gt;&lt;&#x2F;code&gt; : 빌드타임에 커맨드를 실행한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;WORKDIR &amp;lt;path&amp;gt;&lt;&#x2F;code&gt; : 현재 작업 디렉토리를 변경한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;COPY &amp;lt;source&amp;gt; &amp;lt;destinatoin&amp;gt;&lt;&#x2F;code&gt; : 빌드타임에 파일을 복사한다.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;CMD &amp;lt;command&amp;gt;&lt;&#x2F;code&gt; : 런타임에 커맨드를 실행한다.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;gujo&quot;&gt;구조&lt;&#x2F;h1&gt;
+&lt;p&gt;로컬에서 개발 테스트에 사용할 목적이므로, Kafka는 클러스터를 구성하지 않고, 스탠드얼론으로 설치할 예정이다.&lt;&#x2F;p&gt;
+&lt;p&gt;이미지는 주키퍼 서버 1대, 카프카 서버 1대, 카프카 클라이언트&#x2F;콘솔 용도 1대로 총 3개의 이미지를 작성할 예정이다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;+-- zk : 주키퍼 서버 이미지 작성용
+&lt;&#x2F;span&gt;&lt;span&gt;|   +-- Dockerfile
+&lt;&#x2F;span&gt;&lt;span&gt;+-- kf : 카프카 서버 이미지 작성용
+&lt;&#x2F;span&gt;&lt;span&gt;|   +-- Dockerfile
+&lt;&#x2F;span&gt;&lt;span&gt;|   +-- server.properties
+&lt;&#x2F;span&gt;&lt;span&gt;+-- kfcli : 카프카 클라이언트&#x2F;콘솔 용도 이미지 작성용
+&lt;&#x2F;span&gt;&lt;span&gt;    +-- Dockerfile
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;oebu-jeobsog-heoyongeul-wihan-poteu-yeolgi&quot;&gt;외부 접속 허용을 위한 포트 열기&lt;&#x2F;h1&gt;
+&lt;p&gt;다음과 같이 관리자 권한을 받은 powershell에서 실행해준다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;powershell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-powershell &quot;&gt;&lt;code class=&quot;language-powershell&quot; data-lang=&quot;powershell&quot;&gt;&lt;span&gt;netsh interface portproxy delete v4tov4 listenport=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;2181&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;netsh interface portproxy delete v4tov4 listenport=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;9092&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;wslIp&lt;&#x2F;span&gt;&lt;span&gt;=(wsl -d Ubuntu -e sh -c &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ip addr show eth0 | grep &amp;#39;inet\b&amp;#39; | awk &amp;#39;{print &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;`$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;2}&amp;#39; | cut -d&#x2F; -f1&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;netsh interface portproxy add v4tov4 listenport=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;2181&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; connectaddress=&amp;quot;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;wslIp&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; connectport=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;2181&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;netsh interface portproxy add v4tov4 listenport=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;9092&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; connectaddress=&amp;quot;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;wslIp&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; connectport=&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;9092&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;network-saengseong&quot;&gt;network 생성&lt;&#x2F;h1&gt;
+&lt;p&gt;컨테이너들이 참여하여 서로 연결할 수 있는 네트워크를 미리 만들어준다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; network create kfnet
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;zk-dockerfile&quot;&gt;zk&#x2F;Dockerfile&lt;&#x2F;h1&gt;
+&lt;p&gt;주키퍼 서버 이미지의 Dockerfile은 다음과 같다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;FROM ubuntu:20.04
+&lt;&#x2F;span&gt;&lt;span&gt;ENV TZ=Asia&#x2F;Seoul
+&lt;&#x2F;span&gt;&lt;span&gt;EXPOSE 2181
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get update
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get install -y curl openjdk-13-jre
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;WORKDIR &#x2F;root
+&lt;&#x2F;span&gt;&lt;span&gt;RUN mkdir -p &#x2F;var&#x2F;kafka
+&lt;&#x2F;span&gt;&lt;span&gt;RUN curl https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;kafka&#x2F;2.8.0&#x2F;kafka_2.13-2.8.0.tgz --output kafka.tgz
+&lt;&#x2F;span&gt;&lt;span&gt;RUN tar xvzf kafka.tgz --directory=&#x2F;var&#x2F;kafka --strip-components=1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;CMD &#x2F;var&#x2F;kafka&#x2F;bin&#x2F;zookeeper-server-start.sh &#x2F;var&#x2F;kafka&#x2F;config&#x2F;zookeeper.properties
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;이 Dockerfile은 &lt;code&gt;docker build -t zk zk&#x2F;&lt;&#x2F;code&gt; 와 같이 명령을 주어 빌드할 예정이고, 다음과 같이 실행한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --rm --name&lt;&#x2F;span&gt;&lt;span&gt; zk-inst&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -p&lt;&#x2F;span&gt;&lt;span&gt; 2181:2181&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --network&lt;&#x2F;span&gt;&lt;span&gt; kfnet zk
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;kf-dockerfile-gwa-kf-server-properties&quot;&gt;kf&#x2F;Dockerfile 과 kf&#x2F;server.properties&lt;&#x2F;h1&gt;
+&lt;p&gt;카프카 서버 이미지의 Dockerfile은 다음과 같다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;FROM ubuntu:20.04
+&lt;&#x2F;span&gt;&lt;span&gt;ENV TZ=Asia&#x2F;Seoul
+&lt;&#x2F;span&gt;&lt;span&gt;EXPOSE 9092
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get update
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get install -y curl openjdk-13-jre
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;WORKDIR &#x2F;root
+&lt;&#x2F;span&gt;&lt;span&gt;RUN mkdir -p &#x2F;var&#x2F;kafka
+&lt;&#x2F;span&gt;&lt;span&gt;RUN curl https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;kafka&#x2F;2.8.0&#x2F;kafka_2.13-2.8.0.tgz --output kafka.tgz
+&lt;&#x2F;span&gt;&lt;span&gt;RUN tar xvzf kafka.tgz --directory=&#x2F;var&#x2F;kafka --strip-components=1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;COPY server.properties &#x2F;var&#x2F;kafka&#x2F;config&#x2F;server.properties
+&lt;&#x2F;span&gt;&lt;span&gt;CMD &#x2F;var&#x2F;kafka&#x2F;bin&#x2F;kafka-server-start.sh &#x2F;var&#x2F;kafka&#x2F;config&#x2F;server.properties
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;카프카 서버는 주키퍼 서버에 연결해야 하는데, 이를 위해 server.properties를 수정하여 주키퍼 서버의 주소를 설정해주어야 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;같은 네트워크에 속한 컨테이너들끼리는, 컨테이너 이름으로 서로를 찾을 수 있기 때문에, 컨테이너 이름을 주키퍼 주소에 지정해준다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;...(기본 server.properties에서 아래만 추가&#x2F;수정해준다.)...
+&lt;&#x2F;span&gt;&lt;span&gt;listeners=PLAINTEXT:&#x2F;&#x2F;:9092
+&lt;&#x2F;span&gt;&lt;span&gt;zookeeper.connect=zk-inst:2181
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;이미지 빌드는 &lt;code&gt;docker build -t kf kf&#x2F;&lt;&#x2F;code&gt;와 같이 명령을 주어 빌드하고, 다음과 같이 컨테이너를 실행한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --rm --name&lt;&#x2F;span&gt;&lt;span&gt; kf-inst&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -p&lt;&#x2F;span&gt;&lt;span&gt; 9092:9092&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --network&lt;&#x2F;span&gt;&lt;span&gt; kfnet kf
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;kfcli-dockerfile&quot;&gt;kfcli&#x2F;Dockerfile&lt;&#x2F;h1&gt;
+&lt;p&gt;이제 마지막으로 카프카 클라이언트 이미지를 작성해준다.&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;FROM ubuntu:20.04
+&lt;&#x2F;span&gt;&lt;span&gt;ENV TZ=Asia&#x2F;Seoul
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get update
+&lt;&#x2F;span&gt;&lt;span&gt;RUN apt-get install -y curl openjdk-13-jre
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;WORKDIR &#x2F;root
+&lt;&#x2F;span&gt;&lt;span&gt;RUN mkdir -p &#x2F;var&#x2F;kafka
+&lt;&#x2F;span&gt;&lt;span&gt;RUN curl https:&#x2F;&#x2F;dlcdn.apache.org&#x2F;kafka&#x2F;2.8.0&#x2F;kafka_2.13-2.8.0.tgz --output kafka.tgz
+&lt;&#x2F;span&gt;&lt;span&gt;RUN tar xvzf kafka.tgz --directory=&#x2F;var&#x2F;kafka --strip-components=1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;WORKDIR &#x2F;var&#x2F;kafka
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;ENTRYPOINT &#x2F;bin&#x2F;bash
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;역시 &lt;code&gt;docker build -t kfcli kfcli&#x2F;&lt;&#x2F;code&gt; 처럼 빌드하고, 다음과 같이 컨테이너화 하여 실행하면, 해당 쉘 안에서 카프카 클라이언트 실행이 가능하다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --rm --name&lt;&#x2F;span&gt;&lt;span&gt; kfcli-inst&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --network&lt;&#x2F;span&gt;&lt;span&gt; kfnet&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -it&lt;&#x2F;span&gt;&lt;span&gt; kfcli
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;간단하게, 아래처럼 토픽을 생성해보면 잘 동작하는 것을 알 수 있다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bin&#x2F;kafka-topics.sh --bootstrap-server&lt;&#x2F;span&gt;&lt;span&gt; kf-inst:9092&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --create --topic&lt;&#x2F;span&gt;&lt;span&gt; hello-kafka
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bin&#x2F;kafka-topics.sh --bootstrap-server&lt;&#x2F;span&gt;&lt;span&gt; kf-inst:9092&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --list
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;camgojaryo&quot;&gt;참고자료&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.daleseo.com&#x2F;dockerfile&#x2F;&quot;&gt;DalSeo : Dockerfile에서 자주 쓰이는 명령어&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.daleseo.com&#x2F;docker-networks&#x2F;&quot;&gt;DalSeo : Docker 네트워크 사용법&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;dev.plusblog.co.kr&#x2F;24&quot;&gt;킴루코 : Dockerfile에서 EXPOSE와 &quot;docker run -p&quot; 명령의 차이점&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;65327238&#x2F;cant-connect-to-wsl2-localhost-server-from-wsl2-docker-container&quot;&gt;Stackoverflow : Can&#x27;t connect to WSL2 localhost server from WSL2 docker container&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;wiserloner.tistory.com&#x2F;317&quot;&gt;Loner의 학습노트 : 도커 컨테이너끼리 연결하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bluese05.tistory.com&#x2F;21&quot;&gt;ㅍㅍㅋㄷ : docker container에 접속하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bluese05.tistory.com&#x2F;36&quot;&gt;ㅍㅍㅋㄷ : docker container ip 확인&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bluese05.tistory.com&#x2F;15&quot;&gt;ㅍㅍㅋㄷ : docker network 구조(1) - docker0와 container network 구조&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bluese05.tistory.com&#x2F;38&quot;&gt;ㅍㅍㅋㄷ : docker network 구조(2) - container network 방식 4가지&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bluese05.tistory.com&#x2F;53&quot;&gt;ㅍㅍㅋㄷ : docker network 구조(3) - container 외부 통신 구조&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bluese05.tistory.com&#x2F;54&quot;&gt;ㅍㅍㅋㄷ : docker network 구조(4) - container link 구조&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+      <item>
+          <title>WSL2 위에서 Docker 실행하기</title>
+          <pubDate>Sun, 19 Sep 2021 20:48:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210919-docker-on-wsl2/</link>
+          <guid>https://smpl.kr/posts/210919-docker-on-wsl2/</guid>
+          <description xml:base="https://smpl.kr/posts/210919-docker-on-wsl2/">&lt;h1 id=&quot;donggi&quot;&gt;동기&lt;&#x2F;h1&gt;
+&lt;p&gt;원래 윈도우 10에서 Docker를 설치할 때 Docker Desktop을 무료로 설치해서 사용할 수 있었으나,
+8월 31일 이후로는 기업용 라이선스의 범위가 확대되면서 개인용이 아닌 경우는 라이선스를 구매한 기업에서만 사용 가능하게 바뀌었다.&lt;&#x2F;p&gt;
+&lt;p&gt;그래서 윈도우 10에서 Docker를 설치해서 쓸 방법을 찾아보니, WSL2 위에 Docker를 설치해서 사용하는 방법이 많이 안내되고 있었고,
+이 문서는 그 방법을 정리한 것이다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;wsl2-seolci&quot;&gt;WSL2 설치&lt;&#x2F;h1&gt;
+&lt;p&gt;WSL2 설치 방법은 생략한다. 이미 인터넷에 문서가 많으므로 찾아서 설치해도 되고, 만약 필요 시에는 별도 문서로 정리 예정이다.&lt;&#x2F;p&gt;
+&lt;p&gt;여기서는 WSL2에 Ubuntu 20.04 버전을 설치했다고 가정한다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;docker-jeojangso-cuga-mic-seolci&quot;&gt;Docker 저장소 추가 및 설치&lt;&#x2F;h1&gt;
+&lt;p&gt;아래 순서를 그대로 따라하면 된다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt install&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -y&lt;&#x2F;span&gt;&lt;span&gt; apt-transport-https ca-certificates curl gnupg gnupg-agent software-properties-common
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;curl -fsSL&lt;&#x2F;span&gt;&lt;span&gt; https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg | &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt-key add -
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; add-apt-repository &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;deb [arch=amd64] https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu &lt;&#x2F;span&gt;&lt;span&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lsb_release -cs&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;) stable&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; apt install&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -y&lt;&#x2F;span&gt;&lt;span&gt; docker-ce docker-ce-cli containerd.io docker-compose
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;gibon-gyejeonge-gweonhan-buyeohagi&quot;&gt;기본 계정에 권한 부여하기&lt;&#x2F;h1&gt;
+&lt;p&gt;sudo 명령을 매번 입력하지 않아도 되도록, docker 그룹에 기본 계정을 등록해준다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; groupadd docker
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; usermod&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -aG&lt;&#x2F;span&gt;&lt;span&gt; docker $&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;USER
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;docker-demon-silhaeng&quot;&gt;Docker 데몬 실행&lt;&#x2F;h1&gt;
+&lt;p&gt;Docker 데몬을 먼저 실행해준 후  사용해야 한다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span&gt; service docker start
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;camgojaryo&quot;&gt;참고자료&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bearpooh.com&#x2F;92&quot;&gt;곰탱푸닷컴 : 윈도우 10에서 Docker Desktop 없이 Docker 사용하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.bearpooh.com&#x2F;27&quot;&gt;곰탱푸닷컴 : 우분투에 Docker 설치하기&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+      <item>
+          <title>MacOS에 SQL Server 도커 컨테이너 설치하기</title>
+          <pubDate>Sat, 28 Aug 2021 10:25:00 +0900</pubDate>
+          <author>Unknown</author>
+          <link>https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/</link>
+          <guid>https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/</guid>
+          <description xml:base="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/">&lt;p&gt;맥북 프로에 SQL Server 인스턴스를 개발 목적으로 설치할 필요성이 생겨서, 도커를 이용해서 설치해보고 방법을 남겨 놓습니다.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;macose-sql-server-dokeo-keonteineo-seolcihagi&quot;&gt;MacOS에 SQL Server 도커 컨테이너 설치하기&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;imiji-daunrodeu&quot;&gt;이미지 다운로드&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; pull mcr.microsoft.com&#x2F;mssql&#x2F;server:2019-latest
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;seobeo-silhaeng&quot;&gt;서버 실행&lt;&#x2F;h2&gt;
+&lt;p&gt;실행 시, SA_PASSWORD를 지정해주어야 하는데, 다음 규칙을 만족해야 합니다.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;영어 대문자 포함&lt;&#x2F;li&gt;
+&lt;li&gt;영어 소문자 포함&lt;&#x2F;li&gt;
+&lt;li&gt;숫자 포함&lt;&#x2F;li&gt;
+&lt;li&gt;특수문자 포함&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ACCEPT_EULA=Y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;SA_PASSWORD=비밀번호&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -p&lt;&#x2F;span&gt;&lt;span&gt; 1433:1433&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d&lt;&#x2F;span&gt;&lt;span&gt; mcr.microsoft.com&#x2F;mssql&#x2F;server:2019-latest
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;deiteo-yujihagi&quot;&gt;데이터 유지하기&lt;&#x2F;h2&gt;
+&lt;p&gt;위와 같이 실행한 컨테이너는, 종료하고 나면 작업내용이 유지되지 않는다.&lt;&#x2F;p&gt;
+&lt;p&gt;그러므로, 컨테이너를 이미지로 만들고, 컨테이너 안의 데이터 경로를 컨테이너 밖의 파일시스템과 연결하여 데이터가 유지되도록 해야 한다.&lt;&#x2F;p&gt;
+&lt;p&gt;먼저 이미지로 만드는 방법은 다음과 같다. 훨씬 우아한 방법이 있겠지만, 이제 막 docker를 써보기 시작한 상태여서... ;(&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ACCEPT_EULA=Y&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -e &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;SA_PASSWORD=비밀번호&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -p&lt;&#x2F;span&gt;&lt;span&gt; 1433:1433&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --name &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp-mssql-server-2019-container&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d&lt;&#x2F;span&gt;&lt;span&gt; mcr.microsoft.com&#x2F;mssql&#x2F;server:2019-latest
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; stop &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp-mssql-server-2019-container&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; commit &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp-mssql-server-2019-container&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;my-mssql-2019&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;이렇게 해두면, 다음부터는 &lt;code&gt;my-mssql-2019&lt;&#x2F;code&gt; 이미지로부터 컨테이너를 실행할 수 있다.&lt;&#x2F;p&gt;
+&lt;p&gt;여기에, &lt;code&gt;~&#x2F;docker-data&#x2F;mssql&lt;&#x2F;code&gt; 경로를 데이터 경로로 연결시켜 준다. 아래는 최종적인 실행 명령이다.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;docker&lt;&#x2F;span&gt;&lt;span&gt; run&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -d --rm -p&lt;&#x2F;span&gt;&lt;span&gt; 1433:1433&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;docker-data&#x2F;mssql&#x2F;data:&#x2F;var&#x2F;opt&#x2F;mssql&#x2F;data&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;docker-data&#x2F;mssql&#x2F;log:&#x2F;var&#x2F;opt&#x2F;mssql&#x2F;log&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -v ~&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;docker-data&#x2F;mssql&#x2F;secrets:&#x2F;var&#x2F;opt&#x2F;mssql&#x2F;secrets &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;my-mssql-2019&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;(만약에 windows에서 powershell로 실행하는 경우는, &lt;code&gt;~&#x2F;docker-data&#x2F;mssql&lt;&#x2F;code&gt; 대신, &lt;code&gt;$HOME&#x2F;docker-data&#x2F;mssql&lt;&#x2F;code&gt; 을 지정해주면 된다.)&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;odbc-driver-sqlcmd-seolcihagi&quot;&gt;ODBC driver &amp;amp; SqlCmd 설치하기&lt;&#x2F;h1&gt;
+&lt;pre data-lang=&quot;bash&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span&gt; tap microsoft&#x2F;mssql-release https:&#x2F;&#x2F;github.com&#x2F;Microsoft&#x2F;homebrew-mssql-release
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span&gt; update
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ACCEPT_EULA&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Y &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span&gt; install msodbcsql17 mssql-tools
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h1 id=&quot;sql-server-management-studio-daeyong&quot;&gt;SQL Server Management Studio 대용&lt;&#x2F;h1&gt;
+&lt;p&gt;SSMS는 아직 MacOS에서 지원되지 않고 있습니다. 대신 오픈소스 GUI 클라이언트들 중에서 하나를 선택해서 이용해야 하며,
+개인적으로는 DBeaver라는 프로그램이 기본적인 작업을 하기에는 괜찮아서 사용하고 있습니다.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;dbeaver.io&#x2F;&quot;&gt;DBeaver&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;references&quot;&gt;References&lt;&#x2F;h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;cultivo-hy.github.io&#x2F;docker&#x2F;image&#x2F;usage&#x2F;2019&#x2F;03&#x2F;14&#x2F;Docker%EC%A0%95%EB%A6%AC&#x2F;#%EB%8F%84%EC%BB%A4-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&quot;&gt;HY&#x27;s Farm : [Docker] 개념 정리 및 사용방법까지.&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.microsoft.com&#x2F;ko-kr&#x2F;sql&#x2F;linux&#x2F;sql-server-linux-docker-container-configure?view=sql-server-ver15&amp;amp;pivots=cs1-bash#persist&quot;&gt;Microsoft Docs : SQL Server Docker 컨테이너 구성 및 사용자 지정&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</description>
+      </item>
+    </channel>
+</rss>

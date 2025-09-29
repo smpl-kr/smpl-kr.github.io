@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="#ffffff" name="theme-color" />
+  <meta content="#da532c" name="msapplication-TileColor" />
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.1/css/academicons.min.css" integrity="sha384-FIue+PI4SsI9XfHCz8dBLg33b0c1fMJgNU3X//L26FYbGnlSEfWmNT7zgWc2N9b6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link href="https://smpl.kr/deep-thought.css" rel="stylesheet" />
+  
+  
+
+  <title>
+    
+smpl.kr | MacOS에 SQL Server 도커 컨테이너 설치하기
+
+  </title>
+
+  
+  
+  
+
+  
+</head>
+
+<body class="has-background-white">
+  <nav aria-label="section navigation" class="navbar is-light" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item is-size-5 has-text-weight-bold" href="https:&#x2F;&#x2F;smpl.kr">smpl.kr</a>
+        <a aria-expanded="false" aria-label="menu" class="navbar-burger burger" data-target="navMenu" role="button">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-end has-text-centered">
+          
+          
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;">
+            Home
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts">
+            Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;old_posts">
+            Old Posts
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;dsalg">
+            DS|Algorithms
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;ps">
+            PS
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;non_it">
+            Non IT
+          </a>
+          
+          <a class="navbar-item has-text-weight-semibold" href="https:&#x2F;&#x2F;smpl.kr&#x2F;tags">
+            Tags
+          </a>
+          
+          
+          
+          <a class="navbar-item" id="nav-search" title="Search" data-target="#search-modal">
+            <span class="icon">
+              <i class="fas fa-search"></i>
+            </span>
+          </a>
+          <a class="navbar-item" id="dark-mode" title="Switch to dark theme">
+            <span class="icon">
+              <i class="fas fa-adjust"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  
+
+  
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-8 is-offset-2">
+        <article class="box">
+          <h1 class="title">
+            MacOS에 SQL Server 도커 컨테이너 설치하기
+          </h1>
+          <p class="subtitle"></p>
+          <div class="columns is-multiline is-gapless">
+            <div class="column is-8">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="fas fa-user"></i>
+  </span>
+  <span>smpl published on</span>
+  <span class="icon">
+    <i class="far fa-calendar-alt"></i>
+  </span>
+  <span><time datetime="2021-08-28T10:25:00+09:00">August 28, 2021</time></span>
+</span>
+
+            </div>
+            <div class="column is-4 has-text-right-desktop">
+              
+<span class="icon-text has-text-grey">
+  <span class="icon">
+    <i class="far fa-clock"></i>
+  </span>
+  <span>2 min,</span>
+  <span class="icon">
+    <i class="fas fa-pencil-alt"></i>
+  </span>
+  <span>236 words</span>
+</span>
+
+            </div>
+            <div class="column">
+              
+            </div>
+            <div class="column has-text-right-desktop">
+              
+              
+<p>
+  Tags:
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/sqlserver/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>sqlserver</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/mssql/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>mssql</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/docker/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>docker</span>
+    </span>
+  </a>
+  
+  <a class="has-text-info-dark has-text-weight-semibold" href="https://smpl.kr/tags/macos/">
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-tag"></i>
+      </span>
+      <span>macos</span>
+    </span>
+  </a>
+  
+</p>
+
+              
+            </div>
+          </div>
+          <div class="content mt-2">
+            <p>맥북 프로에 SQL Server 인스턴스를 개발 목적으로 설치할 필요성이 생겨서, 도커를 이용해서 설치해보고 방법을 남겨 놓습니다.</p>
+<h1 id="macose-sql-server-dokeo-keonteineo-seolcihagi">MacOS에 SQL Server 도커 컨테이너 설치하기</h1>
+<h2 id="imiji-daunrodeu">이미지 다운로드</h2>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> pull mcr.microsoft.com/mssql/server:2019-latest
+</span></code></pre>
+<h2 id="seobeo-silhaeng">서버 실행</h2>
+<p>실행 시, SA_PASSWORD를 지정해주어야 하는데, 다음 규칙을 만족해야 합니다.</p>
+<ul>
+<li>영어 대문자 포함</li>
+<li>영어 소문자 포함</li>
+<li>숫자 포함</li>
+<li>특수문자 포함</li>
+</ul>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -e </span><span>&quot;</span><span style="color:#a3be8c;">ACCEPT_EULA=Y</span><span>&quot;</span><span style="color:#bf616a;"> -e </span><span>&quot;</span><span style="color:#a3be8c;">SA_PASSWORD=비밀번호</span><span>&quot;</span><span style="color:#bf616a;"> -p</span><span> 1433:1433</span><span style="color:#bf616a;"> -d</span><span> mcr.microsoft.com/mssql/server:2019-latest
+</span></code></pre>
+<h2 id="deiteo-yujihagi">데이터 유지하기</h2>
+<p>위와 같이 실행한 컨테이너는, 종료하고 나면 작업내용이 유지되지 않는다.</p>
+<p>그러므로, 컨테이너를 이미지로 만들고, 컨테이너 안의 데이터 경로를 컨테이너 밖의 파일시스템과 연결하여 데이터가 유지되도록 해야 한다.</p>
+<p>먼저 이미지로 만드는 방법은 다음과 같다. 훨씬 우아한 방법이 있겠지만, 이제 막 docker를 써보기 시작한 상태여서... ;(</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -e </span><span>&quot;</span><span style="color:#a3be8c;">ACCEPT_EULA=Y</span><span>&quot;</span><span style="color:#bf616a;"> -e </span><span>&quot;</span><span style="color:#a3be8c;">SA_PASSWORD=비밀번호</span><span>&quot;</span><span style="color:#bf616a;"> -p</span><span> 1433:1433</span><span style="color:#bf616a;"> --name </span><span>&quot;</span><span style="color:#a3be8c;">temp-mssql-server-2019-container</span><span>&quot;</span><span style="color:#bf616a;"> -d</span><span> mcr.microsoft.com/mssql/server:2019-latest
+</span><span style="color:#bf616a;">docker</span><span> stop &quot;</span><span style="color:#a3be8c;">temp-mssql-server-2019-container</span><span>&quot;
+</span><span style="color:#bf616a;">docker</span><span> commit &quot;</span><span style="color:#a3be8c;">temp-mssql-server-2019-container</span><span>&quot; &quot;</span><span style="color:#a3be8c;">my-mssql-2019</span><span>&quot;
+</span></code></pre>
+<p>이렇게 해두면, 다음부터는 <code>my-mssql-2019</code> 이미지로부터 컨테이너를 실행할 수 있다.</p>
+<p>여기에, <code>~/docker-data/mssql</code> 경로를 데이터 경로로 연결시켜 준다. 아래는 최종적인 실행 명령이다.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -d --rm -p</span><span> 1433:1433</span><span style="color:#bf616a;"> -v ~</span><span>/docker-data/mssql/data:/var/opt/mssql/data</span><span style="color:#bf616a;"> -v ~</span><span>/docker-data/mssql/log:/var/opt/mssql/log</span><span style="color:#bf616a;"> -v ~</span><span>/docker-data/mssql/secrets:/var/opt/mssql/secrets &quot;</span><span style="color:#a3be8c;">my-mssql-2019</span><span>&quot;
+</span></code></pre>
+<p>(만약에 windows에서 powershell로 실행하는 경우는, <code>~/docker-data/mssql</code> 대신, <code>$HOME/docker-data/mssql</code> 을 지정해주면 된다.)</p>
+<h1 id="odbc-driver-sqlcmd-seolcihagi">ODBC driver &amp; SqlCmd 설치하기</h1>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">brew</span><span> tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
+</span><span style="color:#bf616a;">brew</span><span> update
+</span><span style="color:#bf616a;">ACCEPT_EULA</span><span>=</span><span style="color:#a3be8c;">Y </span><span style="color:#bf616a;">brew</span><span> install msodbcsql17 mssql-tools
+</span></code></pre>
+<h1 id="sql-server-management-studio-daeyong">SQL Server Management Studio 대용</h1>
+<p>SSMS는 아직 MacOS에서 지원되지 않고 있습니다. 대신 오픈소스 GUI 클라이언트들 중에서 하나를 선택해서 이용해야 하며,
+개인적으로는 DBeaver라는 프로그램이 기본적인 작업을 하기에는 괜찮아서 사용하고 있습니다.</p>
+<p><a href="https://dbeaver.io/">DBeaver</a></p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://cultivo-hy.github.io/docker/image/usage/2019/03/14/Docker%EC%A0%95%EB%A6%AC/#%EB%8F%84%EC%BB%A4-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0">HY's Farm : [Docker] 개념 정리 및 사용방법까지.</a></li>
+<li><a href="https://docs.microsoft.com/ko-kr/sql/linux/sql-server-linux-docker-container-configure?view=sql-server-ver15&amp;pivots=cs1-bash#persist">Microsoft Docs : SQL Server Docker 컨테이너 구성 및 사용자 지정</a></li>
+</ul>
+
+          </div>
+        </article>
+      </div>
+      
+      <div class="column is-2 is-hidden-mobile">
+        <aside class="menu" style="position: sticky; top: 48px">
+          <p class="heading has-text-weight-bold">Contents</p>
+          <ul class="menu-list">
+            
+            <li>
+              <a id="link-macose-sql-server-dokeo-keonteineo-seolcihagi" class="toc is-size-7 is-active"
+                href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#macose-sql-server-dokeo-keonteineo-seolcihagi">
+                MacOS에 SQL Server 도커 컨테이너 설치하기
+              </a>
+              
+              <ul>
+                
+                <li>
+                  <a id="link-imiji-daunrodeu" class="toc is-size-7" href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#imiji-daunrodeu">
+                    이미지 다운로드
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-seobeo-silhaeng" class="toc is-size-7" href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#seobeo-silhaeng">
+                    서버 실행
+                  </a>
+                </li>
+                
+                <li>
+                  <a id="link-deiteo-yujihagi" class="toc is-size-7" href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#deiteo-yujihagi">
+                    데이터 유지하기
+                  </a>
+                </li>
+                
+              </ul>
+              
+            </li>
+            
+            <li>
+              <a id="link-odbc-driver-sqlcmd-seolcihagi" class="toc is-size-7 "
+                href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#odbc-driver-sqlcmd-seolcihagi">
+                ODBC driver &amp; SqlCmd 설치하기
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-sql-server-management-studio-daeyong" class="toc is-size-7 "
+                href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#sql-server-management-studio-daeyong">
+                SQL Server Management Studio 대용
+              </a>
+              
+            </li>
+            
+            <li>
+              <a id="link-references" class="toc is-size-7 "
+                href="https://smpl.kr/posts/210828-installing-sql-server-container-on-macos/#references">
+                References
+              </a>
+              
+            </li>
+            
+          </ul>
+        </aside>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+
+  
+  <section class="modal" id="search-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Search</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field mb-2">
+          <div class="control">
+            <input class="input" id="search" placeholder="Search this website." type="search" />
+          </div>
+        </div>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+      </section>
+    </div>
+    <button aria-label="close" class="modal-close is-large"></button>
+  </section>
+  
+
+
+  
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <nav class="level">
+              
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210823-concurrency-in-go-ch4&#x2F;">
+              <span class="icon mr-2">
+                <i class="fas fa-arrow-circle-left"></i>
+              </span>
+              [Go 동시성 프로그래밍] 읽기 - 4장 Go의 동시성 패턴
+            </a>
+          </div>
+           
+          <div class="level-item has-text-centered">
+            <a class="button is-black is-outlined" href="https:&#x2F;&#x2F;smpl.kr&#x2F;posts&#x2F;210831-ssh-on-powerhsell&#x2F;">
+              Powershell에서 OpenSSH로 리모트 리눅스 서버 접속하기<span class="icon ml-2">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  
+
+
+
+  
+  <footer class="footer py-4">
+    <div class="content has-text-centered">
+      <p>
+        Built with
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-code"></i>
+          </span>
+          <span>code</span>
+        </span>
+        and
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-heart"></i>
+          </span>
+          <span>love</span>
+        </span>
+      </p>
+      <p>
+        Powered by
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-power-off"></i>
+          </span>
+          <span>zola</span>
+        </span>
+      </p>
+    </div>
+  </footer>
+  
+
+  
+  
+  
+  
+  <script src="https://smpl.kr/elasticlunr.min.js"></script>
+  <script src="https://smpl.kr/search_index.en.js"></script><script src="https://smpl.kr/js/site.js"></script>
+
+  
+
+<script type="text/javascript">
+  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
+  const tocItems = document.querySelectorAll(".toc");
+  const navSections = new Array(tocItems.length);
+
+  tocItems.forEach((el, i) => {
+    let id = el.getAttribute("id").substring(5);
+    navSections[i] = document.getElementById(id);
+  })
+
+  function isVisible(tocIndex) {
+    const current = navSections[tocIndex];
+    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
+      : document.querySelectorAll("section.section").item(1);
+
+    const c = current.getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const h = (window.innerHeight || document.documentElement.clientHeight);
+
+    return (c.top <= h) && (n.top - menuBarHeight >= 0);
+  }
+
+  function activateIfVisible() {
+    for (b = true, i = 0; i < tocItems.length; i++) {
+      if (b && isVisible(i)) {
+        tocItems[i].classList.add('is-active');
+        b = false;
+      } else
+        tocItems[i].classList.remove('is-active');
+    }
+  }
+
+  var isTicking = null;
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        activateIfVisible();
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, false);
+</script>
+
+
+
+
+
+  
+  
+</body>
+
+</html>
